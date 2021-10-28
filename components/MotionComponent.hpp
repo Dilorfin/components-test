@@ -16,9 +16,9 @@ public:
 		transform = gameObject->getComponent<TransformComponent>();
 	}
 
-	void update(const float deltaTime) override
+	void update(const int64_t deltaTime) override
 	{
-		transform->position += deltaTime * velocity;
-		transform->rotation += deltaTime * rotator;
+		transform->position += deltaTime * 0.00125f * velocity;
+		transform->rotation += deltaTime * 0.00125f * rotator ;
 	}
 };

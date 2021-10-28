@@ -3,9 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "core/GameObjectManager.hpp"
-
 #include "objects/Player.hpp"
-
 #include "systems/RenderSystem.hpp"
 
 int main() try
@@ -17,6 +15,7 @@ int main() try
 	objectsManager->addObject(new Player(sf::Vector2f(100, 100)));
 
 	auto* render = RenderSystem::getInstance();
+
 	sf::Clock frameClock;
 	while (window.isOpen())
 	{
@@ -28,7 +27,7 @@ int main() try
 		}
 
 		sf::Time frameTime = frameClock.restart();
-		const float deltaTime = static_cast<float>(frameTime.asMicroseconds()) / 800.f;
+		const float deltaTime = static_cast<float>(frameTime.asMicroseconds());
 		objectsManager->update(deltaTime);
 
 		window.clear();

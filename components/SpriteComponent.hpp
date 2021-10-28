@@ -36,7 +36,7 @@ public:
 	}
 	
 	void start() override;
-	void update(float deltaTime) override;
+	void update(int64_t deltaTime) override;
 
 	void render(sf::RenderTarget& renderTarget) override;
 };

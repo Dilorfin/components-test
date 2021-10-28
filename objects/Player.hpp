@@ -1,12 +1,12 @@
 #pragma once
-#include "core/GameObject.hpp"
-#include "core/GameObjectManager.hpp"
+#include "../core/GameObject.hpp"
+#include "../core/GameObjectManager.hpp"
 
-#include "components/AnimatedSpriteComponent.hpp"
-#include "components/InputComponent.hpp"
-#include "components/TransformComponent.hpp"
+#include "../components/AnimatedSpriteComponent.hpp"
+#include "../components/InputComponent.hpp"
+#include "../components/TransformComponent.hpp"
 
-#include "objects/FireBall.hpp"
+#include "../objects/FireBall.hpp"
 
 class Player final : public GameObject
 {
@@ -20,7 +20,7 @@ public:
 		transform = this->addComponent<TransformComponent>();
 		transform->position = initPosition;
 
-		auto* animation = this->addComponent<AnimatedSpriteComponent>("./assets/hurray.png");
+		auto* animation = this->addComponent<AnimatedSpriteComponent>("assets/hurray.png");
 		animation->addFrame(sf::IntRect(0, 0, 64, 64));
 		animation->addFrame(sf::IntRect(64, 0, 64, 64));
 		animation->addFrame(sf::IntRect(128, 0, 64, 64));

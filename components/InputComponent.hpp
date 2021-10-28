@@ -14,7 +14,7 @@ public:
 		keyboardBindings[key] = func;
 	}
 
-	void update(const float deltaTime) override
+	void update(const int64_t deltaTime) override
 	{
 		for (const auto& [key, function] : keyboardBindings)
 		{
