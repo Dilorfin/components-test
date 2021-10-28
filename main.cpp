@@ -15,6 +15,7 @@ int main() try
 	objectsManager->addObject(new Player(sf::Vector2f(100, 100)));
 
 	auto* render = RenderSystem::getInstance();
+	auto* input = InputSystem::getInstance();
 
 	sf::Clock frameClock;
 	while (window.isOpen())
@@ -23,11 +24,21 @@ int main() try
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
+			{
 				window.close();
+			}
+			else if (event.type == sf::Event::KeyPressed)
+			{
+				input->keyPressed(event.key);
+			}
+			else if (event.type == sf::Event::KeyReleased)
+			{
+				input->keyReleased(event.key);
+			}
 		}
 
 		sf::Time frameTime = frameClock.restart();
-		const float deltaTime = static_cast<float>(frameTime.asMicroseconds());
+		const auto deltaTime = static_cast<float>(frameTime.asMicroseconds());
 		objectsManager->update(deltaTime);
 
 		window.clear();

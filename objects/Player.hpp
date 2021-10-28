@@ -11,12 +11,17 @@
 class Player final : public GameObject
 {
 private:
-	TransformComponent* transform = nullptr;
 	enum class Direction { Left, Right, Up, Down };
+
+	TransformComponent* transform = nullptr;
+	MotionComponent* motion = nullptr;
+
+	float speed = 0.4f;
 
 public:
 	explicit Player(const sf::Vector2f& initPosition)
-		: transform(this->addComponent<TransformComponent>())
+		: transform(this->addComponent<TransformComponent>()),
+		  motion(this->addComponent<MotionComponent>())
 	{
 		transform->position = initPosition;
 
@@ -27,22 +32,37 @@ public:
 		animation->addFrame(sf::Vector2i(128, 0));
 
 		auto* input = this->addComponent<InputComponent>();
-		input->bind(sf::Keyboard::Left, [this] {
-			this->castFireBall(Direction::Left);
+		input->bind(sf::Keyboard::Left, [this](const InputSystem::Type type) {
+			this->castFireBall(type, Direction::Left);
 		});
-		input->bind(sf::Keyboard::Right, [this] {
-			this->castFireBall(Direction::Right);
+		input->bind(sf::Keyboard::Right, [this](const InputSystem::Type type) {
+			this->castFireBall(type, Direction::Right);
 		});
-		input->bind(sf::Keyboard::Down, [this] {
-			this->castFireBall(Direction::Down);
+		input->bind(sf::Keyboard::Down, [this](const InputSystem::Type type) {
+			this->castFireBall(type, Direction::Down);
 		});
-		input->bind(sf::Keyboard::Up, [this] {
-			this->castFireBall(Direction::Up);
+		input->bind(sf::Keyboard::Up, [this](const InputSystem::Type type) {
+			this->castFireBall(type, Direction::Up);
+		});
+
+		input->bind(sf::Keyboard::W, [this](const InputSystem::Type type) {
+			this->motion->velocity.y = type == InputSystem::Type::Pressed ? -speed : 0;
+		});
+		input->bind(sf::Keyboard::S, [this](const InputSystem::Type type) {
+			this->motion->velocity.y = type == InputSystem::Type::Pressed ? speed  : 0;
+		});
+		input->bind(sf::Keyboard::D, [this](const InputSystem::Type type) {
+			this->motion->velocity.x = type == InputSystem::Type::Pressed ? speed  : 0;
+		});
+		input->bind(sf::Keyboard::A, [this](const InputSystem::Type type) {
+			this->motion->velocity.x = type == InputSystem::Type::Pressed ? -speed : 0;
 		});
 	}
 
-	void castFireBall(Direction dir) const
+	void castFireBall(const InputSystem::Type type, const Direction dir) const
 	{
+		if(type != InputSystem::Type::Pressed) return;
+
 		sf::Vector2f velocity;
 		switch (dir)
 		{
