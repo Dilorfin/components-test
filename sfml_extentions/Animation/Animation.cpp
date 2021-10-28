@@ -4,6 +4,26 @@ Animation::Animation(sf::Sprite &sprite)
 	: sprite(sprite)
 {}
 
+Animation::Animation(const Animation& animation)
+	: frames(animation.frames),
+	  sprite(animation.sprite),
+	  looped(animation.looped),
+	  playing(animation.playing),
+	  currentFrame(animation.currentFrame),
+	  timer(animation.timer),
+	  frameTime(animation.frameTime)
+{ }
+
+Animation::Animation(Animation&& animation) noexcept
+	: frames(std::move(animation.frames)),
+	  sprite(animation.sprite),
+	  looped(animation.looped),
+	  playing(animation.playing),
+	  currentFrame(animation.currentFrame),
+	  timer(animation.timer),
+	  frameTime(animation.frameTime)
+{ }
+
 Animation& Animation::operator=(const Animation& animation)
 {
 	this->frames = animation.frames;
@@ -28,10 +48,17 @@ Animation& Animation::operator=(Animation&& animation) noexcept
 	return *this;
 }
 
-void Animation::addFrame(const sf::IntRect& frame)
+void Animation::addFrame(const sf::Vector2i& frame)
 {
 	frames.push_back(frame);
+	this->setCurrentFrame();
 }
+
+void Animation::setFrameSize(const sf::Vector2i& frameSize)
+{
+	this->frameSize = frameSize;
+}
+
 void Animation::setCurrentFrame(const size_t frame)
 {
 	currentFrame = frame;
@@ -39,7 +66,7 @@ void Animation::setCurrentFrame(const size_t frame)
 }
 void Animation::setCurrentFrame() const
 {
-	sprite.setTextureRect(frames[currentFrame]);
+	sprite.setTextureRect(sf::IntRect(frames[currentFrame], frameSize));
 }
 
 void Animation::update(int64_t microsecondsElapsed)
@@ -90,7 +117,7 @@ void Animation::reset()
 	timer = sf::seconds(0);
 }
 
-void Animation::setLooped(bool looped)
+void Animation::setLooped(const bool looped)
 {
 	this->looped = looped;
 }

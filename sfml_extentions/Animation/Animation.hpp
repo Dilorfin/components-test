@@ -7,7 +7,8 @@
 class Animation final
 {
 private:
-	std::vector<sf::IntRect> frames;
+	sf::Vector2i frameSize;
+	std::vector<sf::Vector2i> frames;
 	
 	sf::Sprite &sprite;
 
@@ -20,12 +21,20 @@ private:
 	sf::Time frameTime = sf::seconds(0.2f);
 
 public:
+	// ReSharper disable once CppNonExplicitConvertingConstructor
 	Animation(sf::Sprite &sprite);
+
+	Animation(const Animation& animation);
+	Animation(Animation&& animation) noexcept;
 
 	Animation& operator=(const Animation& animation);
 	Animation& operator=(Animation&& animation) noexcept;
 
-	void addFrame(const sf::IntRect& frame);
+	~Animation() = default;
+
+	void addFrame(const sf::Vector2i& frame);
+	void setFrameSize(const sf::Vector2i& frameSize);
+
 	void setCurrentFrame(const size_t frame);
 	void setCurrentFrame() const;
 

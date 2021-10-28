@@ -16,14 +16,15 @@ private:
 
 public:
 	explicit Player(const sf::Vector2f& initPosition)
+		: transform(this->addComponent<TransformComponent>())
 	{
-		transform = this->addComponent<TransformComponent>();
 		transform->position = initPosition;
 
 		auto* animation = this->addComponent<AnimatedSpriteComponent>("assets/hurray.png");
-		animation->addFrame(sf::IntRect(0, 0, 64, 64));
-		animation->addFrame(sf::IntRect(64, 0, 64, 64));
-		animation->addFrame(sf::IntRect(128, 0, 64, 64));
+		animation->setFrameSize(sf::Vector2i(64, 64));
+		animation->addFrame(sf::Vector2i(0, 0));
+		animation->addFrame(sf::Vector2i(64, 0));
+		animation->addFrame(sf::Vector2i(128, 0));
 
 		auto* input = this->addComponent<InputComponent>();
 		input->bind(sf::Keyboard::Left, [this] {
@@ -46,16 +47,16 @@ public:
 		switch (dir)
 		{
 		case Direction::Left:
-			velocity = sf::Vector2f(-1, 0);
+			velocity = sf::Vector2f(-0.5, 0);
 			break;
 		case Direction::Right:
-			velocity = sf::Vector2f(1, 0);
+			velocity = sf::Vector2f(0.5, 0);
 			break;
 		case Direction::Up:
-			velocity = sf::Vector2f(0, -1);
+			velocity = sf::Vector2f(0, -0.5);
 			break;
 		case Direction::Down:
-			velocity = sf::Vector2f(0, 1);
+			velocity = sf::Vector2f(0, 0.5);
 			break;
 		}
 

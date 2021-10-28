@@ -8,13 +8,14 @@ class FireBall final : public GameObject
 public:
 	explicit FireBall(const sf::Vector2f& initPosition, const sf::Vector2f& velocity)
 	{
-		this->addComponent<SpriteComponent>("./assets/FireBall.png");
+		auto* sprite  = this->addComponent<SpriteComponent>("./assets/FireBall.png");
+		sprite->setSize(32, 32);
 
 		auto* transform = this->addComponent<TransformComponent>();
 		transform->position = initPosition;
 
 		auto* motion = this->addComponent<MotionComponent>();
 		motion->velocity = velocity;
-		motion->rotator = 1;
+		motion->rotator = 0.75;
 	}
 };

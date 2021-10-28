@@ -37,9 +37,14 @@ public:
 		sprite.setRotation(transform->rotation);
 	}
 
-	void addFrame(const sf::IntRect& frame)
+	void addFrame(const sf::Vector2i& frame)
 	{
 		sprite.addFrame(frame);
+	}
+
+	void setFrameSize(const sf::Vector2i& frameSize)
+	{
+		sprite.setFrameSize(frameSize);
 	}
 
 	void render(sf::RenderTarget& renderTarget) override

@@ -15,26 +15,13 @@ private:
 	TransformComponent* transform = nullptr;
 
 public:
-	SpriteComponent(const std::string& fileName)
-	{
-		if (!texture.loadFromFile(fileName))
-		{
-			// error...
-		}
-		sprite.setTexture(texture);
-		
-		sprite.setOrigin(sprite.getLocalBounds().width / 2.f, sprite.getLocalBounds().height / 2.f);
-	}
+	explicit SpriteComponent(const std::string& fileName);
 
-	SpriteComponent(const std::string& fileName, const sf::IntRect& rect)
-	{
-		if (!texture.loadFromFile(fileName, rect))
-		{
-			// error...
-		}
-		sprite.setTexture(texture);
-	}
-	
+	SpriteComponent(const std::string& fileName, const sf::IntRect& rect);
+
+	void setSize(const float x, const float y);
+	void setSize(const sf::Vector2f& size);
+
 	void start() override;
 	void update(int64_t deltaTime) override;
 
