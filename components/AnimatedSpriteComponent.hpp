@@ -24,6 +24,10 @@ public:
 	void start() override
 	{
 		transform = gameObject->getComponent<TransformComponent>();
+
+		sprite.setOrigin(sprite.getLocalBounds().width / 2.f, sprite.getLocalBounds().height / 2.f);
+		sprite.setPosition(transform->position);
+		sprite.setRotation(transform->rotation);
 	}
 
 	void update(const float deltaTime) override

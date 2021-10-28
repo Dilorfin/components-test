@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include <list>
 #include <SFML/Graphics.hpp>
 
 class RenderComponent;
@@ -7,14 +7,22 @@ class RenderComponent;
 class RenderSystem final
 {
 private:
-	std::vector<RenderComponent*> items;
+	std::list<RenderComponent*> items;
 
 	RenderSystem() = default;
-
+	inline static RenderSystem* instance = nullptr;
 public:
+	RenderSystem(RenderSystem&&) = delete;
+	RenderSystem(const RenderSystem&) = delete;
+	auto operator=(RenderSystem&&) = delete;
+	auto operator=(const RenderSystem&) = delete;
+
 	static RenderSystem* getInstance()
 	{
-		static auto* instance = new RenderSystem;
+		if(instance == nullptr)
+		{
+			instance = new RenderSystem();
+		}
 		return instance;
 	}
 

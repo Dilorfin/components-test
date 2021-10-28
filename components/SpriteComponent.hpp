@@ -22,6 +22,8 @@ public:
 			// error...
 		}
 		sprite.setTexture(texture);
+		
+		sprite.setOrigin(sprite.getLocalBounds().width / 2.f, sprite.getLocalBounds().height / 2.f);
 	}
 
 	SpriteComponent(const std::string& fileName, const sf::IntRect& rect)
@@ -34,7 +36,7 @@ public:
 	}
 	
 	void start() override;
-
+	void update(float deltaTime) override;
 
 	void render(sf::RenderTarget& renderTarget) override;
 };

@@ -12,7 +12,7 @@ public:
 	virtual ~BaseComponent() = default;
 
 	virtual void start() = 0;
-	virtual void update(float deltaTime) = 0;
+	virtual void update(const float deltaTime) = 0;
 
 	[[nodiscard]] virtual size_t hash_code() const = 0;
 };
@@ -25,7 +25,7 @@ public:
 	virtual void start() override
 	{}
 
-	virtual void update(float deltaTime) override
+	virtual void update(const float deltaTime) override
 	{}
 
 	[[nodiscard]] size_t hash_code() const final

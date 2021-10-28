@@ -1,80 +1,20 @@
 #include <iostream>
-#include <vector>
 
 #include <SFML/Graphics.hpp>
 
-#include "components/AnimatedSpriteComponent.hpp"
-#include "core/GameObject.hpp"
+#include "core/GameObjectManager.hpp"
 
-#include "components/TransformComponent.hpp"
-#include "components/SpriteComponent.hpp"
+#include "objects/Player.hpp"
+
 #include "systems/RenderSystem.hpp"
 
-class Test final : public GameObject
-{
-public:
-	Test()
-	{
-		this->addComponent<TransformComponent>();
-		//this->addComponent<SpriteComponent>("./assets/Book.png");
-		auto* animation = this->addComponent<AnimatedSpriteComponent>("./assets/hurray.png");
-		animation->addFrame(sf::IntRect(0, 0, 64, 64));
-		animation->addFrame(sf::IntRect(64, 0, 64, 64));
-		animation->addFrame(sf::IntRect(128, 0, 64, 64));
-		
-	}
-};
-
-class GameObjectsManager
-{
-private:
-	std::vector<GameObject*> objects;
-
-public:
-	~GameObjectsManager()
-	{
-		for (const auto* obj : objects)
-		{
-			delete obj;
-		}
-	}
-
-	void addObject(GameObject* object)
-	{
-		objects.push_back(object);
-	}
-
-	void removeObject(GameObject* object)
-	{
-		std::erase(objects, object);
-	}
-
-	void start() const
-	{
-		for (const auto* obj : objects)
-		{
-			obj->start();
-		}
-	}
-
-	void update(const float deltaTime) const
-	{
-		for (auto* obj : objects)
-		{
-			obj->update(deltaTime);
-		}
-	}
-};
-
-int main(int argc, char* argv[]) try
+int main() try
 {
 	sf::RenderWindow window(sf::VideoMode(816, 624), "SFML test", sf::Style::Close);
 	window.setKeyRepeatEnabled(false);
 
-	GameObjectsManager objectsManager;
-	objectsManager.addObject(new Test);
-
-	objectsManager.start();
+	auto* objectsManager = GameObjectsManager::getInstance();
+	objectsManager->addObject(new Player(sf::Vector2f(100, 100)));
 
 	auto* render = RenderSystem::getInstance();
 	sf::Clock frameClock;
@@ -88,8 +28,9 @@ int main(int argc, char* argv[]) try
 		}
 
 		sf::Time frameTime = frameClock.restart();
-		objectsManager.update(frameTime.asMicroseconds());
-		
+		const float deltaTime = static_cast<float>(frameTime.asMicroseconds()) / 800.f;
+		objectsManager->update(deltaTime);
+
 		window.clear();
 		render->render(window);
 		window.display();

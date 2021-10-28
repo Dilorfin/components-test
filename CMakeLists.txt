@@ -15,6 +15,8 @@ file(GLOB src_files
 	"components/*.cpp"
 	"systems/*.hpp"
 	"systems/*.cpp"
+	"objects/*.hpp"
+	"objects/*.cpp"
 	"sfml_extentions/**/*.hpp"
 	"sfml_extentions/**/*.cpp"
 )

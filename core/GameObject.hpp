@@ -25,11 +25,11 @@ public:
 		return nullptr;
 	}
 
-	/*void addComponent(BaseComponent * component)
+	void addComponent(BaseComponent * component)
 	{
 		component->gameObject = this;
 		components.push_back(component);
-	}*/
+	}
 
 	template<typename TComponent, typename... Ts>
 	TComponent* addComponent(Ts&&... args)

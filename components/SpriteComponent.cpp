@@ -5,7 +5,13 @@
 
 void SpriteComponent::start()
 {
-	gameObject->getComponent<TransformComponent>();
+	transform = gameObject->getComponent<TransformComponent>();
+}
+
+void SpriteComponent::update(float deltaTime)
+{
+	sprite.setPosition(transform->position);
+	sprite.setRotation(transform->rotation);
 }
 
 void SpriteComponent::render(sf::RenderTarget& renderTarget)

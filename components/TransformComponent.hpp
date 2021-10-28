@@ -4,9 +4,9 @@
 
 #include "../core/Component.hpp"
 
-class TransformComponent : public Component<TransformComponent>
+class TransformComponent final : public Component<TransformComponent>
 {
 public:
 	sf::Vector2f position;
-	float rotation;
+	float rotation{};
 };
