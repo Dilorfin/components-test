@@ -1,25 +1,20 @@
 #pragma once
 #include <list>
-
 #include <SFML/Window/Event.hpp>
+
+#include "../core/SystemLocator.hpp"
 
 class InputComponent;
 
-class InputSystem final
+class InputSystem final : public System<InputSystem>
 {
 public:
 	enum class Type { Pressed, Released };
 
 private:
-	inline static InputSystem* instance = nullptr;
-
-	InputSystem() = default;
-
 	std::list<InputComponent*> components;
 
 public:
-	static InputSystem* getInstance();
-
 	void subscribe(InputComponent* component);
 	void unsubscribe(InputComponent* component);
 

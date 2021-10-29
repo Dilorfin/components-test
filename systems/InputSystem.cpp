@@ -1,14 +1,5 @@
 #include "InputSystem.hpp"
 
-InputSystem* InputSystem::getInstance()
-{
-	if (instance == nullptr)
-	{
-		instance = new InputSystem();
-	}
-	return instance;
-}
-
 void InputSystem::subscribe(InputComponent* component)
 {
 	components.push_back(component);

@@ -2,30 +2,15 @@
 #include <list>
 #include <SFML/Graphics.hpp>
 
+#include "../core/SystemLocator.hpp"
+
 class RenderComponent;
 
-class RenderSystem final
+class RenderSystem final : public System<RenderSystem>
 {
 private:
 	std::list<RenderComponent*> items;
-
-	RenderSystem() = default;
-	inline static RenderSystem* instance = nullptr;
 public:
-	RenderSystem(RenderSystem&&) = delete;
-	RenderSystem(const RenderSystem&) = delete;
-	auto operator=(RenderSystem&&) = delete;
-	auto operator=(const RenderSystem&) = delete;
-
-	static RenderSystem* getInstance()
-	{
-		if(instance == nullptr)
-		{
-			instance = new RenderSystem();
-		}
-		return instance;
-	}
-
 	void addItem(RenderComponent* item);
 	void removeItem(RenderComponent* item);
 

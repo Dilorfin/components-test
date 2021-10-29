@@ -80,7 +80,7 @@ public:
 			break;
 		}
 
-		auto* objectsManager = GameObjectsManager::getInstance();
-		objectsManager->addObject(new FireBall(transform->position, velocity));
+		const auto system = SystemLocator::getSystem<GameObjectsManager>();
+		system->addObject(new FireBall(transform->position, velocity));
 	}
 };

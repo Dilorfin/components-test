@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "core/GameObjectManager.hpp"
+#include "core/SystemLocator.hpp"
 #include "objects/Player.hpp"
 #include "systems/RenderSystem.hpp"
 
@@ -11,11 +12,12 @@ int main() try
 	sf::RenderWindow window(sf::VideoMode(816, 624), "SFML test", sf::Style::Close);
 	window.setKeyRepeatEnabled(false);
 
-	auto* objectsManager = GameObjectsManager::getInstance();
+	auto systemLocator = SystemLocator::getInstance();
+	auto* render = systemLocator->addSystem<RenderSystem>();
+	auto* input = systemLocator->addSystem<InputSystem>();
+	
+	auto* objectsManager = systemLocator->addSystem<GameObjectsManager>();
 	objectsManager->addObject(new Player(sf::Vector2f(100, 100)));
-
-	auto* render = RenderSystem::getInstance();
-	auto* input = InputSystem::getInstance();
 
 	sf::Clock frameClock;
 	while (window.isOpen())
@@ -45,7 +47,7 @@ int main() try
 		render->render(window);
 		window.display();
 	}
-
+	
 	return 0;
 }
 catch (std::exception& exception)

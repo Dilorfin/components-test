@@ -2,31 +2,15 @@
 #include <list>
 
 #include "GameObject.hpp"
+#include "SystemLocator.hpp"
 
-class GameObjectsManager final
+class GameObjectsManager final : public System<GameObjectsManager>
 {
 private:
-	inline static GameObjectsManager* instance = nullptr;
 	std::list<GameObject*> objects;
-	std::list<GameObject*> destroyed;
 
-	GameObjectsManager() = default;
 public:
-	GameObjectsManager(const GameObjectsManager&) = delete;
-	GameObjectsManager(GameObjectsManager&&) = delete;
-	auto operator=(const GameObjectsManager&) = delete;
-	auto operator=(GameObjectsManager&&) = delete;
-
-	static GameObjectsManager * getInstance()
-	{
-		if (instance == nullptr)
-		{
-			instance = new GameObjectsManager();
-		}
-		return instance;
-	}
-
-	~GameObjectsManager()
+	~GameObjectsManager() override
 	{
 		for (const auto* obj : objects)
 		{
@@ -40,20 +24,20 @@ public:
 		object->start();
 	}
 
-	void removeObject(GameObject* object)
+	static void removeObject(GameObject* object)
 	{
 		object->destroy();
 	}
 
 	void update(const float deltaTime)
 	{
-		auto it = objects.begin(); 
-		while(it != objects.end())
+		auto it = objects.begin();
+		while (it != objects.end())
 		{
-			auto * obj = *it;
+			auto* obj = *it;
 			obj->update(deltaTime);
 
-			if(obj->isDestroyed())
+			if (obj->isDestroyed())
 			{
 				it = objects.erase(it);
 				delete obj;

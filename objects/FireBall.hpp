@@ -12,11 +12,10 @@ public:
 		auto* timer = this->addComponent<TimerComponent>();
 		timer->setEndTime(sf::seconds(0.5).asMicroseconds());
 		timer->setTrigger([this] {
-			std::cout << "destroy" << std::endl;
-			GameObjectsManager::getInstance()->removeObject(this);
+			this->destroy();
 		});
 
-		auto* sprite  = this->addComponent<SpriteComponent>("./assets/FireBall.png");
+		auto* sprite = this->addComponent<SpriteComponent>("./assets/FireBall.png");
 		sprite->setSize(32, 32);
 
 		auto* transform = this->addComponent<TransformComponent>();

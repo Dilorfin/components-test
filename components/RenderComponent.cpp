@@ -4,10 +4,10 @@
 
 RenderComponent::RenderComponent()
 {
-	RenderSystem::getInstance()->addItem(this);
+	SystemLocator::getSystem<RenderSystem>()->addItem(this);
 }
 
 RenderComponent::~RenderComponent()
 {
-	RenderSystem::getInstance()->removeItem(this);
+	SystemLocator::getSystem<RenderSystem>()->removeItem(this);
 }
