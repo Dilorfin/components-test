@@ -8,6 +8,7 @@ class GameObjectsManager final
 private:
 	inline static GameObjectsManager* instance = nullptr;
 	std::list<GameObject*> objects;
+	std::list<GameObject*> destroyed;
 
 	GameObjectsManager() = default;
 public:
@@ -41,11 +42,18 @@ public:
 
 	void removeObject(GameObject* object)
 	{
-		std::erase(objects, object);
+		destroyed.push_back(object);
 	}
 
-	void update(const float deltaTime) const 
+	void update(const float deltaTime)
 	{
+		for (auto obj : destroyed)
+		{
+			objects.remove(obj);
+			delete obj;
+		}
+		destroyed.clear();
+
 		for (const auto* obj : objects)
 		{
 			obj->update(deltaTime);
