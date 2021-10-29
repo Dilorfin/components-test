@@ -7,7 +7,7 @@ class GameObject
 {
 private:
 	std::vector<BaseComponent*> components;
-
+	bool _isDestroyed = false;
 public:
 	virtual ~GameObject();
 
@@ -25,12 +25,6 @@ public:
 		return nullptr;
 	}
 
-	void addComponent(BaseComponent * component)
-	{
-		component->gameObject = this;
-		components.push_back(component);
-	}
-
 	template<typename TComponent, typename... Ts>
 	TComponent* addComponent(Ts&&... args)
 	{
@@ -41,6 +35,14 @@ public:
 	}
 
 	void start() const;
-
 	void update(const float deltaTime) const;
+
+	void destroy()
+	{
+		_isDestroyed = true;
+	}
+	[[nodiscard]] bool isDestroyed() const
+	{
+		return _isDestroyed;
+	}
 };

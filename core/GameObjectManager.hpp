@@ -42,21 +42,23 @@ public:
 
 	void removeObject(GameObject* object)
 	{
-		destroyed.push_back(object);
+		object->destroy();
 	}
 
 	void update(const float deltaTime)
 	{
-		for (auto obj : destroyed)
+		auto it = objects.begin(); 
+		while(it != objects.end())
 		{
-			objects.remove(obj);
-			delete obj;
-		}
-		destroyed.clear();
-
-		for (const auto* obj : objects)
-		{
+			auto * obj = *it;
 			obj->update(deltaTime);
+
+			if(obj->isDestroyed())
+			{
+				it = objects.erase(it);
+				delete obj;
+			}
+			else ++it;
 		}
 	}
 };
