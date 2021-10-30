@@ -39,8 +39,8 @@ int main() try
 			}
 		}
 
-		sf::Time frameTime = frameClock.restart();
-		const auto deltaTime = static_cast<float>(frameTime.asMicroseconds());
+		int64_t frameTime = frameClock.restart().asMicroseconds();
+		//objectsManager->update(frameTime );
 		objectsManager->update(deltaTime);
 
 		window.clear();

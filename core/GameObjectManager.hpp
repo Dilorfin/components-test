@@ -29,12 +29,12 @@ public:
 		object->destroy();
 	}
 
-	void update(const float deltaTime)
+	void update(const int64_t deltaTime)
 	{
 		auto it = objects.begin();
 		while (it != objects.end())
 		{
-			auto* obj = *it;
+			const auto* obj = *it;
 			obj->update(deltaTime);
 
 			if (obj->isDestroyed())
