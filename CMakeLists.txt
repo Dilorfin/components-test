@@ -6,21 +6,18 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 find_package(SFML 2.5 COMPONENTS graphics REQUIRED) # graphics audio network system window
+find_package(box2d REQUIRED)
 
 file(GLOB src_files
 	"main.cpp"
-	"core/*.hpp"
-	"core/*.cpp"
-	"components/*.hpp"
-	"components/*.cpp"
-	"systems/*.hpp"
-	"systems/*.cpp"
-	"objects/*.hpp"
-	"objects/*.cpp"
-	"sfml_extentions/**/*.hpp"
-	"sfml_extentions/**/*.cpp"
+	"core/*.[hc]pp"
+	"components/*.[hc]pp"
+	"systems/*.[hc]pp"
+	"objects/*.[hc]pp"
+	"physics/*.[hc]pp"
+	"sfml_extentions/**/*.[hc]pp"
 )
 
 add_executable(ComponentTest ${src_files})
 
-target_link_libraries(ComponentTest sfml-graphics) # sfml-<component>
+target_link_libraries(ComponentTest box2d::box2d sfml-graphics) # sfml-<component>
