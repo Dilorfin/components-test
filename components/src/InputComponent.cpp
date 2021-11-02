@@ -1,4 +1,4 @@
-#include "InputComponent.hpp"
+#include "../InputComponent.hpp"
 
 InputComponent::InputComponent()
 {

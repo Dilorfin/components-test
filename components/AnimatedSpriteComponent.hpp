@@ -3,7 +3,7 @@
 #include "TransformComponent.hpp"
 #include "../core/GameObject.hpp"
 
-#include "../sfml_extentions/Animation/AnimatedSprite.hpp"
+#include "../animation/AnimatedSprite.hpp"
 
 class AnimatedSpriteComponent final : public Component<AnimatedSpriteComponent>, public RenderComponent
 {

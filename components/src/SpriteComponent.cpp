@@ -1,7 +1,4 @@
-#include "SpriteComponent.hpp"
-
-#include "../core/GameObject.hpp"
-#include "TransformComponent.hpp"
+#include "../SpriteComponent.hpp"
 
 SpriteComponent::SpriteComponent(const std::string& fileName)
 {

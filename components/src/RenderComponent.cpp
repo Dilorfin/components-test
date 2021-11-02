@@ -1,6 +1,6 @@
-#include "RenderComponent.hpp"
+#include "../RenderComponent.hpp"
 
-#include "../systems/RenderSystem.hpp"
+#include "../../systems/RenderSystem.hpp"
 
 RenderComponent::RenderComponent()
 {
