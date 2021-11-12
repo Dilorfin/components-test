@@ -5,7 +5,7 @@
 
 #include "../animation/AnimatedSprite.hpp"
 
-class AnimatedSpriteComponent final : public Component<AnimatedSpriteComponent>, public RenderComponent
+class AnimatedSpriteComponent final : public RenderComponent<AnimatedSpriteComponent>
 {
 private:
 	AnimatedSprite sprite;

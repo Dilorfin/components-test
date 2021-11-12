@@ -2,12 +2,11 @@
 #include <SFML/Graphics.hpp>
 
 #include "../core/GameObject.hpp"
-#include "../core/Component.hpp"
 
 #include "RenderComponent.hpp"
 #include "TransformComponent.hpp"
 
-class SpriteComponent final : public Component<SpriteComponent>, public RenderComponent
+class SpriteComponent final : public RenderComponent<SpriteComponent>
 {
 private:
 	sf::Sprite sprite;

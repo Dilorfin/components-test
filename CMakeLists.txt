@@ -6,10 +6,10 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "./bin")
-
 find_package(SFML 2.5 COMPONENTS system window graphics REQUIRED) # graphics audio network system window
 find_package(box2d REQUIRED)
 
+# TODO: add DEBUG macro definition
 file(
 	GLOB_RECURSE _source_list 
 	"*.[hc]pp"
