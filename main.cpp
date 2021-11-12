@@ -40,8 +40,7 @@ int main() try
 		}
 
 		int64_t frameTime = frameClock.restart().asMicroseconds();
-		//objectsManager->update(frameTime );
-		objectsManager->update(deltaTime);
+		objectsManager->update(frameTime);
 
 		window.clear();
 		render->render(window);
