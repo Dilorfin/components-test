@@ -27,7 +27,7 @@ public:
 		: size(size)
 	{
 		rect.setSize(size);
-		rect.setOrigin(size.x/2.f, size.y/2.f);
+		rect.setOrigin({size.x/2.f, size.y/2.f});
 	}
 
 	void start() override
@@ -38,7 +38,7 @@ public:
 	{
 		constexpr float pi = 3.1415926535f;
 		rect.setPosition(transform->position+sf::Vector2f(size.x/2, size.y/2));
-		rect.setRotation(180.f*transform->rotation/pi);
+		rect.setRotation(sf::radians(transform->rotation));
 		std::cout << transform->rotation << std::endl;
 	}
 	void render(sf::RenderTarget& renderTarget) override

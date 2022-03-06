@@ -39,7 +39,7 @@ public:
 	{
 		const float r = Box2dSystem::metersToPixels(radius);
 		sf::CircleShape circle(r);
-		circle.setOrigin(r, r);
+		circle.setOrigin({r, r});
 		circle.setPosition(Box2dSystem::metersToPixels(center));
 		circle.setOutlineThickness(2);
 		circle.setOutlineColor(convert(color));
@@ -49,7 +49,7 @@ public:
 	{
 		const float r = Box2dSystem::metersToPixels(radius);
 		sf::CircleShape circle(r);
-		circle.setOrigin(r, r);
+		circle.setOrigin({r, r});
 		circle.setPosition(Box2dSystem::metersToPixels(center));
 		circle.setFillColor(convert(color));
 		renderTarget.draw(circle);
@@ -68,7 +68,7 @@ public:
 	{
 		const float r = Box2dSystem::metersToPixels(size);
 		sf::CircleShape circle(r);
-		circle.setOrigin(Box2dSystem::metersToPixels(r/2), Box2dSystem::metersToPixels(r/2));
+		circle.setOrigin({Box2dSystem::metersToPixels(r/2), Box2dSystem::metersToPixels(r/2)});
 		circle.setPosition(Box2dSystem::metersToPixels(p));
 		circle.setFillColor(convert(color));
 		renderTarget.draw(circle);
