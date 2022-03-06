@@ -1,5 +1,8 @@
 #include "AnimatedSprite.hpp"
 
+#include <SFML/Graphics/Image.hpp>
+#include <SFML/System/Time.hpp>
+
 AnimatedSprite::AnimatedSprite()
 	: Sprite(texture), animation(*this)
 {}
@@ -26,7 +29,7 @@ void AnimatedSprite::setFrameSize(const sf::Vector2i& frameSize)
 
 void AnimatedSprite::setSize(const float x, const float y)
 {
-	this->setScale(x / size.x, y / size.y);
+	this->setScale({x / size.x, y / size.y});
 }
 
 void AnimatedSprite::setSize(const sf::Vector2f& size)
@@ -38,6 +41,7 @@ void AnimatedSprite::createMaskFromColor(const sf::Color color)
 {
 	sf::Image image = texture.copyToImage();
 	image.createMaskFromColor(color);
+	// ReSharper disable once CppNoDiscardExpression
 	texture.loadFromImage(image);
 }
 

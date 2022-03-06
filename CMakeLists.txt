@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "./bin")
-find_package(SFML 3 COMPONENTS system window graphics REQUIRED) # graphics audio network system window
+find_package(SFML 3 COMPONENTS System Window Graphics REQUIRED) # graphics audio network system window
 find_package(box2d REQUIRED)
 
 # TODO: add DEBUG macro definition
@@ -22,7 +22,7 @@ list(FILTER _source_list EXCLUDE REGEX "${CMAKE_CURRENT_SOURCE_DIR}\/[.].*\/")
 
 add_executable(${PROJECT_TITLE} ${_source_list})
 
-target_link_libraries(${PROJECT_TITLE} box2d::box2d sfml-system sfml-window sfml-graphics) # sfml-<component>
+target_link_libraries(${PROJECT_TITLE} box2d::box2d SFML::System SFML::Window SFML::Graphics) # SFML::<component>
 
 # at least it makes more nice visual studio solution and seems to not affect ninja&clang on windows
 set(_src_root_path "${CMAKE_CURRENT_SOURCE_DIR}")

@@ -1,5 +1,7 @@
 #include "Animation.hpp"
 
+#include <SFML/System/Time.hpp>
+
 Animation::Animation(sf::Sprite &sprite) 
 	: sprite(sprite)
 {}

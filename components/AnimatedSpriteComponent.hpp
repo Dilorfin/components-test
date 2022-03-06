@@ -26,15 +26,15 @@ public:
 		transform = gameObject->getComponent<TransformComponent>();
 
 		sprite.setPosition(transform->position);
-		sprite.setRotation(transform->rotation);
+		sprite.setRotation(sf::degrees(transform->rotation));
 	}
 
 	void update(const int64_t deltaTime) override
 	{
 		sprite.update(deltaTime);
-		sprite.setOrigin(sprite.getLocalBounds().width / 2.f, sprite.getLocalBounds().height / 2.f);
+		sprite.setOrigin({sprite.getLocalBounds().width / 2.f, sprite.getLocalBounds().height / 2.f});
 		sprite.setPosition(transform->position);
-		sprite.setRotation(transform->rotation);
+		sprite.setRotation(sf::degrees(transform->rotation));
 	}
 
 	void addFrame(const sf::Vector2i& frame)
