@@ -11,7 +11,7 @@ SpriteComponent::SpriteComponent(const std::string& fileName)
 	}
 	sprite.setTexture(texture);
 		
-	sprite.setOrigin(sprite.getLocalBounds().width / 2.f, sprite.getLocalBounds().height / 2.f);
+	sprite.setOrigin({sprite.getLocalBounds().width / 2.f, sprite.getLocalBounds().height / 2.f});
 }
 
 SpriteComponent::SpriteComponent(const std::string& fileName, const sf::IntRect& rect)
@@ -26,7 +26,7 @@ SpriteComponent::SpriteComponent(const std::string& fileName, const sf::IntRect&
 void SpriteComponent::setSize(const float x, const float y)
 {
 	const auto size = texture.getSize();
-	sprite.setScale(x / size.x, y / size.y);
+	sprite.setScale({x / size.x, y / size.y});
 }
 
 void SpriteComponent::setSize(const sf::Vector2f& size)
@@ -42,7 +42,7 @@ void SpriteComponent::start()
 void SpriteComponent::update(const int64_t deltaTime)
 {
 	sprite.setPosition(transform->position);
-	sprite.setRotation(transform->rotation);
+	sprite.setRotation(sf::degrees(transform->rotation));
 }
 
 void SpriteComponent::render(sf::RenderTarget& renderTarget)

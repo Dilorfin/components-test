@@ -5,7 +5,7 @@ project(ComponentTest CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
-find_package(SFML 2.5 COMPONENTS graphics REQUIRED) # graphics audio network system window
+find_package(SFML 3 COMPONENTS Graphics REQUIRED) # graphics audio network system window
 
 file(GLOB src_files
 	"main.cpp"
@@ -23,4 +23,4 @@ file(GLOB src_files
 
 add_executable(ComponentTest ${src_files})
 
-target_link_libraries(ComponentTest sfml-graphics) # sfml-<component>
+target_link_libraries(ComponentTest SFML::Graphics) # sfml-<component>
