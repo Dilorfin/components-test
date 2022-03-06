@@ -5,6 +5,7 @@
 #include "../components/AnimatedSpriteComponent.hpp"
 #include "../components/InputComponent.hpp"
 #include "../components/TransformComponent.hpp"
+#include "../components/MotionComponent.hpp"
 
 #include "../objects/FireBall.hpp"
 
