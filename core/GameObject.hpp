@@ -35,7 +35,7 @@ public:
 	}
 
 	void start() const;
-	void update(const float deltaTime) const;
+	void update(const int64_t deltaTime) const;
 
 	void destroy()
 	{

@@ -1,11 +1,11 @@
 #include "RenderSystem.hpp"
 
-void RenderSystem::addItem(RenderComponent* item)
+void RenderSystem::addItem(BaseRenderComponent* item)
 {
 	items.push_back(item);
 }
 
-void RenderSystem::removeItem(RenderComponent* item)
+void RenderSystem::removeItem(BaseRenderComponent* item)
 {
 	std::erase(items, item);
 }

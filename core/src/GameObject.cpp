@@ -1,4 +1,4 @@
-#include "GameObject.hpp"
+#include "../GameObject.hpp"
 
 GameObject::~GameObject()
 {
@@ -16,7 +16,7 @@ void GameObject::start() const
 	}
 }
 
-void GameObject::update(const float deltaTime) const
+void GameObject::update(const int64_t deltaTime) const
 {
 	for (auto* comp : components)
 	{

@@ -41,8 +41,11 @@ void AnimatedSprite::createMaskFromColor(const sf::Color color)
 {
 	sf::Image image = texture.copyToImage();
 	image.createMaskFromColor(color);
-	// ReSharper disable once CppNoDiscardExpression
-	texture.loadFromImage(image);
+	
+	if(texture.loadFromImage(image))
+	{
+		exit(99999);
+	}
 }
 
 bool AnimatedSprite::loadFromFile(const std::string& filename)
