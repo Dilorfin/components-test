@@ -4,8 +4,13 @@ set(PROJECT_TITLE ComponentTest)
 
 project(${PROJECT_TITLE} CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+
+#if(NOT MSVC AND PEDANTIC)
+#	message("not msvc")
+#	SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++20 -Wall -Weverything -Wpedantic -Wmismatched-tags -Wmicrosoft -Wsigned-enum-bitfield -Wno-c++98-compat -Wno-c++98-compat-pedantic")
+#endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "./bin")
 find_package(SFML 3 COMPONENTS System Window Graphics REQUIRED) # graphics audio network system window

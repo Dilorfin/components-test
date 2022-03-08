@@ -7,7 +7,7 @@ void InputSystem::subscribe(InputComponent* component)
 
 void InputSystem::unsubscribe(InputComponent* component)
 {
-	std::erase(components, component);
+	components.erase(std::remove(std::begin(components), std::end(components), component), std::end(components));
 }
 
 void InputSystem::keyPressed(const sf::Event::KeyEvent& keyEvent) const

@@ -7,7 +7,7 @@ void RenderSystem::addItem(BaseRenderComponent* item)
 
 void RenderSystem::removeItem(BaseRenderComponent* item)
 {
-	std::erase(items, item);
+	items.erase(std::remove(std::begin(items), std::end(items), item), std::end(items));
 }
 
 void RenderSystem::render(sf::RenderTarget& renderTarget) const

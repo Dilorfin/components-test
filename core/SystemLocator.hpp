@@ -57,7 +57,7 @@ public:
 	{
 		const auto* instance = getInstance();
 		const size_t id = typeid(TSystem).hash_code();
-		if (!instance->systems.contains(id))
+		if (!instance->systems.count(id))
 		{
 			return nullptr;
 		}
@@ -69,7 +69,7 @@ public:
 	TSystem* addSystem(Ts&&... args)
 	{
 		const size_t id = typeid(TSystem).hash_code();
-		if (systems.contains(id))
+		if (systems.count(id))
 		{
 			throw std::exception((std::string("System is already registered: ") + typeid(TSystem).name()).c_str());
 		}

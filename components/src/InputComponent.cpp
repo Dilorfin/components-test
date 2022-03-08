@@ -17,7 +17,7 @@ void InputComponent::bind(const sf::Keyboard::Key key, const std::function<void(
 
 void InputComponent::keyPressed(const sf::Event::KeyEvent& keyEvent) const
 {
-	if (keyboardBindings.contains(keyEvent.code))
+	if (keyboardBindings.count(keyEvent.code))
 	{
 		keyboardBindings.at(keyEvent.code)(InputSystem::Type::Pressed);
 	}
@@ -25,7 +25,7 @@ void InputComponent::keyPressed(const sf::Event::KeyEvent& keyEvent) const
 
 void InputComponent::keyReleased(const sf::Event::KeyEvent& keyEvent) const
 {
-	if (keyboardBindings.contains(keyEvent.code))
+	if (keyboardBindings.count(keyEvent.code))
 	{
 		keyboardBindings.at(keyEvent.code)(InputSystem::Type::Released);
 	}
