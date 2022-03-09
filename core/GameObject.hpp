@@ -3,13 +3,20 @@
 #include <vector>
 #include "Component.hpp"
 
-class GameObject
+class GameObject : public Destroyable
 {
 private:
+	// TODO: check why not std::map
 	std::vector<BaseComponent*> components;
-	bool _isDestroyed = false;
+
 public:
-	virtual ~GameObject();
+	virtual ~GameObject()
+	{
+		for (const auto* comp : components)
+		{
+			delete comp;
+		}
+	}
 
 	template<typename TComponent>
 	TComponent* getComponent()
@@ -34,15 +41,44 @@ public:
 		return component;
 	}
 
-	void start() const;
-	void update(const int64_t deltaTime) const;
-
-	void destroy()
+	template<typename TComponent>
+	inline void removeComponent(TComponent* component)
 	{
-		_isDestroyed = true;
+		this->removeComponent((BaseComponent*)component);
 	}
-	[[nodiscard]] bool isDestroyed() const
+
+	void removeComponent(BaseComponent* component)
 	{
-		return _isDestroyed;
+		components.erase(std::remove(std::begin(components), std::end(components), component), std::end(components));
+
+		delete component;
+	}
+
+	void start() const
+	{
+		for (auto* comp : components)
+		{
+			comp->start();
+		}
+	}
+	void update(const int64_t deltaTime)
+	{
+		auto it = components.begin();
+		while (it != components.end())
+		{
+			auto* comp = *it;
+			comp->update(deltaTime);
+
+			if (comp->isDestroyed())
+			{
+				it = components.erase(it);
+				delete comp;
+			}
+			else ++it;
+		}
+		/*for (auto* comp : components)
+		{
+			comp->update(deltaTime);
+		}*/
 	}
 };

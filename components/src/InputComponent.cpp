@@ -2,12 +2,12 @@
 
 InputComponent::InputComponent()
 {
-	SystemLocator::getSystem<InputSystem>()->subscribe(this);
+	SystemLocator::getInstance()->getSystem<InputSystem>()->subscribe(this);
 }
 
 InputComponent::~InputComponent()
 {
-	SystemLocator::getSystem<InputSystem>()->unsubscribe(this);
+	SystemLocator::getInstance()->getSystem<InputSystem>()->unsubscribe(this);
 }
 
 void InputComponent::bind(const sf::Keyboard::Key key, const std::function<void(InputSystem::Type)>& func)

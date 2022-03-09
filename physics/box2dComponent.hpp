@@ -9,7 +9,7 @@
 
 class Box2dSystem;
 
-class B2Component : public BaseComponent
+class B2Component : public Component<B2Component>
 {
 private:
 	friend Box2dSystem;
@@ -43,7 +43,6 @@ public:
 	void setBeginContactTrigger(const std::function<void(B2Component*)>& func);
 	void setEndContactTrigger(const std::function<void(B2Component*)>& func);
 
-	[[nodiscard]] size_t hash_code() const override;
 private:
 	void beginContact(B2Component* another) const;
 	void endContact(B2Component* another) const;

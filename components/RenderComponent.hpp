@@ -8,12 +8,12 @@ class BaseRenderComponent
 public:
 	BaseRenderComponent()
 	{
-		SystemLocator::getSystem<RenderSystem>()->addItem(this);
+		SystemLocator::getInstance()->getSystem<RenderSystem>()->addItem(this);
 	}
 
 	virtual ~BaseRenderComponent() 
 	{
-		SystemLocator::getSystem<RenderSystem>()->removeItem(this);
+		SystemLocator::getInstance()->getSystem<RenderSystem>()->removeItem(this);
 	}
 
 	virtual void render(sf::RenderTarget& renderTarget) = 0;

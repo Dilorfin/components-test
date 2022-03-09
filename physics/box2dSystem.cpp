@@ -2,9 +2,10 @@
 
 #include "../core/GameObject.hpp"
 
+#ifndef B2Component
 B2Component::B2Component()
 {
-	SystemLocator::getSystem<Box2dSystem>()->registerComponent(this);
+	SystemLocator::getInstance()->getSystem<Box2dSystem>()->registerComponent(this);
 }
 
 void B2Component::start()
@@ -30,7 +31,7 @@ void B2Component::setAngle(const float angle) const
 
 void B2Component::applyLinearImpulse(sf::Vector2f impulse, sf::Vector2f point) const
 {
-	body->ApplyLinearImpulse({impulse.x, impulse.y}, {point.x, point.y}, true);
+	body->ApplyLinearImpulse({ impulse.x, impulse.y }, { point.x, point.y }, true);
 }
 
 void B2Component::applyAngularImpulse(const float impulse) const
@@ -40,17 +41,17 @@ void B2Component::applyAngularImpulse(const float impulse) const
 
 void B2Component::applyForce(sf::Vector2f force, sf::Vector2f point) const
 {
-	body->ApplyForce({force.x, force.y}, {point.x, point.y}, true);
+	body->ApplyForce({ force.x, force.y }, { point.x, point.y }, true);
 }
 
 void B2Component::applyForceToCenter(sf::Vector2f force) const
 {
-	body->ApplyForceToCenter({force.x, force.y}, true);
+	body->ApplyForceToCenter({ force.x, force.y }, true);
 }
 
 void B2Component::applyLinearImpulseToCenter(sf::Vector2f impulse) const
 {
-	body->ApplyLinearImpulseToCenter({impulse.x, impulse.y}, true);
+	body->ApplyLinearImpulseToCenter({ impulse.x, impulse.y }, true);
 }
 
 void B2Component::applyTorque(const float torque) const
@@ -68,14 +69,9 @@ void B2Component::setEndContactTrigger(const std::function<void(B2Component*)>& 
 	endContactTrigger = func;
 }
 
-size_t B2Component::hash_code() const
-{
-	return typeid(B2Component).hash_code();
-}
-
 void B2Component::beginContact(B2Component* another) const
 {
-	if(beginContactTrigger.has_value())
+	if (beginContactTrigger.has_value())
 	{
 		beginContactTrigger.value()(another);
 	}
@@ -83,11 +79,12 @@ void B2Component::beginContact(B2Component* another) const
 
 void B2Component::endContact(B2Component* another) const
 {
-	if(endContactTrigger.has_value())
+	if (endContactTrigger.has_value())
 	{
 		endContactTrigger.value()(another);
 	}
 }
+#endif
 
 Box2dSystem::Box2dSystem()
 	: world(new b2World(gravity))
@@ -117,7 +114,7 @@ void Box2dSystem::registerComponent(B2Component* comp) const
 	comp->world = this->world;
 }
 
-void Box2dSystem::update(int64_t dt) const
+void Box2dSystem::update(int64_t dt) 
 {
 	world->Step(fixedTimeStep, velocityIterations, positionIterations);
 }

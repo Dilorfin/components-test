@@ -1,4 +1,5 @@
 #pragma once
+#include <list>
 #include <box2d/box2d.h>
 #include <SFML/System/Vector2.hpp>
 
@@ -13,7 +14,7 @@ private:
 	const float fixedTimeStep = 1.0f / 60.0f;
 	const int32 velocityIterations = 6;
 	const int32 positionIterations = 2;
-	const b2Vec2 gravity { 0, 0 };
+	const b2Vec2 gravity{ 0, 0 };
 
 public:
 	b2World* world = nullptr;
@@ -31,7 +32,7 @@ public:
 #endif
 
 	void registerComponent(B2Component* comp) const;
-	void update(int64_t dt) const;
+	void update(int64_t dt);
 
 	[[nodiscard]] static float pixelsToMeters(const float px);
 	[[nodiscard]] static b2Vec2 pixelsToMeters(const sf::Vector2f& px);

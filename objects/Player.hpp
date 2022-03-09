@@ -58,6 +58,10 @@ public:
 		input->bind(sf::Keyboard::A, [this](const InputSystem::Type type) {
 			this->motion->velocity.x = type == InputSystem::Type::Pressed ? -speed : 0;
 		});
+
+		input->bind(sf::Keyboard::F, [this](const InputSystem::Type type) {
+			SceneManager::getInstance()->openScene();
+		});
 	}
 
 	void castFireBall(const InputSystem::Type type, const Direction dir) const
@@ -81,7 +85,7 @@ public:
 			break;
 		}
 
-		const auto system = SystemLocator::getSystem<GameObjectsManager>();
-		system->addObject(new FireBall(transform->position, velocity));
+		const auto system = SystemLocator::getInstance()->getSystem<GameObjectsManager>();
+		system->add(new FireBall(transform->position, velocity));
 	}
 };
