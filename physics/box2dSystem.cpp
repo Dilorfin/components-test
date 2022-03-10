@@ -4,7 +4,7 @@
 
 B2Component::B2Component()
 {
-	SystemLocator::getInstance()->getSystem<Box2dSystem>()->registerComponent(this);
+	SystemLocator::getSystem<Box2dSystem>()->registerComponent(this);
 }
 
 void B2Component::start()

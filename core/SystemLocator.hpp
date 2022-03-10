@@ -35,18 +35,17 @@ public:
 	}
 
 	template<typename TSystem>
-	TSystem* getSystem()
+	static TSystem* getSystem()
 	{
-		const auto* instance = getInstance();
 		const size_t id = typeid(TSystem).hash_code();
 		if (!instance->systems.count(id))
 		{
-			//return nullptr;
 			auto* system = new TSystem();
-			systems[id] = system;
+			instance->systems[id] = system;
 			return system;
+			//return nullptr;
 		}
-		return (TSystem*)systems.at(id);
+		return (TSystem*)instance->systems.at(id);
 	}
 
 	/*template<typename TSystem, typename... Ts>

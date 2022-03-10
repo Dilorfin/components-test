@@ -129,7 +129,7 @@ class TestScene final : Scene
 public:
 	TestScene()
 	{
-		SystemLocator::getInstance()->getSystem<GameObjectsManager>()->add(new Player(sf::Vector2f(100, 100)));
+		SystemLocator::getSystem<GameObjectsManager>()->add(new Player(sf::Vector2f(100, 100)));
 	}
 };
 
@@ -151,7 +151,7 @@ int main() try
 #ifdef _DEBUG
 	DebugDraw draw(window);
 	draw.AppendFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
-	SystemLocator::getInstance()->getSystem<Box2dSystem>()->setDebugDraw(&draw);
+	SystemLocator::getSystem<Box2dSystem>()->setDebugDraw(&draw);
 #endif
 
 	sf::Clock frameClock;
@@ -168,24 +168,24 @@ int main() try
 			}
 			else if (event.type == sf::Event::KeyPressed)
 			{
-				SystemLocator::getInstance()->getSystem<InputSystem>()->keyPressed(event.key);
+				SystemLocator::getSystem<InputSystem>()->keyPressed(event.key);
 			}
 			else if (event.type == sf::Event::KeyReleased)
 			{
-				SystemLocator::getInstance()->getSystem<InputSystem>()->keyReleased(event.key);
+				SystemLocator::getSystem<InputSystem>()->keyReleased(event.key);
 			}
 		}
 		auto dt = frameClock.restart();
-		SystemLocator::getInstance()->getSystem<Box2dSystem>()->update(dt.asMicroseconds());
+		SystemLocator::getSystem<Box2dSystem>()->update(dt.asMicroseconds());
 		
-		SystemLocator::getInstance()->getSystem<GameObjectsManager>()->update(dt.asMicroseconds());
+		SystemLocator::getSystem<GameObjectsManager>()->update(dt.asMicroseconds());
 
 		window.clear();
 #ifdef _DEBUG
-		SystemLocator::getInstance()->getSystem<Box2dSystem>()->debugDraw();
+		SystemLocator::getSystem<Box2dSystem>()->debugDraw();
 #endif
 
-		SystemLocator::getInstance()->getSystem<RenderSystem>()->render(window);
+		SystemLocator::getSystem<RenderSystem>()->render(window);
 		window.display();
 	}
 	return 0;
