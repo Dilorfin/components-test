@@ -38,7 +38,7 @@ public:
 	static TSystem* getSystem()
 	{
 		const size_t id = typeid(TSystem).hash_code();
-		if (!instance->systems.count(id))
+		if (!getInstance()->systems.count(id))
 		{
 			auto* system = new TSystem();
 			instance->systems[id] = system;
