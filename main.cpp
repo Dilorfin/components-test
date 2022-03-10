@@ -8,8 +8,6 @@
 #include "objects/Player.hpp"
 #include "systems/RenderSystem.hpp"
 
-#include <optional>
-
 #include "core/SceneSystem.hpp"
 #include "physics/box2dSystem.hpp"
 #include "physics/box2dDebugDrawSFML.hpp"
@@ -141,8 +139,10 @@ int main() try
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(60);
 
-	SceneManager::getInstance()->switchScenes<TestScene>();
-	SceneManager::getInstance()->openScene();
+	SceneManager::getInstance()->addScene("test scene", [] {
+		return reinterpret_cast<Scene*>(new TestScene);
+	});
+	SceneManager::getInstance()->loadScene(0);
 	
 	/*objectsManager->add(new Box);
 	objectsManager->add(new Circle);
@@ -157,7 +157,7 @@ int main() try
 	sf::Clock frameClock;
 	while (window.isOpen())
 	{
-		SceneManager::getInstance()->switchScenes<TestScene>();
+		SceneManager::getInstance()->switchScenes();
 
 		sf::Event event{};
 		while (window.pollEvent(event))

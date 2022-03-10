@@ -61,7 +61,7 @@ public:
 		});
 
 		input->bind(sf::Keyboard::F, [this](const InputSystem::Type type) {
-			SceneManager::getInstance()->openScene();
+			SceneManager::getInstance()->loadScene("test scene");
 		});
 	}
 
