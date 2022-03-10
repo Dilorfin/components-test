@@ -42,10 +42,8 @@ void AnimatedSprite::createMaskFromColor(const sf::Color color)
 	sf::Image image = texture.copyToImage();
 	image.createMaskFromColor(color);
 	
-	if(texture.loadFromImage(image))
-	{
-		exit(99999);
-	}
+	const auto textureLoad = texture.loadFromImage(image);
+	assert(textureLoad);
 }
 
 bool AnimatedSprite::loadFromFile(const std::string& filename)

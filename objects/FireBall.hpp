@@ -9,7 +9,7 @@ class CirclePhysicsComponent;
 class FireBall final : public GameObject
 {
 public:
-	explicit FireBall(const sf::Vector2f& initPosition, const sf::Vector2f& velocity)
+	FireBall(const sf::Vector2f& initPosition, const sf::Vector2f& velocity)
 	{
 		auto* timer = this->addComponent<TimerComponent>();
 		timer->setEndTime(sf::seconds(5).asMicroseconds());

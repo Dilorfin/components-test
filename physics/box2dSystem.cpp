@@ -149,6 +149,10 @@ void Box2dSystem::BeginContact(b2Contact* contact)
 	auto* compA = reinterpret_cast<B2Component*>(userData.pointer);
 	userData = contact->GetFixtureB()->GetUserData();
 	auto* compB = reinterpret_cast<B2Component*>(userData.pointer);
+
+	if(compA->gameObject->isDestroyed() || compB->gameObject->isDestroyed())
+		return;
+
 	compA->beginContact(compB);
 	compB->beginContact(compA);
 }
@@ -159,6 +163,10 @@ void Box2dSystem::EndContact(b2Contact* contact)
 	auto* compA = reinterpret_cast<B2Component*>(userData.pointer);
 	userData = contact->GetFixtureB()->GetUserData();
 	auto* compB = reinterpret_cast<B2Component*>(userData.pointer);
+
+	if(compA->gameObject->isDestroyed() || compB->gameObject->isDestroyed())
+		return;
+
 	compA->endContact(compB);
 	compB->endContact(compA);
 }

@@ -2,10 +2,9 @@
 
 SpriteComponent::SpriteComponent(const std::string& fileName)
 {
-	if (!texture.loadFromFile(fileName))
-	{
-		// error...
-	}
+	const bool textureLoaded = texture.loadFromFile(fileName);
+	assert(textureLoaded);
+
 	sprite.setTexture(texture);
 		
 	sprite.setOrigin({sprite.getLocalBounds().width / 2.f, sprite.getLocalBounds().height / 2.f});
@@ -13,10 +12,9 @@ SpriteComponent::SpriteComponent(const std::string& fileName)
 
 SpriteComponent::SpriteComponent(const std::string& fileName, const sf::IntRect& rect)
 {
-	if (!texture.loadFromFile(fileName, rect))
-	{
-		// error...
-	}
+	const bool textureLoaded = texture.loadFromFile(fileName, rect);
+	assert(textureLoaded);
+	
 	sprite.setTexture(texture);
 }
 
@@ -34,6 +32,7 @@ void SpriteComponent::setSize(const sf::Vector2f& size)
 void SpriteComponent::start()
 {
 	transform = gameObject->getComponent<TransformComponent>();
+	assert(transform);
 }
 
 void SpriteComponent::update(const int64_t deltaTime)

@@ -1,14 +1,13 @@
 #pragma once
 
-#include <vector>
+#include <list>
+
 #include "Component.hpp"
 
 class GameObject : public Destroyable
 {
 private:
-	// TODO: check why not std::map
-	std::vector<BaseComponent*> components;
-
+	std::list<BaseComponent*> components;
 public:
 	virtual ~GameObject()
 	{
