@@ -2,7 +2,6 @@
 
 #include "../core/GameObject.hpp"
 
-#ifndef B2Component
 B2Component::B2Component()
 {
 	SystemLocator::getInstance()->getSystem<Box2dSystem>()->registerComponent(this);
@@ -84,7 +83,6 @@ void B2Component::endContact(B2Component* another) const
 		endContactTrigger.value()(another);
 	}
 }
-#endif
 
 Box2dSystem::Box2dSystem()
 	: world(new b2World(gravity))
@@ -114,7 +112,7 @@ void Box2dSystem::registerComponent(B2Component* comp) const
 	comp->world = this->world;
 }
 
-void Box2dSystem::update(int64_t dt) 
+void Box2dSystem::update(int64_t dt) const
 {
 	world->Step(fixedTimeStep, velocityIterations, positionIterations);
 }

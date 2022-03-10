@@ -41,19 +41,6 @@ public:
 		return component;
 	}
 
-	template<typename TComponent>
-	inline void removeComponent(TComponent* component)
-	{
-		this->removeComponent((BaseComponent*)component);
-	}
-
-	void removeComponent(BaseComponent* component)
-	{
-		components.erase(std::remove(std::begin(components), std::end(components), component), std::end(components));
-
-		delete component;
-	}
-
 	void start() const
 	{
 		for (auto* comp : components)
@@ -76,9 +63,5 @@ public:
 			}
 			else ++it;
 		}
-		/*for (auto* comp : components)
-		{
-			comp->update(deltaTime);
-		}*/
 	}
 };

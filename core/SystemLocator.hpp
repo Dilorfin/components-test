@@ -9,8 +9,6 @@
 class SystemLocator final
 {
 private:
-	friend class SceneManager;
-
 	SystemLocator() = default;
 
 	inline static SystemLocator* instance = nullptr;
@@ -64,6 +62,9 @@ public:
 		systems[id] = system;
 		return system;
 	}*/
+
+protected:
+	friend class SceneManager;
 
 	void clear()
 	{

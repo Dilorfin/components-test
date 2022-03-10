@@ -31,7 +31,7 @@ public:
 #endif
 
 	void registerComponent(B2Component* comp) const;
-	void update(int64_t dt);
+	void update(int64_t dt) const;
 
 	[[nodiscard]] static float pixelsToMeters(const float px);
 	[[nodiscard]] static b2Vec2 pixelsToMeters(const sf::Vector2f& px);
