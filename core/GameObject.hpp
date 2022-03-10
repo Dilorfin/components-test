@@ -1,12 +1,13 @@
 #pragma once
 
-#include <vector>
+#include <list>
+
 #include "Component.hpp"
 
 class GameObject
 {
 private:
-	std::vector<BaseComponent*> components;
+	std::list<BaseComponent*> components;
 	bool _isDestroyed = false;
 public:
 	virtual ~GameObject();
