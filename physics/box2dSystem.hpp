@@ -1,5 +1,4 @@
 #pragma once
-#include <list>
 #include <box2d/box2d.h>
 #include <SFML/System/Vector2.hpp>
 

@@ -1,13 +1,14 @@
 #pragma once
 #include "../core/GameObject.hpp"
-#include "../core/GameObjectManager.hpp"
+#include "../core/SceneSystem.hpp"
+#include "../core/GameObjectSystem.hpp"
 
 #include "../components/AnimatedSpriteComponent.hpp"
 #include "../components/InputComponent.hpp"
 #include "../components/TransformComponent.hpp"
 #include "../components/MotionComponent.hpp"
 
-#include "../objects/FireBall.hpp"
+#include "FireBall.hpp"
 
 class Player final : public GameObject
 {

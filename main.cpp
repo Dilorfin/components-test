@@ -3,13 +3,14 @@
 #include <box2d/box2d.h>
 #include <SFML/Graphics.hpp>
 
-#include "core/GameObjectManager.hpp"
+#include "core/GameObjectSystem.hpp"
 #include "core/SystemLocator.hpp"
 #include "objects/Player.hpp"
 #include "systems/RenderSystem.hpp"
 
 #include <optional>
 
+#include "core/SceneSystem.hpp"
 #include "physics/box2dSystem.hpp"
 #include "physics/box2dDebugDrawSFML.hpp"
 #include "physics/BoxPhysicsComponent.hpp"
