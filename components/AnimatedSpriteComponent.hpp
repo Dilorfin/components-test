@@ -15,15 +15,14 @@ private:
 public:
 	explicit AnimatedSpriteComponent(const std::string& fileName)
 	{
-		if (!sprite.loadFromFile(fileName))
-		{
-			// error...
-		}
+		const auto spriteLoaded = sprite.loadFromFile(fileName);
+		assert(spriteLoaded);
 	}
 	
 	void start() override
 	{
 		transform = gameObject->getComponent<TransformComponent>();
+		assert(transform);
 
 		sprite.setPosition(transform->position);
 		sprite.setRotation(sf::degrees(transform->rotation));
