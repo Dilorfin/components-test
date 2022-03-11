@@ -8,7 +8,7 @@ class BoxPhysicsComponent final : public B2Component
 {
 private:
 	sf::Vector2f size;
-
+	b2Fixture* fixture = nullptr;
 public:
 	BoxPhysicsComponent(const sf::Vector2f size, const sf::Vector2f position, const b2BodyType bodyType)
 		: size(size)
@@ -26,7 +26,13 @@ public:
 		fixtureDef.friction = 0.7f;
 		fixtureDef.shape = &shape;
 		fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
-		body->CreateFixture(&fixtureDef);
+		fixture = body->CreateFixture(&fixtureDef);
+	}
+
+	void update(const int64_t deltaTime) override
+	{
+		B2Component::update(deltaTime);
+		fixture->GetUserData().pointer = (uintptr_t)this;
 	}
 
 	[[nodiscard]] sf::Vector2f getPosition() const override

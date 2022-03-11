@@ -6,6 +6,8 @@
 
 class CirclePhysicsComponent final : public B2Component
 {
+private:
+	b2Fixture* fixture = nullptr;
 public:
 	CirclePhysicsComponent(const float radius, const sf::Vector2f position, const b2BodyType bodyType)
 	{
@@ -22,7 +24,13 @@ public:
 		fixtureDef.friction = 0.7f;
 		fixtureDef.shape = &shape;
 		fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
-		body->CreateFixture(&fixtureDef);
+		fixture = body->CreateFixture(&fixtureDef);
+	}
+
+	void update(const int64_t deltaTime) override
+	{
+		B2Component::update(deltaTime);
+		fixture->GetUserData().pointer = (uintptr_t)this;
 	}
 
 	~CirclePhysicsComponent() override
