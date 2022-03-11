@@ -25,14 +25,19 @@ public:
 		fixtureDef.density = 1.f;
 		fixtureDef.friction = 0.7f;
 		fixtureDef.shape = &shape;
-		fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
+		//fixtureDef.userData.pointer = static_cast<uintptr_t>(this->gameObject->getId());
 		fixture = body->CreateFixture(&fixtureDef);
 	}
 
-	void update(const int64_t deltaTime) override
+	~BoxPhysicsComponent() override
 	{
-		B2Component::update(deltaTime);
-		fixture->GetUserData().pointer = (uintptr_t)this;
+		world->DestroyBody(body);
+	}
+
+	void start() override
+	{
+		fixture->GetUserData().pointer = static_cast<uintptr_t>(this->gameObject->getId());
+		B2Component::start();
 	}
 
 	[[nodiscard]] sf::Vector2f getPosition() const override
@@ -52,8 +57,4 @@ public:
 		((b2PolygonShape*)fixture->GetShape())->SetAsBox(m_size.x, m_size.y);
 	}
 
-	~BoxPhysicsComponent() override
-	{
-		world->DestroyBody(body);
-	}
 };

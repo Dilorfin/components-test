@@ -4,9 +4,16 @@
 
 #include "Component.hpp"
 
+typedef uint32_t object_id;
+
+class GameObjectsManager;
+
 class GameObject
 {
 private:
+	friend GameObjectsManager;
+	object_id id;
+
 	std::list<BaseComponent*> components;
 	bool _isDestroyed = false;
 public:
@@ -33,6 +40,11 @@ public:
 		component->gameObject = this;
 		components.push_back(component);
 		return component;
+	}
+
+	[[nodiscard]] object_id getId() const
+	{
+		return id;
 	}
 
 	void start() const;

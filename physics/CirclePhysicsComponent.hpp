@@ -23,19 +23,19 @@ public:
 		fixtureDef.density = 1.f;
 		fixtureDef.friction = 0.7f;
 		fixtureDef.shape = &shape;
-		fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
+		//fixtureDef.userData.pointer = static_cast<uintptr_t>(this->gameObject->getId());
 		fixture = body->CreateFixture(&fixtureDef);
-	}
-
-	void update(const int64_t deltaTime) override
-	{
-		B2Component::update(deltaTime);
-		fixture->GetUserData().pointer = (uintptr_t)this;
 	}
 
 	~CirclePhysicsComponent() override
 	{
 		world->DestroyBody(body);
+	}
+
+	void start() override
+	{
+		fixture->GetUserData().pointer = static_cast<uintptr_t>(this->gameObject->getId());
+		B2Component::start();
 	}
 
 	[[nodiscard]] float getRadius() const
