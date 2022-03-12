@@ -17,16 +17,26 @@ jobs:
     - name: Checkout current repo
       uses: actions/checkout@v2
 
+    - name: Cache SFML
+      id: sfml
+      uses: actions/cache@v2
+      with:
+        path: ./.SFML/.build
+        key: ${{ runner.os }}-sfml
+    
     - name: Checkout SFML
+      if: steps.sfml.outputs.cache-hit != 'true'
       uses: actions/checkout@v2
       with:
         repository: 'SFML/SFML'
         path: './.SFML'
 
     - name: Configure cmake SFML
+      if: steps.sfml.outputs.cache-hit != 'true'
       run: cmake -G"${{ matrix.generator }}" -DCMAKE_BUILD_TYPE=Debug -B./.SFML/.build ./.SFML
 
     - name: Build SFML
+      if: steps.sfml.outputs.cache-hit != 'true'
       run: cmake --build ./.SFML/.build --config=Debug
 
     - name: Install SFML
