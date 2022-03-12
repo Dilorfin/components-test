@@ -1,6 +1,7 @@
 #include "box2dSystem.hpp"
 
 #include "../core/GameObject.hpp"
+#include "../core/GameObjectManager.hpp"
 
 B2Component::B2Component()
 {
@@ -30,7 +31,7 @@ void B2Component::setAngle(const float angle) const
 
 void B2Component::applyLinearImpulse(sf::Vector2f impulse, sf::Vector2f point) const
 {
-	body->ApplyLinearImpulse({impulse.x, impulse.y}, {point.x, point.y}, true);
+	body->ApplyLinearImpulse({ impulse.x, impulse.y }, { point.x, point.y }, true);
 }
 
 void B2Component::applyAngularImpulse(const float impulse) const
@@ -40,17 +41,17 @@ void B2Component::applyAngularImpulse(const float impulse) const
 
 void B2Component::applyForce(sf::Vector2f force, sf::Vector2f point) const
 {
-	body->ApplyForce({force.x, force.y}, {point.x, point.y}, true);
+	body->ApplyForce({ force.x, force.y }, { point.x, point.y }, true);
 }
 
 void B2Component::applyForceToCenter(sf::Vector2f force) const
 {
-	body->ApplyForceToCenter({force.x, force.y}, true);
+	body->ApplyForceToCenter({ force.x, force.y }, true);
 }
 
 void B2Component::applyLinearImpulseToCenter(sf::Vector2f impulse) const
 {
-	body->ApplyLinearImpulseToCenter({impulse.x, impulse.y}, true);
+	body->ApplyLinearImpulseToCenter({ impulse.x, impulse.y }, true);
 }
 
 void B2Component::applyTorque(const float torque) const
@@ -75,7 +76,7 @@ size_t B2Component::hash_code() const
 
 void B2Component::beginContact(B2Component* another) const
 {
-	if(beginContactTrigger.has_value())
+	if (beginContactTrigger.has_value())
 	{
 		beginContactTrigger.value()(another);
 	}
@@ -83,7 +84,7 @@ void B2Component::beginContact(B2Component* another) const
 
 void B2Component::endContact(B2Component* another) const
 {
-	if(endContactTrigger.has_value())
+	if (endContactTrigger.has_value())
 	{
 		endContactTrigger.value()(another);
 	}
@@ -150,12 +151,19 @@ sf::Vector2f Box2dSystem::metersToPixels(const b2Vec2& meters)
 
 void Box2dSystem::BeginContact(b2Contact* contact)
 {
-	auto userData = contact->GetFixtureA()->GetUserData();
-	auto* compA = reinterpret_cast<B2Component*>(userData.pointer);
-	userData = contact->GetFixtureB()->GetUserData();
-	auto* compB = reinterpret_cast<B2Component*>(userData.pointer);
+	const auto userDataA = contact->GetFixtureA()->GetUserData();
+	const auto userDataB = contact->GetFixtureB()->GetUserData();
 
-	if(compA->gameObject->isDestroyed() || compB->gameObject->isDestroyed())
+	auto* gameObjectA = SystemLocator::getSystem<GameObjectsManager>()->getObjectById((uint32_t)userDataA.pointer);
+	auto* gameObjectB = SystemLocator::getSystem<GameObjectsManager>()->getObjectById((uint32_t)userDataB.pointer);
+
+	if(!gameObjectA || !gameObjectB)
+		return;
+
+	auto* compA = gameObjectA->getComponent<B2Component>();
+	auto* compB = gameObjectB->getComponent<B2Component>();
+
+	if(!compA || !compB)
 		return;
 
 	compA->beginContact(compB);
@@ -164,12 +172,19 @@ void Box2dSystem::BeginContact(b2Contact* contact)
 
 void Box2dSystem::EndContact(b2Contact* contact)
 {
-	auto& userData = contact->GetFixtureA()->GetUserData();
-	auto* compA = reinterpret_cast<B2Component*>(userData.pointer);
-	userData = contact->GetFixtureB()->GetUserData();
-	auto* compB = reinterpret_cast<B2Component*>(userData.pointer);
+	const auto userDataA = contact->GetFixtureA()->GetUserData();
+	const auto userDataB = contact->GetFixtureB()->GetUserData();
 
-	if(compA->gameObject->isDestroyed() || compB->gameObject->isDestroyed())
+	auto* gameObjectA = SystemLocator::getSystem<GameObjectsManager>()->getObjectById((uint32_t)userDataA.pointer);
+	auto* gameObjectB = SystemLocator::getSystem<GameObjectsManager>()->getObjectById((uint32_t)userDataB.pointer);
+
+	if(!gameObjectA || !gameObjectB)
+		return;
+
+	auto* compA = gameObjectA->getComponent<B2Component>();
+	auto* compB = gameObjectB->getComponent<B2Component>();
+
+	if(!compA || !compB)
 		return;
 
 	compA->endContact(compB);

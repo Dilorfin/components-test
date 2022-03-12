@@ -6,6 +6,8 @@
 
 class CirclePhysicsComponent final : public B2Component
 {
+private:
+	b2Fixture* fixture = nullptr;
 public:
 	CirclePhysicsComponent(const float radius, const sf::Vector2f position, const b2BodyType bodyType)
 	{
@@ -21,13 +23,19 @@ public:
 		fixtureDef.density = 1.f;
 		fixtureDef.friction = 0.7f;
 		fixtureDef.shape = &shape;
-		fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
-		body->CreateFixture(&fixtureDef);
+		//fixtureDef.userData.pointer = static_cast<uintptr_t>(this->gameObject->getId());
+		fixture = body->CreateFixture(&fixtureDef);
 	}
 
 	~CirclePhysicsComponent() override
 	{
 		world->DestroyBody(body);
+	}
+
+	void start() override
+	{
+		fixture->GetUserData().pointer = static_cast<uintptr_t>(this->gameObject->getId());
+		B2Component::start();
 	}
 
 	[[nodiscard]] float getRadius() const
