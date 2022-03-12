@@ -46,7 +46,7 @@ jobs:
       run: cmake --build ./.SFML/.build --config=Debug
 
     - name: Install SFML
-      run: cmake --install ./.SFML/.build --config=Debug
+      run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.SFML/.build --config=Debug
 
     - name: Checkout Box2D
       uses: actions/checkout@v2
@@ -70,7 +70,7 @@ jobs:
       run: cmake --build ./.box2d/.build --config=Debug
 
     - name: Install Box2D
-      run: cmake --install ./.box2d/.build --config=Debug
+      run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.box2d/.build --config=Debug
 
     - name: Configure Project
       run: cmake ${{ matrix.platform.cmake-flags }} -DCMAKE_BUILD_TYPE=Debug -B./.build .
