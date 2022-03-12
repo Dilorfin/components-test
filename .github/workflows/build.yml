@@ -16,6 +16,7 @@ jobs:
         - { os: windows-2022, cmake-flags: '-G"Visual Studio 17"' }
         - { os: ubuntu-latest }
         - { os: macos-latest }
+        build-type: [Debug, Release]
 
     steps:
     - name: Checkout current repo
@@ -36,18 +37,18 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./.SFML/.build
-        key: SFML-${{ runner.os }}-${{ matrix.platform.cmake-flags }}-${{ hashFiles('./.SFML/**/*.hpp') }}
+        key: SFML-${{ runner.os }}-${{ matrix.build-type }}-${{ matrix.platform.cmake-flags }}-${{ hashFiles('./.SFML/**/*.hpp') }}
 
     - name: Configure cmake SFML
       if: steps.sfml.outputs.cache-hit != 'true'
-      run: cmake ${{ matrix.platform.cmake-flags }} -DCMAKE_BUILD_TYPE=Debug -B./.SFML/.build ./.SFML
+      run: cmake ${{ matrix.platform.cmake-flags }} -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.SFML/.build ./.SFML
 
     - name: Build SFML
       if: steps.sfml.outputs.cache-hit != 'true'
-      run: cmake --build ./.SFML/.build --config=Debug
+      run: cmake --build ./.SFML/.build --config=${{ matrix.build-type }}
 
     - name: Install SFML
-      run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.SFML/.build --config=Debug
+      run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.SFML/.build --config=${{ matrix.build-type }}
 
     - name: Checkout Box2D
       uses: actions/checkout@v2
@@ -60,21 +61,21 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./.box2d/.build
-        key: Box2D-${{ runner.os }}-${{ matrix.platform.cmake-flags }}-${{ hashFiles('./.box2d/**/*.h') }}
+        key: Box2D-${{ runner.os }}-${{ matrix.build-type }}-${{ matrix.platform.cmake-flags }}-${{ hashFiles('./.box2d/**/*.h') }}
  
     - name: Configure cmake Box2D
       if: steps.box2d.outputs.cache-hit != 'true'
-      run: cmake ${{ matrix.platform.cmake-flags }} -DBOX2D_BUILD_TESTBED=OFF -DCMAKE_BUILD_TYPE=Debug -B./.box2d/.build ./.box2d
+      run: cmake ${{ matrix.platform.cmake-flags }} -DBOX2D_BUILD_TESTBED=OFF -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.box2d/.build ./.box2d
 
     - name: Build Box2D
       if: steps.box2d.outputs.cache-hit != 'true'
-      run: cmake --build ./.box2d/.build --config=Debug
+      run: cmake --build ./.box2d/.build --config=${{ matrix.build-type }}
 
     - name: Install Box2D
-      run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.box2d/.build --config=Debug
+      run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.box2d/.build --config=${{ matrix.build-type }}
 
     - name: Configure Project
-      run: cmake ${{ matrix.platform.cmake-flags }} -DCMAKE_BUILD_TYPE=Debug -B./.build .
+      run: cmake ${{ matrix.platform.cmake-flags }} -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.build .
 
     - name: Build Project
-      run: cmake --build ./.build --config=Debug
+      run: cmake --build ./.build --config=${{ matrix.build-type }}
