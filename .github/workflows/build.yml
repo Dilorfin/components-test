@@ -7,15 +7,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-windows:
-    runs-on: windows-2022
+  build:
+    name: ${{ matrix.platform.os }}
+    runs-on: ${{ matrix.platform.os }}
     strategy:
       matrix:
-        generator: [Visual Studio 17]
+        platform: 
+        - { os: windows-2022, cmake-flags: '-G"Visual Studio 17"' }
+        - { os: ubuntu-latest }
 
     steps:
     - name: Checkout current repo
       uses: actions/checkout@v2
+      
+    - name: Install Linux Dependencies
+      if: runner.os == 'Linux'
+      run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
 
     - name: Checkout SFML
       uses: actions/checkout@v2
@@ -28,11 +35,11 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./.SFML/.build
-        key: SFML-${{ runner.os }}-${{ matrix.generator }}-${{ hashFiles('./.SFML/**/*.hpp') }}
+        key: SFML-${{ runner.os }}-${{ matrix.platform.cmake-flags }}-${{ hashFiles('./.SFML/**/*.hpp') }}
 
     - name: Configure cmake SFML
       if: steps.sfml.outputs.cache-hit != 'true'
-      run: cmake -G"${{ matrix.generator }}" -DCMAKE_BUILD_TYPE=Debug -B./.SFML/.build ./.SFML
+      run: cmake ${{ matrix.platform.cmake-flags }} -DCMAKE_BUILD_TYPE=Debug -B./.SFML/.build ./.SFML
 
     - name: Build SFML
       if: steps.sfml.outputs.cache-hit != 'true'
@@ -52,11 +59,11 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./.box2d/.build
-        key: Box2D-${{ runner.os }}-${{ matrix.generator }}-${{ hashFiles('./.box2d/**/*.h') }}
+        key: Box2D-${{ runner.os }}-${{ matrix.platform.cmake-flags }}-${{ hashFiles('./.box2d/**/*.h') }}
  
     - name: Configure cmake Box2D
       if: steps.box2d.outputs.cache-hit != 'true'
-      run: cmake -G"${{ matrix.generator }}" -DCMAKE_BUILD_TYPE=Debug -B./.box2d/.build ./.box2d
+      run: cmake ${{ matrix.platform.cmake-flags }} -DCMAKE_BUILD_TYPE=Debug -B./.box2d/.build ./.box2d
 
     - name: Build Box2D
       if: steps.box2d.outputs.cache-hit != 'true'
@@ -66,7 +73,7 @@ jobs:
       run: cmake --install ./.box2d/.build --config=Debug
 
     - name: Configure Project
-      run: cmake -G"${{ matrix.generator }}" -DCMAKE_BUILD_TYPE=Debug -B./.build .
+      run: cmake ${{ matrix.platform.cmake-flags }} -DCMAKE_BUILD_TYPE=Debug -B./.build .
 
     - name: Build Project
       run: cmake --build ./.build --config=Debug
