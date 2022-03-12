@@ -1,7 +1,7 @@
 #include "box2dSystem.hpp"
 
 #include "../core/GameObject.hpp"
-#include "../core/GameObjectManager.hpp"
+#include "../core/GameObjectSystem.hpp"
 
 B2Component::B2Component()
 {
