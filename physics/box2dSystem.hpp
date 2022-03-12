@@ -13,7 +13,7 @@ private:
 	const float fixedTimeStep = 1.0f / 60.0f;
 	const int32 velocityIterations = 6;
 	const int32 positionIterations = 2;
-	const b2Vec2 gravity { 0, 0 };
+	const b2Vec2 gravity{ 0, 0 };
 
 public:
 	b2World* world = nullptr;

@@ -8,16 +8,23 @@ typedef uint32_t object_id;
 
 class GameObjectsManager;
 
-class GameObject
+class GameObject : public Destroyable
 {
 private:
 	friend GameObjectsManager;
 	object_id id;
 
 	std::list<BaseComponent*> components;
-	bool _isDestroyed = false;
+	
 public:
-	virtual ~GameObject();
+
+	virtual ~GameObject()
+	{
+		for (const auto* comp : components)
+		{
+			delete comp;
+		}
+	}
 
 	template<typename TComponent>
 	TComponent* getComponent()
@@ -47,15 +54,27 @@ public:
 		return id;
 	}
 
-	void start() const;
-	void update(const int64_t deltaTime) const;
-
-	void destroy()
+	void start()
 	{
-		_isDestroyed = true;
+		for (auto* comp : components)
+		{
+			comp->start();
+		}
 	}
-	[[nodiscard]] bool isDestroyed() const
+	void update(const int64_t deltaTime)
 	{
-		return _isDestroyed;
+		auto it = components.begin();
+		while (it != components.end())
+		{
+			auto* comp = *it;
+			comp->update(deltaTime);
+
+			if (comp->isDestroyed())
+			{
+				it = components.erase(it);
+				delete comp;
+			}
+			else ++it;
+		}
 	}
 };

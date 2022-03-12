@@ -3,7 +3,7 @@
 #include <box2d/box2d.h>
 #include <SFML/Graphics.hpp>
 
-#include "core/GameObjectManager.hpp"
+#include "core/GameObjectSystem.hpp"
 #include "core/SystemLocator.hpp"
 
 #include "systems/RenderSystem.hpp"
@@ -14,31 +14,38 @@
 #include "physics/box2dSystem.hpp"
 #include "physics/box2dDebugDrawSFML.hpp"
 
+class TestScene final : Scene
+{
+public:
+	TestScene()
+	{
+		SystemLocator::getSystem<GameObjectsManager>()->add(new Player(sf::Vector2f(100, 100)));
+		SystemLocator::getSystem<GameObjectsManager>()->add(new Dummy(sf::Vector2f(300, 300)));
+	}
+};
+
 int main() try
 {
 	sf::RenderWindow window(sf::VideoMode(864, 724), "SFML test", sf::Style::Close);
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(60);
-	auto systemLocator = SystemLocator::getInstance();
-	
-	
-	auto* input = systemLocator->addSystem<InputSystem>();
-	auto* render = systemLocator->addSystem<RenderSystem>();
-	auto* physics = systemLocator->addSystem<Box2dSystem>();
-	auto* objectsManager = systemLocator->addSystem<GameObjectsManager>();
 
-	objectsManager->addObject(new Player(sf::Vector2f(100, 100)));
-	objectsManager->addObject(new Dummy(sf::Vector2f(300, 300)));
-	
+	SceneManager::getInstance()->addScene("test scene", [] {
+		return reinterpret_cast<Scene*>(new TestScene);
+		});
+	SceneManager::getInstance()->loadScene(0);
+
 #ifdef _DEBUG
 	DebugDraw draw(window);
 	draw.AppendFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
-	physics->setDebugDraw(&draw);
+	SystemLocator::getSystem<Box2dSystem>()->setDebugDraw(&draw);
 #endif
 
 	sf::Clock frameClock;
 	while (window.isOpen())
 	{
+		SceneManager::getInstance()->switchScenes();
+
 		sf::Event event{};
 		while (window.pollEvent(event))
 		{
@@ -48,24 +55,24 @@ int main() try
 			}
 			else if (event.type == sf::Event::KeyPressed)
 			{
-				input->keyPressed(event.key);
+				SystemLocator::getSystem<InputSystem>()->keyPressed(event.key);
 			}
 			else if (event.type == sf::Event::KeyReleased)
 			{
-				input->keyReleased(event.key);
+				SystemLocator::getSystem<InputSystem>()->keyReleased(event.key);
 			}
 		}
 		auto dt = frameClock.restart();
-		physics->update(dt.asMicroseconds());
-		
-		objectsManager->update(dt.asMicroseconds());
+		SystemLocator::getSystem<Box2dSystem>()->update(dt.asMicroseconds());
+
+		SystemLocator::getSystem<GameObjectsManager>()->update(dt.asMicroseconds());
 
 		window.clear();
 #ifdef _DEBUG
-		physics->debugDraw();
+		SystemLocator::getSystem<Box2dSystem>()->debugDraw();
 #endif
 
-		render->render(window);
+		SystemLocator::getSystem<RenderSystem>()->render(window);
 		window.display();
 	}
 	return 0;

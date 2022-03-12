@@ -1,8 +1,9 @@
 #pragma once
+#include "Destroyable.hpp"
 
 class GameObject;
 
-class BaseComponent 
+class BaseComponent : public Destroyable
 {
 protected:
 	GameObject* gameObject = nullptr;

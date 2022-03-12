@@ -1,7 +1,7 @@
 #include "box2dSystem.hpp"
 
 #include "../core/GameObject.hpp"
-#include "../core/GameObjectManager.hpp"
+#include "../core/GameObjectSystem.hpp"
 
 B2Component::B2Component()
 {
@@ -67,11 +67,6 @@ void B2Component::setBeginContactTrigger(const std::function<void(B2Component*)>
 void B2Component::setEndContactTrigger(const std::function<void(B2Component*)>& func)
 {
 	endContactTrigger = func;
-}
-
-size_t B2Component::hash_code() const
-{
-	return typeid(B2Component).hash_code();
 }
 
 void B2Component::beginContact(B2Component* another) const

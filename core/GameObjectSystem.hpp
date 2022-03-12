@@ -2,7 +2,7 @@
 #include <list>
 
 #include "GameObject.hpp"
-#include "SystemLocator.hpp"
+#include "System.hpp"
 
 class GameObjectsManager final : public System<GameObjectsManager>
 {
@@ -19,14 +19,14 @@ public:
 		}
 	}
 
-	void addObject(GameObject* object)
+	void add(GameObject* object)
 	{
 		object->id = nextObjectId++;
 		objects.push_back(object);
 		object->start();
 	}
 
-	static void removeObject(GameObject* object)
+	static void remove(GameObject* object)
 	{
 		object->destroy();
 	}
@@ -57,7 +57,7 @@ public:
 		auto it = objects.begin();
 		while (it != objects.end())
 		{
-			const auto* obj = *it;
+			auto* obj = *it;
 			obj->update(deltaTime);
 
 			if (obj->isDestroyed())

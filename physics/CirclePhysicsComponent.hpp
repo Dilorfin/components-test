@@ -8,11 +8,12 @@ class CirclePhysicsComponent final : public B2Component
 {
 private:
 	b2Fixture* fixture = nullptr;
+	
 public:
 	CirclePhysicsComponent(const float radius, const sf::Vector2f position, const b2BodyType bodyType)
 	{
 		b2BodyDef bodyDef;
-		
+
 		bodyDef.position = Box2dSystem::pixelsToMeters(position);// - sf::Vector2f(radius, radius)/2.f);
 		bodyDef.type = bodyType;
 		body = world->CreateBody(&bodyDef);

@@ -1,13 +1,14 @@
 #pragma once
 #include "../core/GameObject.hpp"
-#include "../core/GameObjectManager.hpp"
+#include "../core/SceneSystem.hpp"
+#include "../core/GameObjectSystem.hpp"
 
 #include "../components/AnimatedSpriteComponent.hpp"
 #include "../components/InputComponent.hpp"
 #include "../components/TransformComponent.hpp"
 #include "../components/MotionComponent.hpp"
 
-#include "../objects/FireBall.hpp"
+#include "FireBall.hpp"
 
 class Player final : public GameObject
 {
@@ -58,6 +59,10 @@ public:
 		input->bind(sf::Keyboard::A, [this](const InputSystem::Type type) {
 			this->motion->velocity.x = type == InputSystem::Type::Pressed ? -speed : 0;
 		});
+
+		input->bind(sf::Keyboard::F, [this](const InputSystem::Type type) {
+			SceneManager::getInstance()->loadScene("test scene");
+		});
 	}
 
 	void castFireBall(const InputSystem::Type type, const Direction dir) const
@@ -82,6 +87,6 @@ public:
 		}
 
 		const auto system = SystemLocator::getSystem<GameObjectsManager>();
-		system->addObject(new FireBall(transform->position, velocity));
+		system->add(new FireBall(transform->position, velocity));
 	}
 };

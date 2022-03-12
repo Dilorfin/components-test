@@ -9,6 +9,7 @@ class BoxPhysicsComponent final : public B2Component
 private:
 	sf::Vector2f size;
 	b2Fixture* fixture = nullptr;
+	
 public:
 	BoxPhysicsComponent(const sf::Vector2f size, const sf::Vector2f position, const b2BodyType bodyType)
 		: size(size)
