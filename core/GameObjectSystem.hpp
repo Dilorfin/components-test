@@ -8,6 +8,7 @@ class GameObjectsManager final : public System<GameObjectsManager>
 {
 private:
 	std::list<GameObject*> objects;
+	object_id nextObjectId = 0;
 
 public:
 	~GameObjectsManager() override
@@ -20,6 +21,7 @@ public:
 
 	void add(GameObject* object)
 	{
+		object->id = nextObjectId++;
 		objects.push_back(object);
 		object->start();
 	}
@@ -27,6 +29,27 @@ public:
 	static void remove(GameObject* object)
 	{
 		object->destroy();
+	}
+
+	[[nodiscard]] GameObject* getObjectById(const object_id id) const
+	{
+		for (auto* obj : objects)
+		{
+			if(obj->getId() == id)
+				return obj;
+		}
+		return nullptr;
+	}
+
+	template<typename TObject>
+	[[nodiscard]] TObject* getObjectById(const object_id id) const
+	{
+		for (auto* obj : objects)
+		{
+			if(obj->getId() == id)
+				return (TObject*)obj;
+		}
+		return nullptr;
 	}
 
 	void update(const int64_t deltaTime)

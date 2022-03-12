@@ -8,7 +8,8 @@ class BoxPhysicsComponent final : public B2Component
 {
 private:
 	sf::Vector2f size;
-
+	b2Fixture* fixture = nullptr;
+	
 public:
 	BoxPhysicsComponent(const sf::Vector2f size, const sf::Vector2f position, const b2BodyType bodyType)
 		: size(size)
@@ -25,8 +26,19 @@ public:
 		fixtureDef.density = 1.f;
 		fixtureDef.friction = 0.7f;
 		fixtureDef.shape = &shape;
-		fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(this);
-		body->CreateFixture(&fixtureDef);
+		//fixtureDef.userData.pointer = static_cast<uintptr_t>(this->gameObject->getId());
+		fixture = body->CreateFixture(&fixtureDef);
+	}
+
+	~BoxPhysicsComponent() override
+	{
+		world->DestroyBody(body);
+	}
+
+	void start() override
+	{
+		fixture->GetUserData().pointer = static_cast<uintptr_t>(this->gameObject->getId());
+		B2Component::start();
 	}
 
 	[[nodiscard]] sf::Vector2f getPosition() const override
@@ -46,8 +58,4 @@ public:
 		((b2PolygonShape*)fixture->GetShape())->SetAsBox(m_size.x, m_size.y);
 	}
 
-	~BoxPhysicsComponent() override
-	{
-		world->DestroyBody(body);
-	}
 };

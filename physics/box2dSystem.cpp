@@ -1,6 +1,7 @@
 #include "box2dSystem.hpp"
 
 #include "../core/GameObject.hpp"
+#include "../core/GameObjectManager.hpp"
 
 B2Component::B2Component()
 {
@@ -145,12 +146,19 @@ sf::Vector2f Box2dSystem::metersToPixels(const b2Vec2& meters)
 
 void Box2dSystem::BeginContact(b2Contact* contact)
 {
-	auto userData = contact->GetFixtureA()->GetUserData();
-	auto* compA = reinterpret_cast<B2Component*>(userData.pointer);
-	userData = contact->GetFixtureB()->GetUserData();
-	auto* compB = reinterpret_cast<B2Component*>(userData.pointer);
+	const auto userDataA = contact->GetFixtureA()->GetUserData();
+	const auto userDataB = contact->GetFixtureB()->GetUserData();
 
-	if(compA->gameObject->isDestroyed() || compB->gameObject->isDestroyed())
+	auto* gameObjectA = SystemLocator::getSystem<GameObjectsManager>()->getObjectById((uint32_t)userDataA.pointer);
+	auto* gameObjectB = SystemLocator::getSystem<GameObjectsManager>()->getObjectById((uint32_t)userDataB.pointer);
+
+	if(!gameObjectA || !gameObjectB)
+		return;
+
+	auto* compA = gameObjectA->getComponent<B2Component>();
+	auto* compB = gameObjectB->getComponent<B2Component>();
+
+	if(!compA || !compB)
 		return;
 
 	compA->beginContact(compB);
@@ -159,12 +167,19 @@ void Box2dSystem::BeginContact(b2Contact* contact)
 
 void Box2dSystem::EndContact(b2Contact* contact)
 {
-	auto& userData = contact->GetFixtureA()->GetUserData();
-	auto* compA = reinterpret_cast<B2Component*>(userData.pointer);
-	userData = contact->GetFixtureB()->GetUserData();
-	auto* compB = reinterpret_cast<B2Component*>(userData.pointer);
+	const auto userDataA = contact->GetFixtureA()->GetUserData();
+	const auto userDataB = contact->GetFixtureB()->GetUserData();
 
-	if(compA->gameObject->isDestroyed() || compB->gameObject->isDestroyed())
+	auto* gameObjectA = SystemLocator::getSystem<GameObjectsManager>()->getObjectById((uint32_t)userDataA.pointer);
+	auto* gameObjectB = SystemLocator::getSystem<GameObjectsManager>()->getObjectById((uint32_t)userDataB.pointer);
+
+	if(!gameObjectA || !gameObjectB)
+		return;
+
+	auto* compA = gameObjectA->getComponent<B2Component>();
+	auto* compB = gameObjectB->getComponent<B2Component>();
+
+	if(!compA || !compB)
 		return;
 
 	compA->endContact(compB);

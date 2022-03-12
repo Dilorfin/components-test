@@ -4,11 +4,20 @@
 
 #include "Component.hpp"
 
+typedef uint32_t object_id;
+
+class GameObjectsManager;
+
 class GameObject : public Destroyable
 {
 private:
+	friend GameObjectsManager;
+	object_id id;
+
 	std::list<BaseComponent*> components;
+	
 public:
+
 	virtual ~GameObject()
 	{
 		for (const auto* comp : components)
@@ -40,7 +49,12 @@ public:
 		return component;
 	}
 
-	void start() const
+	[[nodiscard]] object_id getId() const
+	{
+		return id;
+	}
+
+	void start()
 	{
 		for (auto* comp : components)
 		{
