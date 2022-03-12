@@ -39,7 +39,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./.SFML/.build
-        key: SFML-${{ runner.os }}-${{ matrix.build-type }}-${{ matrix.platform.cmake-flags }}-${{ hashFiles('./.SFML/**/*.hpp') }}
+        key: SFML-${{ matrix.platform.name }}-${{ matrix.build-type }}-${{ hashFiles('./.SFML/**/*.hpp') }}
 
     - name: Configure cmake SFML
       if: steps.sfml.outputs.cache-hit != 'true'
@@ -63,7 +63,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./.box2d/.build
-        key: Box2D-${{ runner.os }}-${{ matrix.build-type }}-${{ matrix.platform.cmake-flags }}-${{ hashFiles('./.box2d/**/*.h') }}
+        key: Box2D-${{ matrix.platform.name }}-${{ matrix.build-type }}-${{ hashFiles('./.box2d/**/*.h') }}
  
     - name: Configure cmake Box2D
       if: steps.box2d.outputs.cache-hit != 'true'
