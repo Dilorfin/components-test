@@ -17,7 +17,15 @@ jobs:
     - name: Checkout current repo
       uses: actions/checkout@v2
 
+    - name: Cache SFML
+      id: sfml
+      uses: actions/cache@v2
+      with:
+        path: ./.SFML/.build
+        key: ${{ runner.os }}-sfml
+    
     - name: Checkout SFML
+      if: steps.sfml.outputs.cache-hit != 'true'
       uses: actions/checkout@v2
       with:
         repository: 'SFML/SFML'
