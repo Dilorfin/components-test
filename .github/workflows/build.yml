@@ -63,7 +63,7 @@ jobs:
  
     - name: Configure cmake Box2D
       if: steps.box2d.outputs.cache-hit != 'true'
-      run: cmake ${{ matrix.platform.cmake-flags }} -DCMAKE_BUILD_TYPE=Debug -B./.box2d/.build ./.box2d
+      run: cmake ${{ matrix.platform.cmake-flags }} -DBOX2D_BUILD_TESTBED=OFF -DCMAKE_BUILD_TYPE=Debug -B./.box2d/.build ./.box2d
 
     - name: Build Box2D
       if: steps.box2d.outputs.cache-hit != 'true'
