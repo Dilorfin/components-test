@@ -1,0 +1,54 @@
+name: Build Executable
+
+on:
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        generator: [Visual Studio 17]
+
+    steps:
+    - name: Checkout current repo
+      uses: actions/checkout@v2
+
+    - name: Checkout SFML
+      uses: actions/checkout@v2
+      with:
+        repository: 'SFML/SFML'
+        path: './.SFML'
+
+    - name: Configure cmake SFML
+      run: cmake -G"${{ matrix.generator }}" -DCMAKE_BUILD_TYPE=Debug -B./.SFML/.build ./.SFML
+
+    - name: Build SFML
+      run: cmake --build ./.SFML/.build --config=Debug
+
+    - name: Install SFML
+      run: cmake --install ./.SFML/.build --config=Debug
+
+    - name: Checkout Box2D
+      uses: actions/checkout@v2
+      with:
+        repository: 'erincatto/box2d'
+        path: './.box2d'
+
+    - name: Configure cmake Box2D
+      run: cmake -G"${{ matrix.generator }}" -DCMAKE_BUILD_TYPE=Debug -B./.box2d/.build ./.box2d
+
+    - name: Build Box2D
+      run: cmake --build ./.box2d/.build --config=Debug
+
+    - name: Install Box2D
+      run: cmake --install ./.box2d/.build --config=Debug
+
+    - name: Configure Project
+      run: cmake -G"${{ matrix.generator }}" -DCMAKE_BUILD_TYPE=Debug -B./.build .
+
+    - name: Build Project
+      run: cmake --build ./.build --config=Debug
