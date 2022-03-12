@@ -16,16 +16,8 @@ jobs:
     steps:
     - name: Checkout current repo
       uses: actions/checkout@v2
-
-    - name: Cache SFML
-      id: sfml
-      uses: actions/cache@v2
-      with:
-        path: ./.SFML/.build
-        key: ${{ runner.os }}-sfml
     
     - name: Checkout SFML
-      if: steps.sfml.outputs.cache-hit != 'true'
       uses: actions/checkout@v2
       with:
         repository: 'SFML/SFML'
@@ -36,7 +28,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./.SFML/.build
-        key: SFML-${{ runner.os }}-${{ matrix.generator }}-${{ hashFiles('./.SFML/**/*.hpp') }}
+        key: SFML-${{ runner.os }}-${{ matrix.generator }}
 
     - name: Configure cmake SFML
       if: steps.sfml.outputs.cache-hit != 'true'
@@ -60,7 +52,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./.box2d/.build
-        key: Box2D-${{ runner.os }}-${{ matrix.generator }}-${{ hashFiles('./.box2d/**/*.h') }}
+        key: Box2D-${{ runner.os }}-${{ matrix.generator }}
  
     - name: Configure cmake Box2D
       if: steps.box2d.outputs.cache-hit != 'true'
