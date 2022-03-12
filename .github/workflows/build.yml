@@ -8,15 +8,15 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.platform.os }}-${{ matrix.build-type }}
+    name: ${{ matrix.platform.name }}-${{ matrix.build-type }}
     runs-on: ${{ matrix.platform.os }}
     strategy:
       matrix:
         platform: 
-        - { os: windows-2022, cmake-flags: '-G"Visual Studio 17"' }
-        - { os: ubuntu-latest }
-        - { os: ubuntu-latest, cmake-flags: '-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++'}
-        - { os: macos-latest }
+        - { name: 'Windows VS17', os: windows-2022, cmake-flags: '-G"Visual Studio 17"' }
+        - { name: 'Linux GCC', os: ubuntu-latest }
+        - { name: 'Linux CLang', os: ubuntu-latest, cmake-flags: '-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++'}
+        - { name: 'MacOS', os: macos-latest }
         build-type: [Debug, Release]
 
     steps:
