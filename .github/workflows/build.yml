@@ -15,7 +15,7 @@ jobs:
         platform: 
         - { name: 'Windows VS17', os: windows-2022, cmake-flags: '-G"Visual Studio 17"' }
         - { name: 'Windows CLang', os: windows-2022, cmake-flags: '-GNinja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++' }
-        - { name: 'Windows CLang-CL', os: windows-2022, cmake-flags: '-GNinja -DCMAKE_CXX_COMPILER=clang-cl' }
+        - { name: 'Windows CLang-CL', os: windows-2022, cmake-flags: '-GNinja -DCMAKE_C_COMPILER=clang-cl -DCMAKE_CXX_COMPILER=clang-cl' }
         - { name: 'Linux GCC', os: ubuntu-latest }
         - { name: 'Linux CLang', os: ubuntu-latest, cmake-flags: '-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++'}
         - { name: 'MacOS', os: macos-latest }
@@ -26,10 +26,11 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup Ninja
+      if: runner.os == 'Windows' && matrix.platform.name != 'Windows VS17'
       uses: ashutoshvarma/setup-ninja@master
 
     - name: Set up Visual Studio shell
-      if: runner.os == 'Windows'
+      if: matrix.platform.name == 'Windows CLang-CL'
       uses: egor-tensin/vs-shell@v2
 
     - name: Install Linux Dependencies
