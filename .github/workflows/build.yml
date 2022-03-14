@@ -23,10 +23,19 @@ jobs:
         repository: 'SFML/SFML'
         path: './.SFML'
 
+    - name: Cache SFML
+      id: sfml
+      uses: actions/cache@v2
+      with:
+        path: ./.SFML/.build
+        key: SFML-${{ runner.os }}-${{ matrix.generator }}-${{ hashFiles('./.SFML/**/*.hpp') }}
+
     - name: Configure cmake SFML
+      if: steps.sfml.outputs.cache-hit != 'true'
       run: cmake -G"${{ matrix.generator }}" -DCMAKE_BUILD_TYPE=Debug -B./.SFML/.build ./.SFML
 
     - name: Build SFML
+      if: steps.sfml.outputs.cache-hit != 'true'
       run: cmake --build ./.SFML/.build --config=Debug
 
     - name: Install SFML
@@ -38,10 +47,19 @@ jobs:
         repository: 'erincatto/box2d'
         path: './.box2d'
 
+    - name: Cache Box2D
+      id: box2d
+      uses: actions/cache@v2
+      with:
+        path: ./.box2d/.build
+        key: Box2D-${{ runner.os }}-${{ matrix.generator }}-${{ hashFiles('./.box2d/**/*.h') }}
+ 
     - name: Configure cmake Box2D
+      if: steps.box2d.outputs.cache-hit != 'true'
       run: cmake -G"${{ matrix.generator }}" -DCMAKE_BUILD_TYPE=Debug -B./.box2d/.build ./.box2d
 
     - name: Build Box2D
+      if: steps.box2d.outputs.cache-hit != 'true'
       run: cmake --build ./.box2d/.build --config=Debug
 
     - name: Install Box2D
