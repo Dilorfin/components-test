@@ -4,7 +4,7 @@
 
 #include "../core/SystemLocator.hpp"
 
-class B2Component;
+class PhysicsComponent;
 
 class Box2dSystem final : public System<Box2dSystem>, public b2ContactListener
 {
@@ -30,7 +30,7 @@ public:
 	void debugDraw() const;
 #endif
 
-	void registerComponent(B2Component* comp) const;
+	void registerComponent(PhysicsComponent* comp) const;
 	void update(int64_t dt) const;
 
 	[[nodiscard]] static float pixelsToMeters(const float px);

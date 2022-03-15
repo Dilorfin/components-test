@@ -9,13 +9,13 @@
 
 class Box2dSystem;
 
-class B2Component : public Component<B2Component>
+class PhysicsComponent : public Component<PhysicsComponent>
 {
 private:
 	friend Box2dSystem;
 
-	std::optional<std::function<void(B2Component*)>> beginContactTrigger;
-	std::optional<std::function<void(B2Component*)>> endContactTrigger;
+	std::optional<std::function<void(PhysicsComponent*)>> beginContactTrigger;
+	std::optional<std::function<void(PhysicsComponent*)>> endContactTrigger;
 
 protected:
 	TransformComponent* transform = nullptr;
@@ -23,7 +23,7 @@ protected:
 	b2Body* body = nullptr;
 
 public:
-	explicit B2Component();
+	explicit PhysicsComponent();
 
 	void start() override;
 	void update(const int64_t deltaTime) override;
@@ -40,10 +40,10 @@ public:
 	void applyForceToCenter(sf::Vector2f force) const;
 	void applyLinearImpulseToCenter(sf::Vector2f impulse) const;
 	void applyTorque(const float torque) const;
-	void setBeginContactTrigger(const std::function<void(B2Component*)>& func);
-	void setEndContactTrigger(const std::function<void(B2Component*)>& func);
+	void setBeginContactTrigger(const std::function<void(PhysicsComponent*)>& func);
+	void setEndContactTrigger(const std::function<void(PhysicsComponent*)>& func);
 
 private:
-	void beginContact(B2Component* another) const;
-	void endContact(B2Component* another) const;
+	void beginContact(PhysicsComponent* another) const;
+	void endContact(PhysicsComponent* another) const;
 };
