@@ -34,7 +34,7 @@ jobs:
         - {
             name: 'Linux GCC',
             os: ubuntu-latest
-          }
+          } 
         - {
             name: 'Linux CLang',
             os: ubuntu-latest,
