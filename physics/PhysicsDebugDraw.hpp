@@ -2,12 +2,12 @@
 #ifdef _DEBUG
 
 // https://stackoverflow.com/a/4528055/8885358
-class DebugDraw final : public b2Draw
+class PhysicsDebugDraw final : public b2Draw
 {
 private:
 	sf::RenderTarget& renderTarget;
 public:
-	explicit DebugDraw(sf::RenderTarget& renderTarget)
+	explicit PhysicsDebugDraw(sf::RenderTarget& renderTarget)
 		:renderTarget(renderTarget)
 	{}
 
