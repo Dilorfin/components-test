@@ -4,7 +4,7 @@
 #include "box2dComponent.hpp"
 #include "box2dSystem.hpp"
 
-class CirclePhysicsComponent final : public B2Component
+class CirclePhysicsComponent final : public PhysicsComponent
 {
 private:
 	b2Fixture* fixture = nullptr;
@@ -36,7 +36,7 @@ public:
 	void start() override
 	{
 		fixture->GetUserData().pointer = static_cast<uintptr_t>(this->gameObject->getId());
-		B2Component::start();
+		PhysicsComponent::start();
 	}
 
 	[[nodiscard]] float getRadius() const

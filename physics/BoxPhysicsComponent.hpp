@@ -4,7 +4,7 @@
 #include "box2dComponent.hpp"
 #include "box2dSystem.hpp"
 
-class BoxPhysicsComponent final : public B2Component
+class BoxPhysicsComponent final : public PhysicsComponent
 {
 private:
 	sf::Vector2f size;
@@ -38,7 +38,7 @@ public:
 	void start() override
 	{
 		fixture->GetUserData().pointer = static_cast<uintptr_t>(this->gameObject->getId());
-		B2Component::start();
+		PhysicsComponent::start();
 	}
 
 	[[nodiscard]] sf::Vector2f getPosition() const override

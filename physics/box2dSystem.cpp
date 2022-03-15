@@ -3,73 +3,73 @@
 #include "../core/GameObject.hpp"
 #include "../core/GameObjectSystem.hpp"
 
-B2Component::B2Component()
+PhysicsComponent::PhysicsComponent()
 {
 	SystemLocator::getSystem<Box2dSystem>()->registerComponent(this);
 }
 
-void B2Component::start()
+void PhysicsComponent::start()
 {
 	this->transform = gameObject->getComponent<TransformComponent>();
 }
 
-void B2Component::update(const int64_t deltaTime)
+void PhysicsComponent::update(const int64_t deltaTime)
 {
 	transform->position = this->getPosition();
 	transform->rotation = this->getAngle();
 }
 
-float B2Component::getAngle() const
+float PhysicsComponent::getAngle() const
 {
 	return body->GetAngle();
 }
 
-void B2Component::setAngle(const float angle) const
+void PhysicsComponent::setAngle(const float angle) const
 {
 	body->SetTransform(body->GetPosition(), angle);
 }
 
-void B2Component::applyLinearImpulse(sf::Vector2f impulse, sf::Vector2f point) const
+void PhysicsComponent::applyLinearImpulse(sf::Vector2f impulse, sf::Vector2f point) const
 {
 	body->ApplyLinearImpulse({ impulse.x, impulse.y }, { point.x, point.y }, true);
 }
 
-void B2Component::applyAngularImpulse(const float impulse) const
+void PhysicsComponent::applyAngularImpulse(const float impulse) const
 {
 	body->ApplyAngularImpulse(impulse, true);
 }
 
-void B2Component::applyForce(sf::Vector2f force, sf::Vector2f point) const
+void PhysicsComponent::applyForce(sf::Vector2f force, sf::Vector2f point) const
 {
 	body->ApplyForce({ force.x, force.y }, { point.x, point.y }, true);
 }
 
-void B2Component::applyForceToCenter(sf::Vector2f force) const
+void PhysicsComponent::applyForceToCenter(sf::Vector2f force) const
 {
 	body->ApplyForceToCenter({ force.x, force.y }, true);
 }
 
-void B2Component::applyLinearImpulseToCenter(sf::Vector2f impulse) const
+void PhysicsComponent::applyLinearImpulseToCenter(sf::Vector2f impulse) const
 {
 	body->ApplyLinearImpulseToCenter({ impulse.x, impulse.y }, true);
 }
 
-void B2Component::applyTorque(const float torque) const
+void PhysicsComponent::applyTorque(const float torque) const
 {
 	body->ApplyTorque(torque, true);
 }
 
-void B2Component::setBeginContactTrigger(const std::function<void(B2Component*)>& func)
+void PhysicsComponent::setBeginContactTrigger(const std::function<void(PhysicsComponent*)>& func)
 {
 	beginContactTrigger = func;
 }
 
-void B2Component::setEndContactTrigger(const std::function<void(B2Component*)>& func)
+void PhysicsComponent::setEndContactTrigger(const std::function<void(PhysicsComponent*)>& func)
 {
 	endContactTrigger = func;
 }
 
-void B2Component::beginContact(B2Component* another) const
+void PhysicsComponent::beginContact(PhysicsComponent* another) const
 {
 	if (beginContactTrigger.has_value())
 	{
@@ -77,7 +77,7 @@ void B2Component::beginContact(B2Component* another) const
 	}
 }
 
-void B2Component::endContact(B2Component* another) const
+void PhysicsComponent::endContact(PhysicsComponent* another) const
 {
 	if (endContactTrigger.has_value())
 	{
@@ -108,7 +108,7 @@ void Box2dSystem::debugDraw() const
 }
 #endif
 
-void Box2dSystem::registerComponent(B2Component* comp) const
+void Box2dSystem::registerComponent(PhysicsComponent* comp) const
 {
 	comp->world = this->world;
 }
@@ -155,8 +155,8 @@ void Box2dSystem::BeginContact(b2Contact* contact)
 	if(!gameObjectA || !gameObjectB)
 		return;
 
-	auto* compA = gameObjectA->getComponent<B2Component>();
-	auto* compB = gameObjectB->getComponent<B2Component>();
+	auto* compA = gameObjectA->getComponent<PhysicsComponent>();
+	auto* compB = gameObjectB->getComponent<PhysicsComponent
 
 	if(!compA || !compB)
 		return;
@@ -176,8 +176,8 @@ void Box2dSystem::EndContact(b2Contact* contact)
 	if(!gameObjectA || !gameObjectB)
 		return;
 
-	auto* compA = gameObjectA->getComponent<B2Component>();
-	auto* compB = gameObjectB->getComponent<B2Component>();
+	auto* compA = gameObjectA->getComponent<PhysicsComponent>();
+	auto* compB = gameObjectB->getComponent<PhysicsComponent>();
 
 	if(!compA || !compB)
 		return;
