@@ -6,7 +6,7 @@
 
 class PhysicsComponent;
 
-class Box2dSystem final : public System<Box2dSystem>, public b2ContactListener
+class PhysicsSystem final : public System<PhysicsSystem>, public b2ContactListener
 {
 private:
 	static constexpr float PX_IN_METER = 30.f;
@@ -17,13 +17,13 @@ private:
 
 public:
 	b2World* world = nullptr;
-	Box2dSystem(Box2dSystem&&) = delete;
-	Box2dSystem(const Box2dSystem&) = delete;
-	auto operator=(Box2dSystem&&) = delete;
-	auto operator=(const Box2dSystem&) = delete;
+	PhysicsSystem(PhysicsSystem&&) = delete;
+	PhysicsSystem(const PhysicsSystem&) = delete;
+	auto operator=(PhysicsSystem&&) = delete;
+	auto operator=(const PhysicsSystem&) = delete;
 
-	Box2dSystem();
-	~Box2dSystem() override;
+	PhysicsSystem();
+	~PhysicsSystem() override;
 
 #ifdef _DEBUG
 	void setDebugDraw(b2Draw* draw) const;
@@ -44,4 +44,4 @@ public:
 	void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override;
 };
 
-#include "box2dComponent.hpp"
+#include "PhysicsComponent.hpp"
