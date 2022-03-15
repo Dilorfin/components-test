@@ -12,7 +12,7 @@
 #include "objects/Dummy.hpp"
 
 #include "physics/PhysicsSystem.hpp"
-#include "physics/box2dDebugDrawSFML.hpp"
+#include "physics/PhysicsDebugDraw.hpp"
 
 class TestScene final : Scene
 {
@@ -36,7 +36,7 @@ int main() try
 	SceneManager::getInstance()->loadScene(0);
 
 #ifdef _DEBUG
-	DebugDraw draw(window);
+	PhysicsDebugDraw draw(window);
 	draw.AppendFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
 	SystemLocator::getSystem<PhysicsSystem>()->setDebugDraw(&draw);
 #endif
