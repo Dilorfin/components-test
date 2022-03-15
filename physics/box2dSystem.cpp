@@ -156,7 +156,7 @@ void Box2dSystem::BeginContact(b2Contact* contact)
 		return;
 
 	auto* compA = gameObjectA->getComponent<PhysicsComponent>();
-	auto* compB = gameObjectB->getComponent<PhysicsComponent
+	auto* compB = gameObjectB->getComponent<PhysicsComponent>();
 
 	if(!compA || !compB)
 		return;
