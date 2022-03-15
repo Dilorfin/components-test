@@ -7,12 +7,12 @@
 #include "../core/Component.hpp"
 #include "../components/TransformComponent.hpp"
 
-class Box2dSystem;
+class PhysicsSystem;
 
 class PhysicsComponent : public Component<PhysicsComponent>
 {
 private:
-	friend Box2dSystem;
+	friend PhysicsSystem;
 
 	std::optional<std::function<void(PhysicsComponent*)>> beginContactTrigger;
 	std::optional<std::function<void(PhysicsComponent*)>> endContactTrigger;

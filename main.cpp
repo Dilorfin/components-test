@@ -11,7 +11,7 @@
 #include "objects/Player.hpp"
 #include "objects/Dummy.hpp"
 
-#include "physics/box2dSystem.hpp"
+#include "physics/PhysicsSystem.hpp"
 #include "physics/box2dDebugDrawSFML.hpp"
 
 class TestScene final : Scene
@@ -38,7 +38,7 @@ int main() try
 #ifdef _DEBUG
 	DebugDraw draw(window);
 	draw.AppendFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
-	SystemLocator::getSystem<Box2dSystem>()->setDebugDraw(&draw);
+	SystemLocator::getSystem<PhysicsSystem>()->setDebugDraw(&draw);
 #endif
 
 	sf::Clock frameClock;
@@ -63,13 +63,13 @@ int main() try
 			}
 		}
 		auto dt = frameClock.restart();
-		SystemLocator::getSystem<Box2dSystem>()->update(dt.asMicroseconds());
+		SystemLocator::getSystem<PhysicsSystem>()->update(dt.asMicroseconds());
 
 		SystemLocator::getSystem<GameObjectsManager>()->update(dt.asMicroseconds());
 
 		window.clear();
 #ifdef _DEBUG
-		SystemLocator::getSystem<Box2dSystem>()->debugDraw();
+		SystemLocator::getSystem<PhysicsSystem>()->debugDraw();
 #endif
 
 		SystemLocator::getSystem<RenderSystem>()->render(window);
