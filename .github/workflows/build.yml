@@ -13,12 +13,38 @@ jobs:
     strategy:
       matrix:
         platform: 
-        - { name: 'Windows VS17', os: windows-2022, cmake-flags: '-G"Visual Studio 17"' }
-        - { name: 'Windows CLang', os: windows-2022, cmake-flags: '-GNinja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++' }
-        - { name: 'Windows CLang-CL', os: windows-2022, cmake-flags: '-GNinja -DCMAKE_C_COMPILER=clang-cl -DCMAKE_CXX_COMPILER=clang-cl' }
-        - { name: 'Linux GCC', os: ubuntu-latest }
-        - { name: 'Linux CLang', os: ubuntu-latest, cmake-flags: '-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++'}
-        - { name: 'MacOS', os: macos-latest }
+        - { 
+            name: 'Windows VS17',
+            os: windows-2022,
+            cmake-sfml: '-G"Visual Studio 17"',
+            cmake-flags: '-G"Visual Studio 17"'
+          }
+        - { 
+            name: 'Windows CLang',
+            os: windows-2022,
+            cmake-sfml: '-G"Visual Studio 17"',
+            cmake-flags: '-GNinja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++'
+          }
+        - { 
+            name: 'Windows CLang-CL',
+            os: windows-2022,
+            cmake-sfml: '-G"Visual Studio 17"',  
+            cmake-flags: '-GNinja -DCMAKE_C_COMPILER=clang-cl -DCMAKE_CXX_COMPILER=clang-cl'
+          }
+        - {
+            name: 'Linux GCC',
+            os: ubuntu-latest
+          }
+        - {
+            name: 'Linux CLang',
+            os: ubuntu-latest,
+            cmake-sfml: '-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++'
+            cmake-flags: '-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++'
+          } 
+        - {
+            name: 'MacOS',
+            os: macos-latest
+          }
         build-type: [Debug, Release]
 
     steps:
@@ -52,7 +78,7 @@ jobs:
 
     - name: Configure cmake SFML
       if: steps.sfml.outputs.cache-hit != 'true'
-      run: cmake ${{ runner.os=='Windows'&& '-G"Visual Studio 17"' ||matrix.platform.cmake-flags }} -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.SFML/.build ./.SFML
+      run: cmake ${{ matrix.platform.cmake-sfml }} -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.SFML/.build ./.SFML
 
     - name: Build SFML
       if: steps.sfml.outputs.cache-hit != 'true'
