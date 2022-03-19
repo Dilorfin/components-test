@@ -7,6 +7,7 @@
 #include "../components/InputComponent.hpp"
 #include "../components/TransformComponent.hpp"
 #include "../components/MotionComponent.hpp"
+#include "../components/FollowCameraComponent.hpp"
 
 #include "FireBall.hpp"
 
@@ -26,6 +27,8 @@ public:
 		  motion(this->addComponent<MotionComponent>())
 	{
 		transform->position = initPosition;
+
+		this->addComponent<FollowCameraComponent>();
 
 		auto* animation = this->addComponent<AnimatedSpriteComponent>("assets/hurray.png");
 		animation->setFrameSize(sf::Vector2i(64, 64));
