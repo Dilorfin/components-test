@@ -3,6 +3,11 @@
 #include "../core/GameObject.hpp"
 #include "../core/GameObjectSystem.hpp"
 
+#ifdef _DEBUG
+#include "PhysicsDebugDraw.hpp"
+#include "../systems/RenderSystem.hpp"
+#endif // _DEBUG
+
 PhysicsComponent::PhysicsComponent()
 {
 	SystemLocator::getSystem<PhysicsSystem>()->registerComponent(this);
@@ -97,9 +102,11 @@ PhysicsSystem::~PhysicsSystem()
 }
 
 #ifdef _DEBUG
-void PhysicsSystem::setDebugDraw(b2Draw* draw) const
+void PhysicsSystem::enableDebugDraw()
 {
-	world->SetDebugDraw(draw);
+	this->_draw = new PhysicsDebugDraw(SystemLocator::getSystem<RenderSystem>()->getRenderTarget());
+	this->_draw->AppendFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
+	world->SetDebugDraw(_draw);
 }
 
 void PhysicsSystem::debugDraw() const
