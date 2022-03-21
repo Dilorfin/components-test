@@ -12,7 +12,7 @@ class GameObject : public Destroyable
 {
 private:
 	friend GameObjectsManager;
-	object_id id;
+	object_id id = 0;
 
 	std::list<BaseComponent*> components;
 	
@@ -43,6 +43,8 @@ public:
 	template<typename TComponent, typename... Ts>
 	TComponent* addComponent(Ts&&... args)
 	{
+		assert(this->getComponent<TComponent>() == nullptr);
+
 		auto* component = new TComponent(std::forward<Ts>(args)...);
 		component->gameObject = this;
 		components.push_back(component);
@@ -54,13 +56,14 @@ public:
 		return id;
 	}
 
-	void start()
+	void start() const
 	{
 		for (auto* comp : components)
 		{
 			comp->start();
 		}
 	}
+
 	void update(const int64_t deltaTime)
 	{
 		auto it = components.begin();
