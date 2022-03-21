@@ -13,8 +13,8 @@ private:
 	sf::RenderTarget* renderTarget = nullptr;
 	std::list<BaseRenderComponent*> items;
 public:
-	void setRenderTarger(sf::RenderTarget* renderTarget);
-	sf::RenderTarget* getRenderTarget();
+	void setRenderTarget(sf::RenderTarget* renderTarget);
+	[[nodiscard]] sf::RenderTarget* getRenderTarget() const;
 
 	void addItem(BaseRenderComponent* item);
 	void removeItem(BaseRenderComponent* item);

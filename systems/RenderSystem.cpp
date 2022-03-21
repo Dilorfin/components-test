@@ -1,11 +1,11 @@
 #include "RenderSystem.hpp"
 
-void RenderSystem::setRenderTarger(sf::RenderTarget* renderTarget)
+void RenderSystem::setRenderTarget(sf::RenderTarget* renderTarget)
 {
 	this->renderTarget = renderTarget;
 }
 
-sf::RenderTarget* RenderSystem::getRenderTarget()
+sf::RenderTarget* RenderSystem::getRenderTarget() const
 {
 	assert(!!renderTarget);
 	return renderTarget;

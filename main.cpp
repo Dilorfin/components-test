@@ -29,7 +29,7 @@ int main() try
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(60);
 
-	SystemLocator::getSystem<RenderSystem>()->setRenderTarger(&window);
+	SystemLocator::getSystem<RenderSystem>()->setRenderTarget(&window);
 
 	SceneManager::getInstance()->addScene("test scene", [] {
 		return reinterpret_cast<Scene*>(new TestScene);
