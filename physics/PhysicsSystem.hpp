@@ -4,9 +4,9 @@
 
 #include "../core/SystemLocator.hpp"
 
-class B2Component;
+class PhysicsComponent;
 
-class Box2dSystem final : public System<Box2dSystem>, public b2ContactListener
+class PhysicsSystem final : public System<PhysicsSystem>, public b2ContactListener
 {
 private:
 	static constexpr float PX_IN_METER = 30.f;
@@ -17,20 +17,20 @@ private:
 
 public:
 	b2World* world = nullptr;
-	Box2dSystem(Box2dSystem&&) = delete;
-	Box2dSystem(const Box2dSystem&) = delete;
-	auto operator=(Box2dSystem&&) = delete;
-	auto operator=(const Box2dSystem&) = delete;
+	PhysicsSystem(PhysicsSystem&&) = delete;
+	PhysicsSystem(const PhysicsSystem&) = delete;
+	auto operator=(PhysicsSystem&&) = delete;
+	auto operator=(const PhysicsSystem&) = delete;
 
-	Box2dSystem();
-	~Box2dSystem() override;
+	PhysicsSystem();
+	~PhysicsSystem() override;
 
 #ifdef _DEBUG
 	void setDebugDraw(b2Draw* draw) const;
 	void debugDraw() const;
 #endif
 
-	void registerComponent(B2Component* comp) const;
+	void registerComponent(PhysicsComponent* comp) const;
 	void update(int64_t dt) const;
 
 	[[nodiscard]] static float pixelsToMeters(const float px);
@@ -44,4 +44,4 @@ public:
 	void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override;
 };
 
-#include "box2dComponent.hpp"
+#include "PhysicsComponent.hpp"
