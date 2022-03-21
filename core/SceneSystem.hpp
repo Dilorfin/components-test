@@ -81,9 +81,10 @@ protected:
 		if (!_switch) return;
 		_switch = false;
 
+		sf::RenderTarget* render = nullptr;
 		if (currentScene)
 		{
-			auto* render = SystemLocator::getSystem<RenderSystem>()->getRenderTarget();
+			render = SystemLocator::getSystem<RenderSystem>()->getRenderTarget();
 			render->setView(render->getDefaultView());
 
 			delete currentScene;
@@ -91,5 +92,10 @@ protected:
 		}
 
 		currentScene = scenesFabrics[nextScene]();
+
+		if(render)
+		{
+			SystemLocator::getSystem<RenderSystem>()->setRenderTarget(render);
+		}
 	}
 };
