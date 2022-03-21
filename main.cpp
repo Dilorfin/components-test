@@ -12,7 +12,6 @@
 #include "objects/Dummy.hpp"
 
 #include "physics/PhysicsSystem.hpp"
-#include "physics/PhysicsDebugDraw.hpp"
 
 class TestScene final : Scene
 {
@@ -30,15 +29,15 @@ int main() try
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(60);
 
+	SystemLocator::getSystem<RenderSystem>()->setRenderTarget(&window);
+
 	SceneManager::getInstance()->addScene("test scene", [] {
 		return reinterpret_cast<Scene*>(new TestScene);
-		});
+	});
 	SceneManager::getInstance()->loadScene(0);
 
 #ifdef _DEBUG
-	PhysicsDebugDraw draw(window);
-	draw.AppendFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
-	SystemLocator::getSystem<PhysicsSystem>()->setDebugDraw(&draw);
+	SystemLocator::getSystem<PhysicsSystem>()->enableDebugDraw();
 #endif
 
 	sf::Clock frameClock;
@@ -68,11 +67,12 @@ int main() try
 		SystemLocator::getSystem<GameObjectsManager>()->update(dt.asMicroseconds());
 
 		window.clear();
+
 #ifdef _DEBUG
 		SystemLocator::getSystem<PhysicsSystem>()->debugDraw();
 #endif
 
-		SystemLocator::getSystem<RenderSystem>()->render(window);
+		SystemLocator::getSystem<RenderSystem>()->render();
 		window.display();
 	}
 	return 0;
