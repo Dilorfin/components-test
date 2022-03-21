@@ -16,6 +16,7 @@ PhysicsComponent::PhysicsComponent()
 void PhysicsComponent::start()
 {
 	this->transform = gameObject->getComponent<TransformComponent>();
+	this->update(0);
 }
 
 void PhysicsComponent::update(const int64_t deltaTime)
