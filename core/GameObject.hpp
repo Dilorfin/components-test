@@ -47,6 +47,7 @@ public:
 
 		auto* component = new TComponent(std::forward<Ts>(args)...);
 		component->gameObject = this;
+
 		components.push_back(component);
 		return component;
 	}
