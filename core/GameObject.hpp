@@ -3,6 +3,7 @@
 #include <list>
 
 #include "Component.hpp"
+#include "../physics/PhysicsComponent.hpp"
 
 typedef uint32_t object_id;
 
@@ -20,6 +21,10 @@ public:
 
 	virtual ~GameObject()
 	{
+		auto * ph = this->getComponent<PhysicsComponent>();
+		components.erase(std::remove(std::begin(components), std::end(components), ph), std::end(components));
+		delete ph;
+
 		for (const auto* comp : components)
 		{
 			delete comp;
