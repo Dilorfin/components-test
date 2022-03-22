@@ -77,21 +77,16 @@ protected:
 		if (!_switch) return;
 		_switch = false;
 
-		sf::RenderTarget* render = nullptr;
 		if (currentScene)
 		{
-			render = SystemLocator::getSystem<RenderSystem>()->getRenderTarget();
+			auto* render = SystemLocator::getSystem<RenderSystem>()->getRenderTarget();
 			render->setView(render->getDefaultView());
 
 			delete currentScene;
 			SystemLocator::getInstance()->clear();
+			SystemLocator::getSystem<RenderSystem>()->setRenderTarget(render);
 		}
 
 		currentScene = scenesFabrics[nextScene]();
-
-		if(render)
-		{
-			SystemLocator::getSystem<RenderSystem>()->setRenderTarget(render);
-		}
 	}
 };
