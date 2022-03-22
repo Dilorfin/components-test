@@ -22,16 +22,12 @@ private:
 	bool _switch = false;
 	size_t nextScene = 0;
 
-	inline static SceneManager* instance = nullptr;
 public:
 
 	static SceneManager* getInstance()
 	{
-		if (instance == nullptr)
-		{
-			instance = new SceneManager();
-		}
-		return instance;
+		static SceneManager instance;
+		return &instance;
 	}
 
 	~SceneManager()
