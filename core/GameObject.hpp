@@ -3,7 +3,6 @@
 #include <list>
 
 #include "Component.hpp"
-#include "../physics/PhysicsComponent.hpp"
 
 typedef uint32_t object_id;
 
@@ -21,10 +20,6 @@ public:
 
 	virtual ~GameObject()
 	{
-		auto * ph = this->getComponent<PhysicsComponent>();
-		components.erase(std::remove(std::begin(components), std::end(components), ph), std::end(components));
-		delete ph;
-
 		for (const auto* comp : components)
 		{
 			delete comp;
@@ -34,10 +29,9 @@ public:
 	template<typename TComponent>
 	TComponent* getComponent()
 	{
-		const auto id = typeid(TComponent).hash_code();
 		for (auto* comp : components)
 		{
-			if (comp->hash_code() == id)
+			if (comp->hash_code() == hash<TComponent>())
 			{
 				return (TComponent*)comp;
 			}
@@ -53,7 +47,15 @@ public:
 		auto* component = new TComponent(std::forward<Ts>(args)...);
 		component->gameObject = this;
 
-		components.push_back(component);
+		const auto compId = hash<TComponent>();
+
+		auto it = components.begin();
+		while (it != components.end() && (*it)->hash_code() < compId)
+		{
+			++it;
+		}
+
+		components.insert(it, component);
 		return component;
 	}
 
