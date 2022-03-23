@@ -10,7 +10,6 @@ class SystemLocator final
 private:
 	SystemLocator() = default;
 
-	inline static SystemLocator* instance = nullptr;
 	std::map<size_t, BaseSystem*> systems;
 
 public:
@@ -27,7 +26,6 @@ public:
 	static SystemLocator* getInstance()
 	{
 		static SystemLocator instance;
-
 		return &instance;
 	}
 

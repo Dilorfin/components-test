@@ -1,6 +1,17 @@
 #pragma once
 #include "Destroyable.hpp"
 
+class PhysicsComponent;
+template<typename TComponent>
+constexpr size_t hash()
+{
+	if constexpr (std::is_base_of<PhysicsComponent, TComponent>())
+	{
+		return 0;
+	}
+	else return typeid(TComponent).hash_code();
+}
+
 class GameObject;
 
 class BaseComponent : public Destroyable
@@ -24,6 +35,6 @@ class Component : public BaseComponent
 public:
 	[[nodiscard]] size_t hash_code() const final
 	{
-		return typeid(TComponent).hash_code();
+		return hash<TComponent>();
 	}
 };

@@ -7,7 +7,7 @@ void RenderSystem::setRenderTarget(sf::RenderTarget* renderTarget)
 
 sf::RenderTarget* RenderSystem::getRenderTarget() const
 {
-	assert(!!renderTarget);
+	assert(renderTarget);
 	return renderTarget;
 }
 
@@ -23,7 +23,7 @@ void RenderSystem::removeItem(BaseRenderComponent* item)
 
 void RenderSystem::render() const
 {
-	assert(!!renderTarget);
+	assert(renderTarget);
 
 	for(auto* item : items)
 	{

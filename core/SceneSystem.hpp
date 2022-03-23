@@ -22,16 +22,12 @@ private:
 	bool _switch = false;
 	size_t nextScene = 0;
 
-	inline static SceneManager* instance = nullptr;
 public:
 
 	static SceneManager* getInstance()
 	{
-		if (instance == nullptr)
-		{
-			instance = new SceneManager();
-		}
-		return instance;
+		static SceneManager instance;
+		return &instance;
 	}
 
 	~SceneManager()
@@ -81,21 +77,16 @@ protected:
 		if (!_switch) return;
 		_switch = false;
 
-		sf::RenderTarget* render = nullptr;
 		if (currentScene)
 		{
-			render = SystemLocator::getSystem<RenderSystem>()->getRenderTarget();
+			auto* render = SystemLocator::getSystem<RenderSystem>()->getRenderTarget();
 			render->setView(render->getDefaultView());
 
 			delete currentScene;
 			SystemLocator::getInstance()->clear();
+			SystemLocator::getSystem<RenderSystem>()->setRenderTarget(render);
 		}
 
 		currentScene = scenesFabrics[nextScene]();
-
-		if(render)
-		{
-			SystemLocator::getSystem<RenderSystem>()->setRenderTarget(render);
-		}
 	}
 };
