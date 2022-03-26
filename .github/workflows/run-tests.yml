@@ -127,13 +127,12 @@ jobs:
     - name: Install doctest
       run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.doctest/.build --config=${{ matrix.build-type }}
  
-    - name: test
-      run: find -name "*.dll" -exec cp {} ./.build \;
-      shell: bash
- 
     - name: Configure Project
       run: cmake ${{ matrix.platform.cmake-flags }} -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.build .
 
+    - name: test
+      run: find -name "*.dll" -exec cp {} ./.build \;
+      shell: bash
     - name: Build Project
       run: cmake --build ./.build --config=${{ matrix.build-type }}
 
