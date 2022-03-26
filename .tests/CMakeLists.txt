@@ -18,5 +18,7 @@ function(ct_add_test target SOURCES)
 endfunction()
 
 ct_add_test(test1 test1.cpp)
+ct_add_test(destroyable destroyable.cpp)
+
 #ct_add_test(120frames 120_frames_test/main.cpp)
-add_subdirectory(120_frames_test)
+#add_subdirectory(120_frames_test)
