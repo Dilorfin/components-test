@@ -128,7 +128,7 @@ jobs:
       run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.doctest/.build --config=${{ matrix.build-type }}
  
     - name: test
-      run: find -name "*.dll" --exec cp {} ./.build
+      run: find -name "*.dll" -exec cp {} ./.build \;
       shell: bash
  
     - name: Configure Project
