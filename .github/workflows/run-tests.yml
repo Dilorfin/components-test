@@ -11,6 +11,7 @@ jobs:
     name: ${{ matrix.platform.name }}-${{ matrix.build-type }}
     runs-on: ${{ matrix.platform.os }}
     strategy:
+      fail-fast: false
       matrix:
         platform: 
         - { 
@@ -83,7 +84,10 @@ jobs:
     - name: Build SFML
       if: steps.sfml.outputs.cache-hit != 'true'
       run: cmake --build ./.SFML/.build --config=${{ matrix.build-type }}
-
+      
+    - name: test
+      run: cd ./.SFML/.build && dir *.dll /s
+      
     - name: Install SFML
       run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.SFML/.build --config=${{ matrix.build-type }}
 
