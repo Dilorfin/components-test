@@ -130,9 +130,17 @@ jobs:
     - name: Configure Project
       run: cmake ${{ matrix.platform.cmake-flags }} -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.build .
 
-    - name: test
-      run: find -name "*.dll" -exec cp {} ./.build \; && mv assets .build/asserts
+    - name: Copy dll-s
+      if: runner.os == 'Windows'
+      run: find -name "*.dll" -exec cp {} ./.build \;
       shell: bash
+ #&& mv assets .build/asserts
+
+    - name: Copy so-s
+      if: runner.os == 'Linux'
+      run: find -name "*.so*" -exec cp {} ./.build \;
+      shell: bash
+
     - name: Build Project
       run: cmake --build ./.build --config=${{ matrix.build-type }}
 
