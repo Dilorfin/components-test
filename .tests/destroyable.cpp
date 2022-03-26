@@ -1,6 +1,8 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
+#include "../core/Destroyable.hpp"
+
 TEST_CASE("check destroyable") {
     
     Destroyable destroyable;
