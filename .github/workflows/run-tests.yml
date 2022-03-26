@@ -86,7 +86,7 @@ jobs:
       run: cmake --build ./.SFML/.build --config=${{ matrix.build-type }}
       
     - name: test
-      run: dir /s "./.SFML/.build/*.dll"
+      run: find -name "*.dll"
       
     - name: Install SFML
       run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.SFML/.build --config=${{ matrix.build-type }}
