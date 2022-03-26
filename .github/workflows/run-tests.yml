@@ -85,10 +85,6 @@ jobs:
       if: steps.sfml.outputs.cache-hit != 'true'
       run: cmake --build ./.SFML/.build --config=${{ matrix.build-type }}
       
-    - name: test
-      run: find -name "*.dll"
-      shell: bash
-      
     - name: Install SFML
       run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.SFML/.build --config=${{ matrix.build-type }}
 
@@ -130,7 +126,11 @@ jobs:
 
     - name: Install doctest
       run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.doctest/.build --config=${{ matrix.build-type }}
-
+ 
+    - name: test
+      run: find -name "*.dll" --exec cp {} ./.build
+      shell: bash
+ 
     - name: Configure Project
       run: cmake ${{ matrix.platform.cmake-flags }} -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.build .
 
