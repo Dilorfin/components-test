@@ -7,33 +7,38 @@ project(${PROJECT_TITLE} CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
-#if(NOT MSVC AND PEDANTIC)
-#	message("not msvc")
-#	SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++20 -Wall -Weverything -Wpedantic -Wmismatched-tags -Wmicrosoft -Wsigned-enum-bitfield -Wno-c++98-compat -Wno-c++98-compat-pedantic")
-#endif()
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "./bin")
 find_package(SFML 3 COMPONENTS System Window Graphics REQUIRED) # graphics audio network system window
 find_package(box2d REQUIRED)
+message("-- Found box2d in ${box2d_DIR}")
 
-# TODO: add DEBUG macro definition
+set(GENERAL_DEPENDENCIES box2d::box2d SFML::System SFML::Window SFML::Graphics)
+
 file(
-	GLOB_RECURSE _source_list 
+	GLOB_RECURSE SOURCE_LIST
 	"*.[hc]pp"
 	"*.[hc]"
 )
 
-list(FILTER _source_list EXCLUDE REGEX "${CMAKE_CURRENT_SOURCE_DIR}\/[.].*\/")
+list(FILTER SOURCE_LIST EXCLUDE REGEX "${CMAKE_CURRENT_SOURCE_DIR}\/[.].*\/")
 
-add_executable(${PROJECT_TITLE} ${_source_list})
+add_executable(${PROJECT_TITLE} ${SOURCE_LIST})
 
-target_link_libraries(${PROJECT_TITLE} box2d::box2d SFML::System SFML::Window SFML::Graphics) # SFML::<component>
+target_link_libraries(${PROJECT_TITLE} ${GENERAL_DEPENDENCIES}) # SFML::<component>
 
-# at least it makes more nice visual studio solution and seems to not affect ninja&clang on windows
-set(_src_root_path "${CMAKE_CURRENT_SOURCE_DIR}")
-foreach(_source IN ITEMS ${_source_list})
-	get_filename_component(_source_path "${_source}" PATH)
-	file(RELATIVE_PATH _source_path_rel "${_src_root_path}" "${_source_path}")
-	string(REPLACE "/" "\\" _group_path "${_source_path_rel}")
-	source_group("${_group_path}" FILES "${_source}")
-endforeach()
+if(BUILD_TESTS)
+	find_package(doctest REQUIRED)
+	message("-- Found doctest in ${doctest_DIR}")
+
+	set(SOURCE_LIST_WO_MAIN ${SOURCE_LIST})
+	list(FILTER SOURCE_LIST_WO_MAIN EXCLUDE REGEX ".*main\.cpp")
+
+	enable_testing()
+	add_subdirectory(.tests)
+endif(BUILD_TESTS)
+
+# Prettify IDEs Projects
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+# Visual Studio Startup Project
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_TITLE})
+# sourse file grouping for IDEs
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_LIST})
