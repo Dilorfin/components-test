@@ -1,4 +1,4 @@
-name: Build Executable
+name: Run tests
 
 on:
   pull_request:
@@ -111,8 +111,28 @@ jobs:
     - name: Install Box2D
       run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.box2d/.build --config=${{ matrix.build-type }}
 
+    - name: Checkout doctest
+      uses: actions/checkout@v2
+      with:
+        repository: 'doctest/doctest'
+        path: './.doctest'
+
+    - name: Configure cmake doctest
+      run: cmake ${{ matrix.platform.cmake-flags }} -DDOCTEST_WITH_TESTS=OFF -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.doctest/.build ./.doctest
+
+    - name: Build doctest
+      run: cmake --build ./.doctest/.build
+
+    - name: Install doctest
+      run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.doctest/.build --config=${{ matrix.build-type }}
+
     - name: Configure Project
-      run: cmake ${{ matrix.platform.cmake-flags }} -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.build .
+      run: cmake ${{ matrix.platform.cmake-flags }} -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.build .
 
     - name: Build Project
       run: cmake --build ./.build --config=${{ matrix.build-type }}
+
+    - run: cd .build
+
+    - name: Run Tests
+      run: ctest --output-on-failure
