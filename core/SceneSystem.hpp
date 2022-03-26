@@ -35,6 +35,24 @@ public:
 		delete currentScene;
 	}
 
+	void update()
+	{
+		if (!_switch) return;
+		_switch = false;
+
+		if (currentScene)
+		{
+			auto* render = SystemLocator::getSystem<RenderSystem>()->getRenderTarget();
+			render->setView(render->getDefaultView());
+
+			delete currentScene;
+			SystemLocator::getInstance()->clear();
+			SystemLocator::getSystem<RenderSystem>()->setRenderTarget(render);
+		}
+
+		currentScene = scenesFabrics[nextScene]();
+	}
+
 	[[nodiscard]] size_t getScenesCount() const
 	{
 		return this->scenesFabrics.size();
@@ -67,26 +85,5 @@ public:
 	void reloadScene()
 	{
 		this->loadScene(this->currentSceneId);
-	}
-
-protected:
-	friend int main();
-
-	void switchScenes()
-	{
-		if (!_switch) return;
-		_switch = false;
-
-		if (currentScene)
-		{
-			auto* render = SystemLocator::getSystem<RenderSystem>()->getRenderTarget();
-			render->setView(render->getDefaultView());
-
-			delete currentScene;
-			SystemLocator::getInstance()->clear();
-			SystemLocator::getSystem<RenderSystem>()->setRenderTarget(render);
-		}
-
-		currentScene = scenesFabrics[nextScene]();
 	}
 };
