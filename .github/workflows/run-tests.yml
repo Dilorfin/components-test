@@ -84,7 +84,7 @@ jobs:
     - name: Build SFML
       if: steps.sfml.outputs.cache-hit != 'true'
       run: cmake --build ./.SFML/.build --config=${{ matrix.build-type }}
-      
+
     - name: Install SFML
       run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.SFML/.build --config=${{ matrix.build-type }}
 
