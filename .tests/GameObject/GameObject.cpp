@@ -105,7 +105,7 @@ TEST_CASE("remove destroyed components on update")
 	GameObject object;
 	object.addComponent<TestComponent>();
 	object.addComponent<TestFunc2Component>();
-	const auto* addComp = object.addComponent<TestFunc1Component>();
+	auto* addComp = object.addComponent<TestFunc1Component>();
 
 	addComp->destroy();
 	object.update(deltaTime);
