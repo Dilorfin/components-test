@@ -69,7 +69,7 @@ TEST_CASE("components functions calls")
 		GameObject object;
 		object.addComponent<TestComponent>();
 		const auto* component1 = object.addComponent<TestFuncComponent<0>>();
-		const auto* component2 = object.addComponent<TestFunc2Component>();
+		const auto* component2 = object.addComponent<TestFuncComponent<1>>();
 
 		CHECK_FALSE_MESSAGE(component1->started, "component1 should not be started");
 		CHECK_FALSE_MESSAGE(component2->started, "component2 should not be started");
@@ -86,7 +86,7 @@ TEST_CASE("components functions calls")
 		GameObject object;
 		object.addComponent<TestComponent>();
 		const auto* component1 = object.addComponent<TestFuncComponent<0>>();
-		const auto* component2 = object.addComponent<TestFunc2Component>();
+		const auto* component2 = object.addComponent<TestFuncComponent<1>>();
 
 		CHECK_FALSE_MESSAGE(component1->updated, "component1 should not be updated");
 		CHECK_FALSE_MESSAGE(component2->updated, "component2 should not be updated");
@@ -104,7 +104,7 @@ TEST_CASE("remove destroyed components on update")
 
 	GameObject object;
 	object.addComponent<TestComponent>();
-	object.addComponent<TestFunc2Component>();
+	object.addComponent<TestFuncComponent<1>>();
 	auto* addComp = object.addComponent<TestFuncComponent<0>>();
 
 	addComp->destroy();
@@ -119,12 +119,12 @@ TEST_CASE("remove destroyed components on update")
 	}
 	
 	object.getComponent<TestComponent>()->destroy();
-	object.getComponent<TestFunc2Component>()->destroy();
+	object.getComponent<TestFuncComponent<1>>()->destroy();
 	
 	object.update(deltaTime);
 	
 	getComp = object.getComponent<TestComponent>();
 	CHECK(getComp == nullptr);
-	getComp = object.getComponent<TestFunc2Component>();
+	getComp = object.getComponent<TestFuncComponent<1>>();
 	CHECK(getComp == nullptr);
 }
