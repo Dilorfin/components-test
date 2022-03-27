@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <cassert>
 
 #include "Component.hpp"
 
@@ -47,7 +48,9 @@ public:
 		auto* component = new TComponent(std::forward<Ts>(args)...);
 		component->gameObject = this;
 
-		const auto compId = hash<TComponent>();
+		assert(component->hash_code() == hash<TComponent>());
+
+		const auto compId = component->hash_code();
 
 		auto it = components.begin();
 		while (it != components.end() && (*it)->hash_code() < compId)
