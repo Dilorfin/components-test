@@ -19,7 +19,26 @@ public:
 	double b;
 };
 
-class TestFunc1Component final : public Component<TestFunc1Component>
+class Counting
+{
+public:
+	inline static int count = 0;
+	Counting()
+	{
+		count++;
+	}
+	virtual ~Counting()
+	{
+		count--;
+	}
+};
+
+template<int n>
+class TestCountingComponent final : public Component<TestCountingComponent<n>>
+{};
+
+template<int N>
+class TestFuncComponent final : public Component<TestFuncComponent<N>>
 {
 public:
 	bool started = false;
@@ -34,6 +53,7 @@ public:
 		updated = true;
 	}
 };
+
 class TestFunc2Component final : public Component<TestFunc2Component>
 {
 public:
