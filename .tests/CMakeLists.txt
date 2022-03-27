@@ -19,3 +19,4 @@ endfunction()
 
 ct_add_test(test1 test1.cpp)
 ct_add_test(hash hash.cpp)
+ct_add_test(Destroyable Destroyable.cpp)
