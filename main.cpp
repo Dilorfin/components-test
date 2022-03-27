@@ -43,7 +43,7 @@ int main() try
 	sf::Clock frameClock;
 	while (window.isOpen())
 	{
-		SceneManager::getInstance()->switchScenes();
+		SceneManager::getInstance()->update();
 
 		sf::Event event{};
 		while (window.pollEvent(event))

@@ -1,4 +1,4 @@
-name: Build Executable
+name: Run tests
 
 on:
   pull_request:
@@ -11,6 +11,7 @@ jobs:
     name: ${{ matrix.platform.name }}-${{ matrix.build-type }}
     runs-on: ${{ matrix.platform.os }}
     strategy:
+      fail-fast: false
       matrix:
         platform: 
         - { 
@@ -31,20 +32,20 @@ jobs:
             cmake-sfml: '-G"Visual Studio 17"',
             cmake-flags: '-GNinja -DCMAKE_C_COMPILER=clang-cl -DCMAKE_CXX_COMPILER=clang-cl'
           }
-        - {
-            name: 'Linux GCC',
-            os: ubuntu-20.04
-          } 
+#        - {
+#            name: 'Linux GCC',
+#            os: ubuntu-20.04
+#          } 
         - {
             name: 'Linux CLang',
             os: ubuntu-20.04,
             cmake-sfml: '-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++',
             cmake-flags: '-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++'
           } 
-        - {
-            name: 'MacOS',
-            os: macos-latest
-          }
+#        - {
+#            name: 'MacOS',
+#            os: macos-latest
+#          }
         build-type: [Debug, Release]
 
     steps:
@@ -111,8 +112,31 @@ jobs:
     - name: Install Box2D
       run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.box2d/.build --config=${{ matrix.build-type }}
 
+    - name: Checkout doctest
+      uses: actions/checkout@v2
+      with:
+        repository: 'doctest/doctest'
+        path: './.doctest'
+
+    - name: Configure cmake doctest
+      run: cmake ${{ matrix.platform.cmake-flags }} -DDOCTEST_WITH_TESTS=OFF -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.doctest/.build ./.doctest
+
+    - name: Build doctest
+      run: cmake --build ./.doctest/.build
+
+    - name: Install doctest
+      run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.doctest/.build --config=${{ matrix.build-type }}
+ 
     - name: Configure Project
-      run: cmake ${{ matrix.platform.cmake-flags }} -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.build .
+      run: cmake ${{ matrix.platform.cmake-flags }} -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.build .
+
+    - name: Copy dll-s
+      if: runner.os == 'Windows'
+      run: find -name "*.dll" -exec cp {} ./.build \;
+      shell: bash
 
     - name: Build Project
       run: cmake --build ./.build --config=${{ matrix.build-type }}
+
+    - name: Run Tests
+      run: ctest -C ${{ matrix.build-type }} --output-on-failure --no-tests=error --test-dir .build
