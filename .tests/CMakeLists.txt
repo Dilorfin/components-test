@@ -18,4 +18,4 @@ function(ct_add_test target SOURCES)
 endfunction()
 
 ct_add_test(test1 test1.cpp)
-ct_add_test(destroyable destroyable.cpp)
+ct_add_test(hash hash.cpp)
