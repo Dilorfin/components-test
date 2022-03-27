@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include <cassert>
+#include <algorithm>
 
 #include "GameObject.hpp"
 #include "System.hpp"
