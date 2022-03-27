@@ -105,12 +105,12 @@ TEST_CASE("remove destroyed components on update")
 	GameObject object;
 	object.addComponent<TestComponent>();
 	object.addComponent<TestFunc2Component>();
-	BaseComponent* addComp = object.addComponent<TestFunc1Component>();
+	auto* addComp = object.addComponent<TestFunc1Component>();
 
 	addComp->destroy();
 	object.update(deltaTime);
 
-	auto* getComp = object.getComponent<TestFunc1Component>();
+	BaseComponent* getComp = object.getComponent<TestFunc1Component>();
 	CHECK(getComp == nullptr);
 	
 	for (int i = 0; i <= 60; i++)
