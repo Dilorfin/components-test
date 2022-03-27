@@ -3,6 +3,8 @@
 
 #include "../../core/GameObjectSystem.hpp"
 
+#include "MockObjects.hpp"
+
 TEST_CASE("adding object")
 {
 	SUBCASE("object id should be unique")
@@ -14,5 +16,16 @@ TEST_CASE("adding object")
 		manager.add(obj2);
 		
 		CHECK(obj1->getId() != obj2->getId());
+	}
+	SUBCASE("object should be started on add")
+	{
+		GameObjectsManager manager;
+		auto* obj = new TestStartObject;
+		
+		CHECK_FALSE(obj->isStarted());
+		
+		manager.add(obj);
+		
+		CHECK(obj->isStarted());
 	}
 }
