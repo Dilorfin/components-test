@@ -26,11 +26,6 @@ public:
 		object->start();
 	}
 
-	static void remove(GameObject* object)
-	{
-		object->destroy();
-	}
-
 	[[nodiscard]] GameObject* getObjectById(const object_id id) const
 	{
 		for (auto* obj : objects)
