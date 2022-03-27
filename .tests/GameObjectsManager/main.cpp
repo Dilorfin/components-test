@@ -1,12 +1,18 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
-int factorial(int number) { return number <= 1 ? number : factorial(number - 1) * number; }
+#include "../../core/GameObjectSystem.hpp"
 
-TEST_CASE("testing the factorial function")
+TEST_CASE("adding object")
 {
-	CHECK(factorial(1) == 1);
-	CHECK(factorial(2) == 2);
-	CHECK(factorial(3) == 6);
-	CHECK(factorial(10) == 3628800);
+	SUBCASE("object id should be unique")
+	{
+		GameObjectsManager manager;
+		auto* obj1 = new GameObject;
+		auto* obj2 = new GameObject;
+		manager.add(obj1);
+		manager.add(obj2);
+		
+		CHECK(obj1->getId() != obj2->getId());
+	}
 }
