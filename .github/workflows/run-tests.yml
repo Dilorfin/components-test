@@ -132,11 +132,11 @@ jobs:
 
     - name: Copy dll-s
       if: runner.os == 'Windows'
-      run: find -name "*.dll" -exec cp {} ./.build/.tests \;
+      run: find -name "*.dll" -exec cp {} ./.build \;
       shell: bash
 
     - name: Build Project
       run: cmake --build ./.build --config=${{ matrix.build-type }}
 
     - name: Run Tests
-      run: ctest --output-on-failure --no-tests=error --test-dir .build
+      run: ctest -C ${{ matrix.build-type }} --output-on-failure --no-tests=error --test-dir .build

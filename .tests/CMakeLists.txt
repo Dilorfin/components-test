@@ -14,7 +14,7 @@ function(ct_add_test target SOURCES)
 	target_link_libraries(${target} PRIVATE doctest::doctest ${GENERAL_DEPENDENCIES})
 
 	# Add the test
-	add_test(${target} ${target})
+	add_test(NAME ${target} COMMAND ${target} WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 endfunction()
 
 ct_add_test(test1 test1.cpp)
