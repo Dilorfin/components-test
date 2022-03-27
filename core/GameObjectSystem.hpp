@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#include <cassert>
 
 #include "GameObject.hpp"
 #include "System.hpp"
@@ -21,6 +22,8 @@ public:
 
 	void add(GameObject* object)
 	{
+		assert(std::find(objects.begin(), objects.end(), object) != objects.end()));
+	
 		object->id = nextObjectId++;
 		objects.push_back(object);
 		object->start();
