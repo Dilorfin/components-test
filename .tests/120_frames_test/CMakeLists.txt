@@ -1,1 +1,0 @@
-ct_add_test(120frames main.cpp)
