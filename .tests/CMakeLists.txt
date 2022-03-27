@@ -22,3 +22,4 @@ ct_add_test(hash hash.cpp)
 ct_add_test(Destroyable destroyable.cpp)
 
 add_subdirectory(GameObject)
+add_subdirectory(GameObjectsManager)
