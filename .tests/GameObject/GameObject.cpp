@@ -97,3 +97,34 @@ TEST_CASE("components functions calls")
 		CHECK_MESSAGE(component2->updated, "component2 should be updated");
 	}
 }
+
+TEST_CASE("remove destroyed components on update")
+{
+	constexpr int64_t deltaTime = 1;
+
+	GameObject object;
+	object.addComponent<TestComponent>();
+	object.addComponent<TestFunc2Component>();
+	const auto* addComp = object.addComponent<TestFunc1Component>();
+
+	addComp->destroy();
+	object.update(deltaTime);
+
+	auto* getComp = object.getComponent<TestFunc1Component>();
+	CHECK(getComp == nullptr);
+	
+	for (int i = 0; i <= 60; i++)
+	{
+		object.update(deltaTime);
+	}
+	
+	object.getComponent<TestComponent>()->destroy();
+	object.getComponent<TestFunc2Component>()->destroy();
+	
+	object.update(deltaTime);
+	
+	getComp = object.getComponent<TestComponent>();
+	CHECK(getComp == nullptr);
+	getComp = object.getComponent<TestFunc2Component>();
+	CHECK(getComp == nullptr);
+}
