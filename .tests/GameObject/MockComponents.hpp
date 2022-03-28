@@ -2,27 +2,12 @@
 
 #include "../../core/Component.hpp"
 
-class TestComponent final : public Component<TestComponent>
+template<int N>
+class TestComponent final : public Component<TestComponent<N>>
 {
 public:
 	using BaseComponent::gameObject;
-};
 
-class TestParamsComponent final : public Component<TestParamsComponent>
-{
-public:
-	TestParamsComponent(int a, double b)
-		: a(a), b(b)
-	{}
-
-	int a;
-	double b;
-};
-
-template<int N>
-class TestFuncComponent final : public Component<TestFuncComponent<N>>
-{
-public:
 	bool started = false;
 	void start() override
 	{
@@ -34,4 +19,15 @@ public:
 	{
 		updated = true;
 	}
+};
+
+class TestParamsComponent final : public Component<TestParamsComponent>
+{
+public:
+	TestParamsComponent(int a, double b)
+		: a(a), b(b)
+	{}
+
+	int a;
+	double b;
 };

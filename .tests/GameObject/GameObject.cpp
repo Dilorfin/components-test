@@ -11,7 +11,7 @@ TEST_CASE("addComponent")
 	{
 		GameObject object;
 
-		auto* testComponent = object.addComponent<TestComponent>();
+		auto* testComponent = object.addComponent<TestComponent<0>>();
 
 		CHECK_MESSAGE(testComponent != nullptr, "addComponent should return pointer to component");
 	}
@@ -33,7 +33,7 @@ TEST_CASE("addComponent")
 	{
 		GameObject object;
 
-		const auto* testComponent = object.addComponent<TestComponent>();
+		const auto* testComponent = object.addComponent<TestComponent<0>>();
 
 		CHECK_MESSAGE(testComponent->gameObject == &object, "addComponent should set pointer to gameObject");
 	}
@@ -45,7 +45,7 @@ TEST_CASE("getComponent")
 	{
 		GameObject object;
 
-		auto* testComponent = object.getComponent<TestComponent>();
+		auto* testComponent = object.getComponent<TestComponent<0>>();
 
 		CHECK_MESSAGE(testComponent == nullptr, "getComponent should return nullptr if do not have such component");
 	}
@@ -54,8 +54,8 @@ TEST_CASE("getComponent")
 	{
 		GameObject object;
 
-		auto* onAddPtr = object.addComponent<TestComponent>();
-		auto* onGetPtr = object.getComponent<TestComponent>();
+		auto* onAddPtr = object.addComponent<TestComponent<0>>();
+		auto* onGetPtr = object.getComponent<TestComponent<0>>();
 
 		CHECK_MESSAGE(onGetPtr != nullptr, "getComponent should return pointer to component");
 		CHECK_MESSAGE(onGetPtr == onAddPtr, "getComponent should return the same pointer as addComponent");
@@ -67,9 +67,9 @@ TEST_CASE("components functions calls")
 	SUBCASE("components start functions should be called")
 	{
 		GameObject object;
-		object.addComponent<TestComponent>();
-		const auto* component1 = object.addComponent<TestFuncComponent<0>>();
-		const auto* component2 = object.addComponent<TestFuncComponent<1>>();
+		object.addComponent<TestComponent<0>>();
+		const auto* component1 = object.addComponent<TestComponent<0>>();
+		const auto* component2 = object.addComponent<TestComponent<1>>();
 
 		CHECK_FALSE_MESSAGE(component1->started, "component1 should not be started");
 		CHECK_FALSE_MESSAGE(component2->started, "component2 should not be started");
@@ -84,9 +84,9 @@ TEST_CASE("components functions calls")
 		constexpr int64_t deltaTime = 1;
 
 		GameObject object;
-		object.addComponent<TestComponent>();
-		const auto* component1 = object.addComponent<TestFuncComponent<0>>();
-		const auto* component2 = object.addComponent<TestFuncComponent<1>>();
+		object.addComponent<TestComponent<0>>();
+		const auto* component1 = object.addComponent<TestComponent<0>>();
+		const auto* component2 = object.addComponent<TestComponent<1>>();
 
 		CHECK_FALSE_MESSAGE(component1->updated, "component1 should not be updated");
 		CHECK_FALSE_MESSAGE(component2->updated, "component2 should not be updated");
@@ -105,28 +105,28 @@ TEST_CASE("remove destroyed components on update")
 	SUBCASE("component should be deleted on update")
 	{
 		GameObject object;
-		auto* component = object.addComponent<TestFuncComponent<0>>();
+		auto* component = object.addComponent<TestComponent<0>>();
 
 		component->destroy();
 
-		component = object.getComponent<TestFuncComponent<0>>();
+		component = object.getComponent<TestComponent<0>>();
 		CHECK(component != nullptr);
 
 		object.update(deltaTime);
 
-		component = object.getComponent<TestFuncComponent<0>>();
+		component = object.getComponent<TestComponent<0>>();
 		CHECK(component == nullptr);
 	}
 
 	SUBCASE("should not fail after deleting")
 	{
 		GameObject object;
-		object.addComponent<TestFuncComponent<0>>();
-		object.addComponent<TestFuncComponent<1>>();
-		object.addComponent<TestFuncComponent<2>>();
-		object.addComponent<TestFuncComponent<3>>();
+		object.addComponent<TestComponent<0>>();
+		object.addComponent<TestComponent<1>>();
+		object.addComponent<TestComponent<2>>();
+		object.addComponent<TestComponent<3>>();
 
-		object.getComponent<TestFuncComponent<0>>()->destroy();
+		object.getComponent<TestComponent<0>>()->destroy();
 
 		for (int i = 0; i <= 60; i++)
 		{
@@ -137,18 +137,18 @@ TEST_CASE("remove destroyed components on update")
 	SUBCASE("should not fail after deleting multiple objects")
 	{
 		GameObject object;
-		object.addComponent<TestFuncComponent<0>>();
-		object.addComponent<TestFuncComponent<1>>();
-		object.addComponent<TestFuncComponent<2>>();
-		object.addComponent<TestFuncComponent<3>>();
-		object.addComponent<TestFuncComponent<4>>();
-		object.addComponent<TestFuncComponent<5>>();
-		object.addComponent<TestFuncComponent<6>>();
-		object.addComponent<TestFuncComponent<7>>();
+		object.addComponent<TestComponent<0>>();
+		object.addComponent<TestComponent<1>>();
+		object.addComponent<TestComponent<2>>();
+		object.addComponent<TestComponent<3>>();
+		object.addComponent<TestComponent<4>>();
+		object.addComponent<TestComponent<5>>();
+		object.addComponent<TestComponent<6>>();
+		object.addComponent<TestComponent<7>>();
 
-		object.getComponent<TestFuncComponent<0>>()->destroy();
-		object.getComponent<TestFuncComponent<3>>()->destroy();
-		object.getComponent<TestFuncComponent<6>>()->destroy();
+		object.getComponent<TestComponent<0>>()->destroy();
+		object.getComponent<TestComponent<3>>()->destroy();
+		object.getComponent<TestComponent<6>>()->destroy();
 
 		for (int i = 0; i <= 60; i++)
 		{
