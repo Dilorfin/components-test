@@ -67,7 +67,6 @@ TEST_CASE("components functions calls")
 	SUBCASE("components start functions should be called")
 	{
 		GameObject object;
-		object.addComponent<TestComponent<0>>();
 		const auto* component1 = object.addComponent<TestComponent<0>>();
 		const auto* component2 = object.addComponent<TestComponent<1>>();
 
@@ -84,7 +83,6 @@ TEST_CASE("components functions calls")
 		constexpr int64_t deltaTime = 1;
 
 		GameObject object;
-		object.addComponent<TestComponent<0>>();
 		const auto* component1 = object.addComponent<TestComponent<0>>();
 		const auto* component2 = object.addComponent<TestComponent<1>>();
 
