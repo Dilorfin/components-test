@@ -1,6 +1,6 @@
 #pragma once
 #include "../core/GameObject.hpp"
-#include "../core/SceneSystem.hpp"
+#include "../core/SceneManager.hpp"
 #include "../core/GameObjectSystem.hpp"
 
 #include "../components/AnimatedSpriteComponent.hpp"

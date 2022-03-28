@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "SystemLocator.hpp"
+#include "../systems/RenderSystem.hpp"
 
 class Scene
 {
