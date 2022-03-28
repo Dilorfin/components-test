@@ -7,7 +7,7 @@
 
 TEST_CASE("addComponent")
 {
-	SUBCASE("addComponent wo params")
+	SUBCASE("adding component without params")
 	{
 		GameObject object;
 
@@ -16,7 +16,7 @@ TEST_CASE("addComponent")
 		CHECK_MESSAGE(testComponent != nullptr, "addComponent should return pointer to component");
 	}
 
-	SUBCASE("addComponent with params")
+	SUBCASE("adding component with params")
 	{
 		constexpr int a = 42;
 		constexpr double b = 7;
@@ -41,7 +41,7 @@ TEST_CASE("addComponent")
 
 TEST_CASE("getComponent")
 {
-	SUBCASE("getComponent wo adding")
+	SUBCASE("get component without adding")
 	{
 		GameObject object;
 
@@ -50,7 +50,7 @@ TEST_CASE("getComponent")
 		CHECK_MESSAGE(testComponent == nullptr, "getComponent should return nullptr if do not have such component");
 	}
 
-	SUBCASE("getComponent")
+	SUBCASE("get component")
 	{
 		GameObject object;
 
@@ -108,12 +108,12 @@ TEST_CASE("remove destroyed components on update")
 		component->destroy();
 
 		component = object.getComponent<TestComponent<0>>();
-		CHECK(component != nullptr);
+		CHECK_MESSAGE(component != nullptr, "before update component still available");
 
 		object.update(deltaTime);
 
 		component = object.getComponent<TestComponent<0>>();
-		CHECK(component == nullptr);
+		CHECK_MESSAGE(component == nullptr, "after update getting component return nullptr");
 	}
 
 	SUBCASE("should not fail after deleting")
@@ -132,7 +132,7 @@ TEST_CASE("remove destroyed components on update")
 		}
 	}
 
-	SUBCASE("should not fail after deleting multiple objects")
+	SUBCASE("should not fail after deleting multiple components")
 	{
 		GameObject object;
 		object.addComponent<TestComponent<0>>();
