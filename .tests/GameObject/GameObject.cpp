@@ -102,29 +102,57 @@ TEST_CASE("remove destroyed components on update")
 {
 	constexpr int64_t deltaTime = 1;
 
-	GameObject object;
-	object.addComponent<TestComponent>();
-	object.addComponent<TestFuncComponent<1>>();
-	auto* addComp = object.addComponent<TestFuncComponent<0>>();
-
-	addComp->destroy();
-	object.update(deltaTime);
-
-	BaseComponent* getComp = object.getComponent<TestFuncComponent<0>>();
-	CHECK(getComp == nullptr);
-	
-	for (int i = 0; i <= 60; i++)
+	SUBCASE("component should be deleted on update")
 	{
+		GameObject object;
+		auto* component = object.addComponent<TestFuncComponent<0>>();
+
+		component->destroy();
+
+		component = object.getComponent<TestFuncComponent<0>>();
+		CHECK(component != nullptr);
+
 		object.update(deltaTime);
+
+		component = object.getComponent<TestFuncComponent<0>>();
+		CHECK(component == nullptr);
 	}
-	
-	object.getComponent<TestComponent>()->destroy();
-	object.getComponent<TestFuncComponent<1>>()->destroy();
-	
-	object.update(deltaTime);
-	
-	getComp = object.getComponent<TestComponent>();
-	CHECK(getComp == nullptr);
-	getComp = object.getComponent<TestFuncComponent<1>>();
-	CHECK(getComp == nullptr);
+
+	SUBCASE("should not fail after deleting")
+	{
+		GameObject object;
+		object.addComponent<TestFuncComponent<0>>();
+		object.addComponent<TestFuncComponent<1>>();
+		object.addComponent<TestFuncComponent<2>>();
+		object.addComponent<TestFuncComponent<3>>();
+
+		object.getComponent<TestFuncComponent<0>>()->destroy();
+
+		for (int i = 0; i <= 60; i++)
+		{
+			object.update(deltaTime);
+		}
+	}
+
+	SUBCASE("should not fail after deleting multiple objects")
+	{
+		GameObject object;
+		object.addComponent<TestFuncComponent<0>>();
+		object.addComponent<TestFuncComponent<1>>();
+		object.addComponent<TestFuncComponent<2>>();
+		object.addComponent<TestFuncComponent<3>>();
+		object.addComponent<TestFuncComponent<4>>();
+		object.addComponent<TestFuncComponent<5>>();
+		object.addComponent<TestFuncComponent<6>>();
+		object.addComponent<TestFuncComponent<7>>();
+
+		object.getComponent<TestFuncComponent<0>>()->destroy();
+		object.getComponent<TestFuncComponent<3>>()->destroy();
+		object.getComponent<TestFuncComponent<6>>()->destroy();
+
+		for (int i = 0; i <= 60; i++)
+		{
+			object.update(deltaTime);
+		}
+	}
 }
