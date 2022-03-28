@@ -47,12 +47,12 @@ protected:
 
 	void clear()
 	{
-		if (systems.count(0))
-			return;
-
 		const size_t id = typeid(GameObjectSystem).hash_code();
-		delete systems[id];
-		systems.erase(id);
+		if (systems.count(id))
+		{
+			delete systems[id];
+			systems.erase(id);
+		}
 
 		for (auto [key, system] : systems)
 		{
