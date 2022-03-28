@@ -58,3 +58,80 @@ TEST_CASE("get object by id")
 		CHECK(obj->getId() == objId);
 	}
 }
+
+TEST_CASE("removing destroyed objects")
+{
+	constexpr int64_t deltaTime = 1;
+
+	SUBCASE("object should be deleted on update")
+	{
+		GameObjectsManager manager;
+		GameObject* obj = new GameObject;
+		manager.add(obj);
+
+		const auto objId = obj->getId();
+
+		obj->destroy();
+
+		obj = manager.getObjectById(objId);
+		CHECK(obj != nullptr);
+
+		manager.update(deltaTime);
+
+		obj = manager.getObjectById(objId);
+		CHECK(obj == nullptr);
+	}
+
+	SUBCASE("should not fail after deleting")
+	{
+		GameObjectsManager manager;
+		manager.add(new GameObject);
+		manager.add(new GameObject);
+		manager.add(new GameObject);
+
+		GameObject* obj = new GameObject;
+		manager.add(obj);
+
+		manager.add(new GameObject);
+		manager.add(new GameObject);
+		manager.add(new GameObject);
+
+		obj->destroy();
+
+		for (int i = 0; i <= 60; i++)
+		{
+			manager.update(deltaTime);
+		}
+	}
+
+	SUBCASE("should not fail after deleting multiple objects")
+	{
+		GameObject* obj = nullptr;
+		GameObjectsManager manager;
+
+		manager.add(new GameObject);
+		manager.add(new GameObject);
+		manager.add(new GameObject);
+
+		obj = new GameObject;
+		manager.add(obj);
+		obj->destroy();
+
+		manager.add(new GameObject);
+		manager.add(new GameObject);
+		manager.add(new GameObject);
+
+		obj = new GameObject;
+		manager.add(obj);
+		obj->destroy();
+
+		manager.add(new GameObject);
+		manager.add(new GameObject);
+		manager.add(new GameObject);
+
+		for (int i = 0; i <= 60; i++)
+		{
+			manager.update(deltaTime);
+		}
+	}
+}

@@ -23,7 +23,7 @@ public:
 
 	void add(GameObject* object)
 	{
-		assert((std::find(objects.begin(), objects.end(), object) == objects.end()));
+		assert(std::find(objects.begin(), objects.end(), object) == objects.end());
 	
 		object->id = nextObjectId++;
 		objects.push_back(object);
