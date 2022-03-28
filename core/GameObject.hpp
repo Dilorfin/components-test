@@ -7,12 +7,12 @@
 
 typedef uint32_t object_id;
 
-class GameObjectsManager;
+class GameObjectSystem;
 
 class GameObject : public Destroyable
 {
 private:
-	friend GameObjectsManager;
+	friend GameObjectSystem;
 	object_id id = 0;
 
 	std::list<BaseComponent*> components;

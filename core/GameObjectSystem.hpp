@@ -6,14 +6,14 @@
 #include "GameObject.hpp"
 #include "System.hpp"
 
-class GameObjectsManager final : public System<GameObjectsManager>
+class GameObjectSystem final : public System<GameObjectSystem>
 {
 private:
 	std::list<GameObject*> objects;
 	object_id nextObjectId = 0;
 
 public:
-	~GameObjectsManager() override
+	~GameObjectSystem() override
 	{
 		for (const auto* obj : objects)
 		{

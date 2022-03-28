@@ -50,7 +50,7 @@ protected:
 		if (systems.count(0))
 			return;
 
-		const size_t id = typeid(GameObjectsManager).hash_code();
+		const size_t id = typeid(GameObjectSystem).hash_code();
 		delete systems[id];
 		systems.erase(id);
 

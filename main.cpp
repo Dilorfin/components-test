@@ -18,8 +18,8 @@ class TestScene final : Scene
 public:
 	TestScene()
 	{
-		SystemLocator::getSystem<GameObjectsManager>()->add(new Player(sf::Vector2f(100, 100)));
-		SystemLocator::getSystem<GameObjectsManager>()->add(new Dummy(sf::Vector2f(300, 300)));
+		SystemLocator::getSystem<GameObjectSystem>()->add(new Player(sf::Vector2f(100, 100)));
+		SystemLocator::getSystem<GameObjectSystem>()->add(new Dummy(sf::Vector2f(300, 300)));
 	}
 };
 
@@ -64,7 +64,7 @@ int main() try
 		auto dt = frameClock.restart();
 		SystemLocator::getSystem<PhysicsSystem>()->update(dt.asMicroseconds());
 
-		SystemLocator::getSystem<GameObjectsManager>()->update(dt.asMicroseconds());
+		SystemLocator::getSystem<GameObjectSystem>()->update(dt.asMicroseconds());
 
 		window.clear();
 

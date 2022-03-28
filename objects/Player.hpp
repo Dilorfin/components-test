@@ -89,7 +89,7 @@ public:
 			break;
 		}
 
-		const auto system = SystemLocator::getSystem<GameObjectsManager>();
+		const auto system = SystemLocator::getSystem<GameObjectSystem>();
 		system->add(new FireBall(transform->position, velocity));
 	}
 };

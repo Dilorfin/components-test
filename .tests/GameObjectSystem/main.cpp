@@ -9,7 +9,7 @@ TEST_CASE("adding object")
 {
 	SUBCASE("object id should be unique")
 	{
-		GameObjectsManager manager;
+		GameObjectSystem manager;
 		auto* obj1 = new GameObject;
 		auto* obj2 = new GameObject;
 		manager.add(obj1);
@@ -20,7 +20,7 @@ TEST_CASE("adding object")
 
 	SUBCASE("object should be started on add")
 	{
-		GameObjectsManager manager;
+		GameObjectSystem manager;
 		auto* obj = new TestStartObject;
 
 		CHECK_FALSE(obj->isStarted());
@@ -35,7 +35,7 @@ TEST_CASE("get object by id")
 {
 	SUBCASE("object not found")
 	{
-		const GameObjectsManager manager;
+		const GameObjectSystem manager;
 
 		const GameObject* obj = manager.getObjectById(0);
 
@@ -46,7 +46,7 @@ TEST_CASE("get object by id")
 	{
 		GameObject* obj = new GameObject;
 
-		GameObjectsManager manager;
+		GameObjectSystem manager;
 		manager.add(new GameObject);
 		manager.add(obj);
 
@@ -65,7 +65,7 @@ TEST_CASE("removing destroyed objects")
 
 	SUBCASE("object should be deleted on update")
 	{
-		GameObjectsManager manager;
+		GameObjectSystem manager;
 		GameObject* obj = new GameObject;
 		manager.add(obj);
 
@@ -84,7 +84,7 @@ TEST_CASE("removing destroyed objects")
 
 	SUBCASE("should not fail after deleting")
 	{
-		GameObjectsManager manager;
+		GameObjectSystem manager;
 		manager.add(new GameObject);
 		manager.add(new GameObject);
 		manager.add(new GameObject);
@@ -107,7 +107,7 @@ TEST_CASE("removing destroyed objects")
 	SUBCASE("should not fail after deleting multiple objects")
 	{
 		GameObject* obj = nullptr;
-		GameObjectsManager manager;
+		GameObjectSystem manager;
 
 		manager.add(new GameObject);
 		manager.add(new GameObject);

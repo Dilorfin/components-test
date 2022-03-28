@@ -157,8 +157,8 @@ void PhysicsSystem::BeginContact(b2Contact* contact)
 	const auto userDataA = contact->GetFixtureA()->GetUserData();
 	const auto userDataB = contact->GetFixtureB()->GetUserData();
 
-	auto* gameObjectA = SystemLocator::getSystem<GameObjectsManager>()->getObjectById((uint32_t)userDataA.pointer);
-	auto* gameObjectB = SystemLocator::getSystem<GameObjectsManager>()->getObjectById((uint32_t)userDataB.pointer);
+	auto* gameObjectA = SystemLocator::getSystem<GameObjectSystem>()->getObjectById((uint32_t)userDataA.pointer);
+	auto* gameObjectB = SystemLocator::getSystem<GameObjectSystem>()->getObjectById((uint32_t)userDataB.pointer);
 
 	if(!gameObjectA || !gameObjectB)
 		return;
@@ -178,8 +178,8 @@ void PhysicsSystem::EndContact(b2Contact* contact)
 	const auto userDataA = contact->GetFixtureA()->GetUserData();
 	const auto userDataB = contact->GetFixtureB()->GetUserData();
 
-	auto* gameObjectA = SystemLocator::getSystem<GameObjectsManager>()->getObjectById((uint32_t)userDataA.pointer);
-	auto* gameObjectB = SystemLocator::getSystem<GameObjectsManager>()->getObjectById((uint32_t)userDataB.pointer);
+	auto* gameObjectA = SystemLocator::getSystem<GameObjectSystem>()->getObjectById((uint32_t)userDataA.pointer);
+	auto* gameObjectB = SystemLocator::getSystem<GameObjectSystem>()->getObjectById((uint32_t)userDataB.pointer);
 
 	if(!gameObjectA || !gameObjectB)
 		return;
