@@ -1,13 +1,13 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 #include <algorithm>
 #include <list>
-#include <SFML/Graphics.hpp>
 
 #include "../core/SystemLocator.hpp"
 
 class BaseRenderComponent;
 
-class RenderSystem final : public System<RenderSystem>
+class RenderSystem final : public System<RenderSystem, BaseRenderComponent>
 {
 private:
 	sf::RenderTarget* renderTarget = nullptr;
@@ -16,8 +16,8 @@ public:
 	void setRenderTarget(sf::RenderTarget* renderTarget);
 	[[nodiscard]] sf::RenderTarget* getRenderTarget() const;
 
-	void addItem(BaseRenderComponent* item);
-	void removeItem(BaseRenderComponent* item);
+	void add(BaseRenderComponent* item) override;
+	void remove(BaseRenderComponent* item) override;
 
 	void render() const;
 };

@@ -6,7 +6,7 @@
 
 class PhysicsComponent;
 
-class PhysicsSystem final : public System<PhysicsSystem>, public b2ContactListener
+class PhysicsSystem final : public System<PhysicsSystem, PhysicsComponent>, public b2ContactListener
 {
 private:
 	static constexpr float PX_IN_METER = 30.f;
@@ -34,7 +34,9 @@ public:
 	void debugDraw() const;
 #endif
 
-	void registerComponent(PhysicsComponent* comp) const;
+	void add(PhysicsComponent* comp) override;
+	void remove(PhysicsComponent* comp) override;
+
 	void update(int64_t dt) const;
 
 	[[nodiscard]] static float pixelsToMeters(const float px);

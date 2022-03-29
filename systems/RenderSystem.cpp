@@ -11,12 +11,12 @@ sf::RenderTarget* RenderSystem::getRenderTarget() const
 	return renderTarget;
 }
 
-void RenderSystem::addItem(BaseRenderComponent* item)
+void RenderSystem::add(BaseRenderComponent* item)
 {
 	items.push_back(item);
 }
 
-void RenderSystem::removeItem(BaseRenderComponent* item)
+void RenderSystem::remove(BaseRenderComponent* item)
 {
 	items.erase(std::remove(std::begin(items), std::end(items), item), std::end(items));
 }

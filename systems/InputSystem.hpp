@@ -6,7 +6,7 @@
 
 class InputComponent;
 
-class InputSystem final : public System<InputSystem>
+class InputSystem final : public System<InputSystem, InputComponent>
 {
 public:
 	enum class Type { Pressed, Released };
@@ -15,8 +15,8 @@ private:
 	std::list<InputComponent*> components;
 
 public:
-	void subscribe(InputComponent* component);
-	void unsubscribe(InputComponent* component);
+	void add(InputComponent* component) override;
+	void remove(InputComponent* component) override;
 
 	void keyPressed(const sf::Event::KeyEvent& keyEvent) const;
 	void keyReleased(const sf::Event::KeyEvent& keyEvent) const;

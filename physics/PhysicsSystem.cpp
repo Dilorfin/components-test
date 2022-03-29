@@ -10,7 +10,7 @@
 
 PhysicsComponent::PhysicsComponent()
 {
-	SystemLocator::getSystem<PhysicsSystem>()->registerComponent(this);
+	SystemLocator::getSystem<PhysicsSystem>()->add(this);
 }
 
 void PhysicsComponent::start()
@@ -116,9 +116,14 @@ void PhysicsSystem::debugDraw() const
 }
 #endif
 
-void PhysicsSystem::registerComponent(PhysicsComponent* comp) const
+void PhysicsSystem::add(PhysicsComponent* comp)
 {
 	comp->world = this->world;
+}
+
+void PhysicsSystem::remove(PhysicsComponent* comp)
+{
+	assert(false);
 }
 
 void PhysicsSystem::update(int64_t dt) const

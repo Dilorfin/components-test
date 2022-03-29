@@ -4,8 +4,15 @@
 #include "../../core/System.hpp"
 #include "../../core/SystemLocator.hpp"
 
-class TestSystem final : public System<TestSystem>
+class TestComponent : public Component<TestComponent>
 {};
+
+class TestSystem final : public System<TestSystem, TestComponent>
+{
+public:
+	void add(TestComponent* component) override {}
+	void remove(TestComponent* component) override {}
+};
 
 TEST_CASE("getting system")
 {

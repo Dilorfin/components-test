@@ -6,7 +6,7 @@
 #include "GameObject.hpp"
 #include "System.hpp"
 
-class GameObjectSystem final : public System<GameObjectSystem>
+class GameObjectSystem final : public System<GameObjectSystem, GameObject>
 {
 private:
 	std::list<GameObject*> objects;
@@ -21,13 +21,18 @@ public:
 		}
 	}
 
-	void add(GameObject* object)
+	void add(GameObject* object) override
 	{
 		assert(std::find(objects.begin(), objects.end(), object) == objects.end());
 	
 		object->id = nextObjectId++;
 		objects.push_back(object);
 		object->start();
+	}
+
+	void remove(GameObject* object) override
+	{
+		object->destroy();
 	}
 
 	[[nodiscard]] GameObject* getObjectById(const object_id id) const

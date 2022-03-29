@@ -27,6 +27,11 @@ private:
 
 public:
 
+	SceneManager(SceneManager&&) = delete;
+	SceneManager(const SceneManager&) = delete;
+	auto operator=(SceneManager&&) = delete;
+	auto operator=(const SceneManager&) = delete;
+
 	static SceneManager* getInstance()
 	{
 		static SceneManager instance;

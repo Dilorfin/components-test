@@ -1,11 +1,11 @@
 #include "InputSystem.hpp"
 
-void InputSystem::subscribe(InputComponent* component)
+void InputSystem::add(InputComponent* component)
 {
 	components.push_back(component);
 }
 
-void InputSystem::unsubscribe(InputComponent* component)
+void InputSystem::remove(InputComponent* component)
 {
 	components.erase(std::remove(std::begin(components), std::end(components), component), std::end(components));
 }
