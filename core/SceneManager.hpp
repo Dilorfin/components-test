@@ -21,7 +21,9 @@ private:
 	size_t currentSceneId = 0;
 
 	bool _switch = false;
-	size_t nextScene = 0;
+	size_t nextSceneId = 0;
+
+	SceneManager() = default;
 
 public:
 
@@ -51,7 +53,8 @@ public:
 			SystemLocator::getSystem<RenderSystem>()->setRenderTarget(render);
 		}
 
-		currentScene = scenesFabrics[nextScene]();
+		currentScene = scenesFabrics[nextSceneId]();
+		currentSceneId = nextSceneId;
 	}
 
 	[[nodiscard]] size_t getScenesCount() const
@@ -81,7 +84,7 @@ public:
 		assert(id < scenesFabrics.size());
 
 		_switch = true;
-		this->nextScene = id;
+		this->nextSceneId = id;
 	}
 	void reloadScene()
 	{
