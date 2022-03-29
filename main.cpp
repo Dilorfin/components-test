@@ -33,7 +33,7 @@ int main() try
 
 	SceneManager::getInstance()->addScene("test scene", [] {
 		return reinterpret_cast<Scene*>(new TestScene);
-	});
+		});
 	SceneManager::getInstance()->loadScene(0);
 
 #ifdef _DEBUG

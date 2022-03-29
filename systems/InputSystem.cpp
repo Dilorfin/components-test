@@ -25,3 +25,8 @@ void InputSystem::keyReleased(const sf::Event::KeyEvent& keyEvent) const
 		component->keyReleased(keyEvent);
 	}
 }
+
+void InputSystem::clear()
+{
+	components.clear();
+}

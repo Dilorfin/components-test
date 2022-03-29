@@ -12,6 +12,7 @@ class TestSystem final : public System<TestSystem, TestComponent>
 public:
 	void add(TestComponent* component) override {}
 	void remove(TestComponent* component) override {}
+	void clear() override {}
 };
 
 TEST_CASE("getting system")

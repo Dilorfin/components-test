@@ -20,6 +20,8 @@ public:
 
 	void keyPressed(const sf::Event::KeyEvent& keyEvent) const;
 	void keyReleased(const sf::Event::KeyEvent& keyEvent) const;
+
+	void clear() override;
 };
 
 #include "../components/InputComponent.hpp"

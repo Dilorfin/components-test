@@ -126,6 +126,12 @@ void PhysicsSystem::remove(PhysicsComponent* comp)
 	assert(false);
 }
 
+void PhysicsSystem::clear()
+{
+	delete world;
+	world = new b2World(gravity);
+}
+
 void PhysicsSystem::update(int64_t dt) const
 {
 	world->Step(fixedTimeStep, velocityIterations, positionIterations);

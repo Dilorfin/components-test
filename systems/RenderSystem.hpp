@@ -20,6 +20,8 @@ public:
 	void remove(BaseRenderComponent* item) override;
 
 	void render() const;
+
+	void clear() override;
 };
 
 #include "../components/RenderComponent.hpp"

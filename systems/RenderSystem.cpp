@@ -25,8 +25,16 @@ void RenderSystem::render() const
 {
 	assert(renderTarget);
 
-	for(auto* item : items)
+	for (auto* item : items)
 	{
 		item->render(*renderTarget);
 	}
+}
+
+void RenderSystem::clear()
+{
+	const auto view = this->renderTarget->getDefaultView();
+	this->renderTarget->setView(view);
+
+	items.clear();
 }

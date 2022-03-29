@@ -50,12 +50,8 @@ public:
 
 		if (currentScene)
 		{
-			auto* render = SystemLocator::getSystem<RenderSystem>()->getRenderTarget();
-			render->setView(render->getDefaultView());
-
 			delete currentScene;
 			SystemLocator::getInstance()->clear();
-			SystemLocator::getSystem<RenderSystem>()->setRenderTarget(render);
 		}
 
 		currentScene = scenesFabrics[nextSceneId]();

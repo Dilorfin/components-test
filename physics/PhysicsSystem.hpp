@@ -37,6 +37,8 @@ public:
 	void add(PhysicsComponent* comp) override;
 	void remove(PhysicsComponent* comp) override;
 
+	void clear() override;
+
 	void update(int64_t dt) const;
 
 	[[nodiscard]] static float pixelsToMeters(const float px);

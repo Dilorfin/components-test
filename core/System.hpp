@@ -5,6 +5,8 @@ class BaseSystem
 {
 public:
 	virtual ~BaseSystem() = default;
+	virtual void clear() = 0;
+
 	[[nodiscard]] virtual size_t hash_code() const = 0;
 };
 

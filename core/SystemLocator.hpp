@@ -20,7 +20,17 @@ public:
 
 	~SystemLocator()
 	{
-		this->clear();
+		const size_t id = typeid(GameObjectSystem).hash_code();
+		if (systems.count(id))
+		{
+			delete systems[id];
+			systems.erase(id);
+		}
+
+		for (auto [key, system] : systems)
+		{
+			delete system;
+		}
 	}
 
 	static SystemLocator* getInstance()
@@ -50,14 +60,12 @@ protected:
 		const size_t id = typeid(GameObjectSystem).hash_code();
 		if (systems.count(id))
 		{
-			delete systems[id];
-			systems.erase(id);
+			systems[id]->clear();
 		}
 
 		for (auto [key, system] : systems)
 		{
-			delete system;
+			system->clear();
 		}
-		systems.clear();
 	}
 };

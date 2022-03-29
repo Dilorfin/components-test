@@ -24,7 +24,7 @@ public:
 	void add(GameObject* object) override
 	{
 		assert(std::find(objects.begin(), objects.end(), object) == objects.end());
-	
+
 		object->id = nextObjectId++;
 		objects.push_back(object);
 		object->start();
@@ -35,11 +35,21 @@ public:
 		object->destroy();
 	}
 
+	void clear() override
+	{
+		this->nextObjectId = 0;
+		for (const auto* obj : objects)
+		{
+			delete obj;
+		}
+		objects.clear();
+	}
+
 	[[nodiscard]] GameObject* getObjectById(const object_id id) const
 	{
 		for (auto* obj : objects)
 		{
-			if(obj->getId() == id)
+			if (obj->getId() == id)
 				return obj;
 		}
 		return nullptr;
@@ -50,7 +60,7 @@ public:
 	{
 		for (auto* obj : objects)
 		{
-			if(obj->getId() == id)
+			if (obj->getId() == id)
 				return (TObject*)obj;
 		}
 		return nullptr;
