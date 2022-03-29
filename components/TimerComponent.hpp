@@ -15,14 +15,21 @@ private:
 public:
 	void update(const int64_t deltaTime) override
 	{
-		if(!isRunning) return;
+		if (!isRunning) return;
 
 		timer += deltaTime;
-		if(timer >= endTime)
+		if (timer >= endTime)
 		{
 			trigger();
-			isRunning = false;
+			isRunning = looped;
+			timer = 0;
 		}
+	}
+
+	void restart()
+	{
+		isRunning = true;
+		timer = 0;
 	}
 
 	void setLooped(const bool loop)
@@ -34,6 +41,7 @@ public:
 	{
 		endTime = time;
 	}
+
 	void setTrigger(const std::function<void()>& func)
 	{
 		trigger = func;
