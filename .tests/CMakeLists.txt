@@ -23,4 +23,5 @@ ct_add_test(Destroyable destroyable.cpp)
 
 add_subdirectory(GameObject)
 add_subdirectory(GameObjectSystem)
+add_subdirectory(SceneManager)
 add_subdirectory(SystemLocator)
