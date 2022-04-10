@@ -4,35 +4,26 @@
 #include <SFML/Graphics.hpp>
 
 #include "core/GameObjectSystem.hpp"
+#include "core/SceneManager.hpp"
 #include "core/SystemLocator.hpp"
 
 #include "systems/RenderSystem.hpp"
-
-#include "objects/Player.hpp"
-#include "objects/Dummy.hpp"
+#include "systems/InputSystem.hpp"
 
 #include "physics/PhysicsSystem.hpp"
 
-class TestScene final : Scene
-{
-public:
-	TestScene()
-	{
-		SystemLocator::getSystem<GameObjectSystem>()->add(new Player(sf::Vector2f(100, 100)));
-		SystemLocator::getSystem<GameObjectSystem>()->add(new Dummy(sf::Vector2f(300, 300)));
-	}
-};
+#include "scenes/GameScene.hpp"
 
 int main() try
 {
-	sf::RenderWindow window(sf::VideoMode(864, 724), "SFML test", sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML test", sf::Style::Close);
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(60);
 
 	SystemLocator::getSystem<RenderSystem>()->setRenderTarget(&window);
 
 	SceneManager::getInstance()->addScene("test scene", [] {
-		return reinterpret_cast<Scene*>(new TestScene);
+		return reinterpret_cast<Scene*>(new GameScene);
 	});
 	SceneManager::getInstance()->loadScene(0);
 
