@@ -15,12 +15,14 @@ private:
 	const int32 positionIterations = 2;
 	const b2Vec2 gravity{ 0, 0 };
 
+	b2World* world = nullptr;
+
 #ifdef _DEBUG
 	b2Draw* _draw = nullptr;
 #endif // _DEBUG
 
 public:
-	b2World* world = nullptr;
+
 	PhysicsSystem(PhysicsSystem&&) = delete;
 	PhysicsSystem(const PhysicsSystem&) = delete;
 	auto operator=(PhysicsSystem&&) = delete;
