@@ -21,20 +21,22 @@ public:
 		}
 	}
 
-	void add(GameObject* object)
+	object_id add(GameObject* object)
 	{
 		assert(std::find(objects.begin(), objects.end(), object) == objects.end());
-	
+
 		object->id = nextObjectId++;
 		objects.push_back(object);
 		object->start();
+
+		return object->id;
 	}
 
 	[[nodiscard]] GameObject* getObjectById(const object_id id) const
 	{
 		for (auto* obj : objects)
 		{
-			if(obj->getId() == id)
+			if (obj->getId() == id)
 				return obj;
 		}
 		return nullptr;
@@ -45,7 +47,7 @@ public:
 	{
 		for (auto* obj : objects)
 		{
-			if(obj->getId() == id)
+			if (obj->getId() == id)
 				return (TObject*)obj;
 		}
 		return nullptr;
