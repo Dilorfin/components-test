@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include <box2d/box2d.h>
 #include <SFML/Graphics.hpp>
 
 #include "core/SceneManager.hpp"
@@ -9,8 +8,6 @@
 #include "core/systems/GameObjectSystem.hpp"
 #include "core/systems/RenderSystem.hpp"
 #include "core/systems/InputSystem.hpp"
-
-#include "core/physics/PhysicsSystem.hpp"
 
 #include "scenes/GameScene.hpp"
 
@@ -26,10 +23,6 @@ int main() try
 		return reinterpret_cast<Scene*>(new GameScene);
 	});
 	SceneManager::getInstance()->loadScene(0);
-
-#ifdef _DEBUG
-	SystemLocator::getSystem<PhysicsSystem>()->enableDebugDraw();
-#endif
 
 	sf::Clock frameClock;
 	while (window.isOpen())
@@ -53,15 +46,10 @@ int main() try
 			}
 		}
 		auto dt = frameClock.restart();
-		SystemLocator::getSystem<PhysicsSystem>()->update(dt.asMicroseconds());
 
 		SystemLocator::getSystem<GameObjectSystem>()->update(dt.asMicroseconds());
 
 		window.clear();
-
-#ifdef _DEBUG
-		SystemLocator::getSystem<PhysicsSystem>()->debugDraw();
-#endif
 
 		SystemLocator::getSystem<RenderSystem>()->render();
 		window.display();
