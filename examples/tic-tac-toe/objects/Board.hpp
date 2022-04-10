@@ -15,6 +15,13 @@ public:
 	Board()
 	{
 		this->addComponent<BoardDisplayComponent>();
+		for (uint8_t x = 0; x < 3; x++)
+		{
+			for (uint8_t y = 0; y < 3; y++)
+			{
+				board[x][y] = PlayerColors::None;
+			}
+		}
 	}
 
 	[[nodiscard]] PlayerColors get(uint8_t x, uint8_t y) const
@@ -23,6 +30,9 @@ public:
 	}
 	void set(uint8_t x, uint8_t y, PlayerColors value)
 	{
+		assert(x < 3);
+		assert(y < 3);
+
 		if(board[x][y] != PlayerColors::None)
 			return;
 

@@ -21,39 +21,39 @@ public:
 			SceneManager::getInstance()->reloadScene();
 		});
 
-		input->bind(sf::Keyboard::Num0, [this](const InputSystem::Type type) {
-			this->setMyCircle(0);
+		input->bind(sf::Keyboard::Numpad1, [this](const InputSystem::Type type) {
+			this->setMyCircle(0, 2);
 		});
-		input->bind(sf::Keyboard::Num1, [this](const InputSystem::Type type) {
-			this->setMyCircle(1);
+		input->bind(sf::Keyboard::Numpad2, [this](const InputSystem::Type type) {
+			this->setMyCircle(1, 2);
 		});
-		input->bind(sf::Keyboard::Num2, [this](const InputSystem::Type type) {
-			this->setMyCircle(2);
+		input->bind(sf::Keyboard::Numpad3, [this](const InputSystem::Type type) {
+			this->setMyCircle(2, 2);
 		});
-		input->bind(sf::Keyboard::Num3, [this](const InputSystem::Type type) {
-			this->setMyCircle(3);
+		input->bind(sf::Keyboard::Numpad4, [this](const InputSystem::Type type) {
+			this->setMyCircle(0, 1);
 		});
-		input->bind(sf::Keyboard::Num4, [this](const InputSystem::Type type) {
-			this->setMyCircle(4);
+		input->bind(sf::Keyboard::Numpad5, [this](const InputSystem::Type type) {
+			this->setMyCircle(1, 1);
 		});
-		input->bind(sf::Keyboard::Num5, [this](const InputSystem::Type type) {
-			this->setMyCircle(5);
+		input->bind(sf::Keyboard::Numpad6, [this](const InputSystem::Type type) {
+			this->setMyCircle(2, 1);
 		});
-		input->bind(sf::Keyboard::Num6, [this](const InputSystem::Type type) {
-			this->setMyCircle(6);
+		input->bind(sf::Keyboard::Numpad7, [this](const InputSystem::Type type) {
+			this->setMyCircle(0, 0);
 		});
-		input->bind(sf::Keyboard::Num7, [this](const InputSystem::Type type) {
-			this->setMyCircle(7);
+		input->bind(sf::Keyboard::Numpad8, [this](const InputSystem::Type type) {
+			this->setMyCircle(1, 0);
 		});
-		input->bind(sf::Keyboard::Num8, [this](const InputSystem::Type type) {
-			this->setMyCircle(8);
+		input->bind(sf::Keyboard::Numpad9, [this](const InputSystem::Type type) {
+			this->setMyCircle(2, 0);
 		});
 	}
 
-	void setMyCircle(uint8_t cell)
+	void setMyCircle(uint8_t x, uint8_t y) const
 	{
 		auto* board = SystemLocator::getSystem<GameObjectSystem>()->getObjectById<Board>(this->boardId);
 		const auto currentPlayer = SystemLocator::getSystem<TurnSystem>()->getPlayer();
-		board->set(cell % 3, cell / 3, currentPlayer );
+		board->set(x, y, currentPlayer);
 	}
 };
