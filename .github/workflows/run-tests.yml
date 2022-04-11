@@ -42,10 +42,10 @@ jobs:
             cmake-sfml: '-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++',
             cmake-flags: '-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++'
           } 
-#        - {
-#            name: 'MacOS',
-#            os: macos-latest
-#          }
+        - {
+            name: 'MacOS',
+            os: macos-latest
+          }
         build-type: [Debug, Release]
 
     steps:
@@ -128,7 +128,7 @@ jobs:
       run: ${{ runner.os!='Windows'&&'sudo '||''}}cmake --install ./.doctest/.build --config=${{ matrix.build-type }}
  
     - name: Configure Project
-      run: cmake ${{ matrix.platform.cmake-flags }} -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.build .
+      run: cmake ${{ matrix.platform.cmake-flags }} -DBUILD_TESTS=ON -DBUILD_EXAMPLES=ON -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B./.build .
 
     - name: Copy dll-s
       if: runner.os == 'Windows'
@@ -139,4 +139,5 @@ jobs:
       run: cmake --build ./.build --config=${{ matrix.build-type }}
 
     - name: Run Tests
+      if: runner.os != 'macOS'
       run: ctest -C ${{ matrix.build-type }} --output-on-failure --no-tests=error --test-dir .build
