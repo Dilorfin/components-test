@@ -39,6 +39,15 @@ public:
 		board[x][y] = value;
 		SystemLocator::getSystem<TurnSystem>()->turn();
 	}
+
+	[[nodiscard]] sf::IntRect getRectangle() const
+	{
+		const auto windowSize = SystemLocator::getSystem<RenderSystem>()->getRenderTarget()->getSize();
+		return {
+			{0, 0},
+			sf::Vector2i(windowSize.x, windowSize.x)
+		};
+	}
 };
 
 #include "../components/BoardDisplayComponent.hpp"

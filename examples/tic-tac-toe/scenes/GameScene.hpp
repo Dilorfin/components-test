@@ -4,6 +4,7 @@
 
 #include "../objects/Player.hpp"
 #include "../objects/Board.hpp"
+#include "../objects/Gui.hpp"
 
 class GameScene final : Scene
 {
@@ -12,5 +13,6 @@ public:
 	{
 		const auto boardId = SystemLocator::getSystem<GameObjectSystem>()->add(new Board);
 		SystemLocator::getSystem<GameObjectSystem>()->add(new Player(boardId));
+		SystemLocator::getSystem<GameObjectSystem>()->add(new Gui(boardId));
 	}
 };
