@@ -19,7 +19,7 @@ int main() try
 
 	SystemLocator::getSystem<RenderSystem>()->setRenderTarget(&window);
 
-	SceneManager::getInstance()->addScene("test scene", [] {
+	SceneManager::getInstance()->addScene("GameScene", [] {
 		return reinterpret_cast<Scene*>(new GameScene);
 	});
 	SceneManager::getInstance()->loadScene(0);
