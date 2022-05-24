@@ -13,7 +13,7 @@
 
 int main() try
 {
-	sf::RenderWindow window(sf::VideoMode(300, 400), "TicTacToe", sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode({300, 400}), "TicTacToe", sf::Style::Close);
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(60);
 

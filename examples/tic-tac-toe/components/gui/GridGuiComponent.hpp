@@ -25,7 +25,7 @@ public:
 		sf::RectangleShape line;
 		line.setFillColor(sf::Color::White);
 
-		const auto created = texture.create(rect.width, rect.height, sf::ContextSettings(0, 0,
+		const auto created = texture.create(sf::Vector2u(rect.width, rect.height), sf::ContextSettings(0, 0,
 												sf::RenderTexture::getMaximumAntialiasingLevel()));
 		assert(created);
 

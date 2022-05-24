@@ -27,7 +27,7 @@ public:
 
 int main() try
 {
-	sf::RenderWindow window(sf::VideoMode(864, 724), "SFML test", sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode({864, 724}), "SFML test", sf::Style::Close);
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(60);
 
